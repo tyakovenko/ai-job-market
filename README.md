@@ -18,7 +18,7 @@ The central finding: automation risk and job loss are related but not the same t
 
 | Deliverable | URL |
 |---|---|
-| 📊 Interactive Dashboard | [Streamlit Community Cloud](https://share.streamlit.io) |
+| 📊 Interactive Dashboard | [ai-job-market-f9xiuyueob2e2waniawvbd.streamlit.app](https://ai-job-market-f9xiuyueob2e2waniawvbd.streamlit.app/) |
 | 📄 Full Report (HTML) | [tyakovenko.github.io/ai-job-market](https://tyakovenko.github.io/ai-job-market) |
 | 📑 Report (PDF) | [docs/report/report.pdf](docs/report/report.pdf) |
 
@@ -49,8 +49,9 @@ ai-job-market/
 ├── .github/workflows/
 │   └── refresh.yml          # Annual auto-refresh via GitHub Actions
 ├── _quarto.yml              # Quarto project config
-├── requirements.txt         # Python dependencies
-└── runtime.txt              # Python version (3.12)
+├── requirements.txt         # Python dependencies (dashboard runtime)
+├── runtime.txt              # Python version hint (legacy)
+└── .python-version          # Python 3.12 pin for Streamlit Cloud
 ```
 
 ---
