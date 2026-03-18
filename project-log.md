@@ -1,6 +1,6 @@
 # Project Log — AI Impact on Job Market
 **Course:** MIS502 — Data Management for Business
-**Last updated:** 2026-03-17 (Session 2)
+**Last updated:** 2026-03-17 (Session 2 — complete)
 
 ---
 
@@ -98,13 +98,19 @@ Full project build from setup through live deployment in a single session.
 ### Summary
 Resumed after a crash. Existing pipeline confirmed running. Planning extension to add ILO 2025 GenAI exposure dataset for a "then vs. now" comparison against the Frey & Osborne (2013) traditional automation scores.
 
-### What Was Completed
+### What Was Completed (full session)
 - Confirmed all existing pipeline scripts and Streamlit dashboard are running
 - Researched and located the ILO 2025 dataset: *"Generative AI and Jobs: A Refined Global Index of Occupational Exposure"* (Gmyrek et al., ILO Working Paper 140, May 2025)
 - Located downloadable Excel file: `Final_Scores_ISCO08_Gmyrek_et_al_2025.xlsx` on GitHub (pgmyrek/2025_GenAI_scores_ISCO08)
 - Confirmed data structure: 423 ISCO-08 4-digit occupations, GenAI exposure score 0–1, 4 gradient tiers
 - Identified integration challenge: ILO uses ISCO-08 codes; pipeline uses US SOC codes — requires BLS SOC↔ISCO-08 crosswalk
-- Defined extension plan (approved by user, implementation pending)
+- Defined and fully implemented the then/now extension
+- Integrated ILO 2025 GenAI exposure data into all pipeline stages
+- Added fig12, fig13, fig14 and "Then vs. Now" dashboard tab
+- Updated all milestone reports, README, reference data, and report.qmd with then/now findings and ILO source
+- Fixed refresh.yml pipeline order bug (02_analyze before 03_mine)
+- Fixed Quarto re-render issue (stale _freeze cache) — added --no-freeze to CI
+- Pushed all changes to GitHub; GitHub Pages regenerated
 
 ### Crosswalk Analysis — ISCO-08 → SOC Code Overlap
 
@@ -165,6 +171,7 @@ These 6 occupations have no ISCO-08 equivalent in the BLS crosswalk (residual "a
   - [x] Update `src/02_analyze.py` — fig12, fig13, fig14 added (scatter, dumbbell, movers)
   - [x] Update `dashboard/app.py` — "⏳ Then vs. Now" tab added (tab 6)
 - [x] Update all documentation (README, milestone reports, project log, lessons-learned)
+- [ ] Fix Streamlit dashboard design and graphics (layout, styling, chart polish for Then vs. Now tab)
 - [ ] Fill in written narrative sections of `report/report.qmd` (currently scaffolded with data)
 - [ ] Verify Streamlit Cloud and GitHub Pages URLs are live
 - [ ] Complete Stage 9: peer review comments on classmates' projects (3 pts)
