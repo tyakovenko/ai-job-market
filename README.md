@@ -8,9 +8,9 @@
 
 ## What This Project Is
 
-This project analyzes the real impact of artificial intelligence on the US job market using two authoritative datasets: Frey & Osborne's (2013) automation probability scores for 702 occupations and the Bureau of Labor Statistics' 2024–2034 employment projections.
+This project analyzes the real impact of artificial intelligence on the US job market using three authoritative datasets: Frey & Osborne's (2013) automation probability scores, the Bureau of Labor Statistics' 2024–2034 employment projections, and the ILO's 2025 Generative AI Occupational Exposure Index (Gmyrek et al., ILO Working Paper 140).
 
-The central finding: automation risk and job loss are related but not the same thing. The workers most threatened by AI are also the least equipped to adapt — and that gap is widening. We call this the **Automation Paradox**.
+The central finding: automation risk and job loss are related but not the same thing. Workers most threatened by AI are also the least equipped to adapt — and that gap is widening. We call this the **Automation Paradox**. A second finding emerges from the then/now comparison: **the map of AI risk has fundamentally shifted**. Traditional automation threatened physical and routine manual jobs; GenAI now exposes knowledge workers, analysts, and creatives who were previously considered safe.
 
 ---
 
@@ -29,9 +29,9 @@ The central finding: automation risk and job loss are related but not the same t
 ```
 ai-job-market/
 ├── src/
-│   ├── 00_fetch.py          # Downloads raw datasets from BLS and GitHub
-│   ├── 01_clean.py          # Cleans, merges, and engineers features
-│   ├── 02_analyze.py        # Generates all 11 figures
+│   ├── 00_fetch.py          # Downloads all raw datasets (BLS, F&O, ILO, crosswalk)
+│   ├── 01_clean.py          # Cleans, merges, engineers features + GenAI exposure scores
+│   ├── 02_analyze.py        # Generates all 14 figures (incl. 3 then/now charts)
 │   └── 03_mine.py           # K-Means clustering + linear regression
 ├── data/
 │   ├── raw/                 # Downloaded source files (gitignored)
@@ -43,14 +43,13 @@ ai-job-market/
 │   ├── 03_data_mining.md
 │   └── 04_data_visualization.md
 ├── dashboard/
-│   └── app.py               # Streamlit interactive dashboard (5 tabs)
+│   └── app.py               # Streamlit interactive dashboard (6 tabs)
 ├── figures/                 # All exported chart PNGs and interactive HTMLs
 ├── docs/                    # Rendered Quarto site (served by GitHub Pages)
 ├── .github/workflows/
 │   └── refresh.yml          # Annual auto-refresh via GitHub Actions
 ├── _quarto.yml              # Quarto project config
 ├── requirements.txt         # Python dependencies (dashboard runtime)
-├── runtime.txt              # Python version hint (legacy)
 └── .python-version          # Python 3.12 pin for Streamlit Cloud
 ```
 
@@ -85,9 +84,11 @@ pip install -r requirements.txt
 python src/00_fetch.py
 ```
 
-This downloads:
+This downloads four files:
 - **BLS Occupational Projections 2024–2034** from bls.gov
-- **Frey & Osborne Automation Scores** from the public GitHub archive
+- **Frey & Osborne Automation Scores (2013)** from the public GitHub archive
+- **ILO GenAI Occupational Exposure Index 2025** (Gmyrek et al., ILO WP140) from GitHub
+- **BLS ISCO-08 × SOC 2010 Crosswalk** from bls.gov (bridges ILO ↔ pipeline SOC codes)
 
 > If BLS releases a new projection cycle, pass the updated URL:
 > ```bash
@@ -100,9 +101,11 @@ Run scripts in order:
 
 ```bash
 python src/01_clean.py     # Clean, merge, engineer features → data/processed/
-python src/02_analyze.py   # Generate figures              → figures/
-python src/03_mine.py      # Clustering + regression       → data/processed/clustered.csv
+python src/03_mine.py      # Clustering + regression → data/processed/clustered.csv
+python src/02_analyze.py   # Generate all 14 figures → figures/
 ```
+
+> **Note:** `02_analyze.py` depends on both `cleaned_main.csv` and `clustered.csv`, so run `03_mine.py` before `02_analyze.py`.
 
 ### 5. Launch the dashboard
 
@@ -124,7 +127,7 @@ quarto render report/report.qmd --to pdf   # PDF only
 
 ## Dashboard Guide
 
-The dashboard has 5 tabs:
+The dashboard has 6 tabs:
 
 | Tab | What it shows |
 |---|---|
@@ -133,6 +136,7 @@ The dashboard has 5 tabs:
 | **By Sector** | Average automation risk ranked by occupation group, sector summary table |
 | **Clusters** | K-Means cluster PCA visualization, per-cluster profiles, deep-dive table |
 | **The Paradox** | Narrative walkthrough of the Automation Paradox with OLS trend line |
+| **Then vs. Now** | ILO 2025 GenAI exposure vs. Frey & Osborne 2013 — the GenAI risk flip, by occupation and sector |
 
 **Sidebar filters** (risk tier, occupation group, wage range, automation probability) apply across all tabs except Clusters.
 
@@ -140,12 +144,32 @@ The dashboard has 5 tabs:
 
 ## Data Sources
 
-| Dataset | Source | Coverage | License |
+| Dataset | Source | Coverage | Role |
 |---|---|---|---|
-| Automation Probability Scores | Frey & Osborne (2013), *The Future of Employment* | 702 US occupations, SOC-coded | Academic / public |
-| Occupational Employment Projections | US Bureau of Labor Statistics, 2024–2034 | ~832 detailed occupations | Public domain (US Gov) |
+| Automation Probability Scores | Frey & Osborne (2013), *The Future of Employment* | 702 US occupations, SOC-coded | Traditional automation baseline |
+| Occupational Employment Projections | US Bureau of Labor Statistics, 2024–2034 | ~832 detailed occupations | Employment outlook |
+| GenAI Occupational Exposure Index | Gmyrek et al. (2025), ILO Working Paper 140 | 427 ISCO-08 occupations | GenAI exposure "now" |
+| ISCO-08 × SOC Crosswalk | US Bureau of Labor Statistics | ~1,100 occupation mappings | Bridges ILO ↔ BLS datasets |
 
-The two datasets are joined on **SOC (Standard Occupational Classification) codes**, producing a merged dataset of **606 occupations**.
+Frey & Osborne and BLS are joined on **SOC codes** → **606 matched occupations**. The ILO GenAI dataset is bridged via the BLS ISCO-08 × SOC crosswalk, covering **600 of 606 occupations (99%)**.
+
+---
+
+## Key Findings
+
+**Traditional automation analysis (2013 baseline):**
+- **46.7%** of matched occupations carry high (>70%) automation risk
+- High-risk jobs pay a median of **$48,350/year** vs. **$79,000** for low-risk — a $30,650 gap
+- Automation risk explains only **17.5% of variance** in employment change (R² = 0.175) — the Paradox
+- **3 clusters** identified: High Risk/Low Resilience (50%), Low Risk/Stable (37%), Low Risk/High Skill (12%)
+- Most at-risk sector: **Office & Administrative Support** (84% avg automation probability)
+
+**Then vs. Now — the GenAI risk shift (2013 → 2025):**
+- The average GenAI exposure score (29%) is substantially lower than traditional automation risk (54%) — but concentrated in different sectors
+- **Computer & Math** reversed from low traditional risk (13%) to highest GenAI exposure (56%) — the biggest positive shift (+43 pp)
+- **Production, Building & Grounds, Construction** remain high on traditional automation but score low on GenAI exposure (delta: −0.61 to −0.62)
+- Top newly-exposed roles: Credit counselors, Operations research analysts, Writers, Editors, Mathematicians — all previously considered "safe"
+- The GenAI risk map has effectively inverted: white-collar knowledge work is now the frontier
 
 ---
 
@@ -153,8 +177,8 @@ The two datasets are joined on **SOC (Standard Occupational Classification) code
 
 A GitHub Actions workflow ([`.github/workflows/refresh.yml`](.github/workflows/refresh.yml)) runs every **January 1st** and:
 
-1. Downloads the latest BLS projections and Frey & Osborne data
-2. Re-runs the full pipeline (`00_fetch` → `01_clean` → `02_analyze` → `03_mine`)
+1. Downloads the latest BLS projections, Frey & Osborne data, ILO GenAI index, and crosswalk
+2. Re-runs the full pipeline (`00_fetch` → `01_clean` → `03_mine` → `02_analyze`)
 3. Re-renders the Quarto report to `docs/`
 4. Commits and pushes all changes — Streamlit Cloud redeploys automatically
 
@@ -162,17 +186,6 @@ To trigger a manual refresh at any time:
 1. Go to the **Actions** tab on GitHub
 2. Select **"Refresh Data & Redeploy"**
 3. Click **"Run workflow"**
-
----
-
-## Key Findings
-
-- **46.7%** of matched occupations carry high (>70%) automation risk
-- High-risk jobs pay a median of **$48,350/year** vs. **$79,000** for low-risk jobs — a $30,650 gap
-- Automation risk explains only **17.5% of variance** in employment change (R² = 0.175) — the Paradox
-- **3 clusters** identified: High Risk/Low Resilience (50%), Low Risk/Stable (37%), Low Risk/High Skill (12%)
-- Most at-risk sector: **Office & Administrative Support** (84% avg automation probability)
-- Safest sector: **Community & Social Service** (5% avg automation probability)
 
 ---
 
@@ -192,4 +205,5 @@ To trigger a manual refresh at any time:
 
 - Frey, C.B. & Osborne, M.A. (2013). *The Future of Employment: How Susceptible Are Jobs to Computerisation?* Oxford Martin School.
 - U.S. Bureau of Labor Statistics (2024). *Employment Projections 2024–2034.* U.S. Department of Labor.
+- Gmyrek, P. et al. (2025). *Generative AI and Jobs: A Refined Global Index of Occupational Exposure.* ILO Working Paper 140. International Labour Organization.
 - Acemoglu, D. & Restrepo, P. (2018). *Artificial Intelligence, Automation, and Work.* NBER Working Paper 24196.

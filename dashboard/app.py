@@ -58,7 +58,7 @@ CLUSTER_COLORS = {
 
 # ── Header ────────────────────────────────────────────────────────────────────
 st.title("🤖 The Automation Paradox")
-st.markdown("**MIS502 Final Project** — Who really gets hurt when AI takes over? | BLS 2024–2034 × Frey & Osborne (2013)")
+st.markdown("**MIS502 Final Project** — Who really gets hurt when AI takes over? | BLS 2024–2034 × Frey & Osborne (2013) × ILO GenAI Index (2025)")
 st.divider()
 
 # ── Sidebar filters ───────────────────────────────────────────────────────────
@@ -115,12 +115,13 @@ c5.metric("Avg Projected Growth", f"{filtered['emp_change_pct'].mean():.1f}%")
 st.divider()
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "📊 Overview",
     "🔎 Job Explorer",
     "🏭 By Sector",
     "🧩 Clusters",
     "📖 The Paradox",
+    "⏳ Then vs. Now",
 ])
 
 # ────────────────────────────────────────────────────────────────────────────
@@ -504,6 +505,266 @@ group.
    concentrated in healthcare. Removing barriers to these careers is labor policy.
 """)
 
+    st.markdown("""
+### A New Wrinkle: The GenAI Shift
+
+The analysis above is grounded in Frey & Osborne's 2013 automation scores — which predicted
+physical, routine, and clerical jobs were most at risk. A decade later, the ILO's 2025 GenAI
+Exposure Index tells a different story.
+
+**The risk map has flipped.**
+
+| Sector | Traditional Automation Risk (2013) | GenAI Exposure (2025) | Shift |
+|---|---|---|---|
+| Computer & Math | 13% | 56% | **+43 pp** — newly exposed |
+| Management | 14% | 37% | **+22 pp** — newly exposed |
+| Arts & Media | 21% | 37% | **+16 pp** — newly exposed |
+| Production | 82% | 20% | **−62 pp** — de-risked |
+| Building & Grounds | 78% | 15% | **−62 pp** — de-risked |
+| Construction | 74% | 13% | **−61 pp** — de-risked |
+
+Writers, analysts, counselors, and mathematicians — who barely registered on the 2013 risk map —
+are now among the most GenAI-exposed occupations. Sewers, brickmasons, and groundskeepers — who
+Frey & Osborne flagged as near-certain automation targets — are effectively safe from GenAI.
+
+The Automation Paradox has a sequel: **the workers we thought were safe may not be, and the
+workers we feared for may be safer than expected.** Explore this fully in the **Then vs. Now** tab.
+""")
+
     st.info("💡 **For the interactive version:** Use the Job Explorer tab to hover "
             "over any occupation and see its full profile. Use the Clusters tab to "
-            "explore which occupations fall into each group.", icon="💡")
+            "explore which occupations fall into each group. Use **Then vs. Now** to "
+            "see the 2013 → 2025 risk shift in detail.", icon="💡")
+
+# ────────────────────────────────────────────────────────────────────────────
+# TAB 6 — THEN VS. NOW (ILO 2025 GenAI Exposure)
+# ────────────────────────────────────────────────────────────────────────────
+with tab6:
+    st.subheader("⏳ Then vs. Now: How AI Risk Has Shifted (2013 → 2025)")
+    st.markdown(
+        "Traditional automation models (Frey & Osborne, 2013) predicted that **physical "
+        "and routine manual jobs** were most at risk. A decade later, the ILO's 2025 "
+        "GenAI Exposure Index tells a different story: **knowledge workers, writers, "
+        "analysts, and tech roles** now face the highest exposure. The risk map flipped."
+    )
+    st.caption(
+        "Sources: Frey & Osborne (2013) via SOC codes · "
+        "Gmyrek et al. (2025) ILO Working Paper 140 · "
+        "BLS ISCO-08 × SOC crosswalk. "
+        "6 occupations with no ISCO-08 match excluded."
+    )
+    st.divider()
+
+    # Working dataset — drop the 6 unmatched occupations
+    thenow = filtered.dropna(subset=["genai_exposure_2025"]).copy()
+    thenow["risk_delta"] = thenow["genai_exposure_2025"] - thenow["automation_prob"]
+
+    # ── KPI strip ─────────────────────────────────────────────────────────────
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Occupations with GenAI score", f"{len(thenow):,}")
+    k2.metric(
+        "Avg Traditional Risk (2013)",
+        f"{thenow['automation_prob'].mean():.0%}",
+        help="Frey & Osborne automation probability",
+    )
+    k3.metric(
+        "Avg GenAI Exposure (2025)",
+        f"{thenow['genai_exposure_2025'].mean():.0%}",
+        help="ILO Gmyrek et al. mean exposure score",
+    )
+    k4.metric(
+        "Avg Risk Delta",
+        f"{thenow['risk_delta'].mean():+.2f}",
+        help="Positive = more exposed under GenAI than traditional automation",
+    )
+
+    st.divider()
+
+    # ── Fig 12 — Scatter: automation_prob vs genai_exposure_2025 ──────────────
+    st.subheader("Occupation-Level Risk Shift")
+    st.caption(
+        "Each dot is one occupation. **Above the diagonal** = newly exposed by GenAI "
+        "(underestimated by 2013 models). **Below the diagonal** = old automation risk "
+        "that GenAI doesn't replicate (physical/manual jobs)."
+    )
+
+    fig_scatter = px.scatter(
+        thenow,
+        x="automation_prob",
+        y="genai_exposure_2025",
+        color="occupation_group",
+        hover_name="occupation",
+        hover_data={
+            "automation_prob":      ":.0%",
+            "genai_exposure_2025":  ":.0%",
+            "risk_delta":           ":.2f",
+            "occupation_group":     False,
+        },
+        labels={
+            "automation_prob":     "Traditional Automation Risk — Frey & Osborne (2013)",
+            "genai_exposure_2025": "GenAI Exposure — ILO (2025)",
+            "occupation_group":    "Sector",
+        },
+        template="plotly_white",
+        height=520,
+        opacity=0.65,
+    )
+    # Diagonal: x = y means risk unchanged between 2013 and 2025
+    fig_scatter.add_shape(
+        type="line", x0=0, y0=0, x1=1, y1=1,
+        line=dict(color="gray", dash="dash", width=1),
+    )
+    fig_scatter.add_annotation(
+        x=0.82, y=0.93, text="Same risk then & now",
+        showarrow=False, font=dict(color="gray", size=11), textangle=-38,
+    )
+    fig_scatter.update_layout(legend_title="Sector")
+    st.plotly_chart(fig_scatter, use_container_width=True)
+
+    st.divider()
+
+    # ── Fig 13 — Sector dumbbell ───────────────────────────────────────────────
+    st.subheader("Sector-Level Risk Shift")
+    st.caption(
+        "Average traditional automation risk (2013) vs. average GenAI exposure (2025) "
+        "per sector. Sorted by GenAI exposure. Sectors near the top saw risk *increase* "
+        "under GenAI; sectors near the bottom are *safer* from GenAI than from traditional automation."
+    )
+
+    sector = (
+        thenow.groupby("occupation_group")[["automation_prob", "genai_exposure_2025"]]
+        .mean()
+        .reset_index()
+        .sort_values("genai_exposure_2025", ascending=False)
+    )
+
+    # Build a long-form dataframe for grouped bars
+    sector_long = sector.melt(
+        id_vars="occupation_group",
+        value_vars=["automation_prob", "genai_exposure_2025"],
+        var_name="Era",
+        value_name="Score",
+    )
+    sector_long["Era"] = sector_long["Era"].map({
+        "automation_prob":     "2013 — Traditional Automation (F&O)",
+        "genai_exposure_2025": "2025 — GenAI Exposure (ILO)",
+    })
+
+    fig_sector = px.bar(
+        sector_long,
+        x="Score",
+        y="occupation_group",
+        color="Era",
+        orientation="h",
+        barmode="group",
+        color_discrete_map={
+            "2013 — Traditional Automation (F&O)": "#3498db",
+            "2025 — GenAI Exposure (ILO)":         "#e74c3c",
+        },
+        labels={"Score": "Average Score", "occupation_group": ""},
+        template="plotly_white",
+        height=600,
+    )
+    fig_sector.add_vline(x=0.5, line_dash="dash", line_color="gray", opacity=0.5)
+    fig_sector.update_layout(
+        yaxis={"categoryorder": "total ascending"},
+        legend_title="Era",
+        legend=dict(orientation="h", yanchor="bottom", y=1.01, xanchor="left", x=0),
+    )
+    st.plotly_chart(fig_sector, use_container_width=True)
+
+    st.divider()
+
+    # ── Fig 14 — Biggest movers ────────────────────────────────────────────────
+    st.subheader("The Biggest Movers")
+
+    col_gain, col_lose = st.columns(2)
+
+    with col_gain:
+        st.markdown("#### Newly Exposed by GenAI")
+        st.caption("Occupations where GenAI exposure far exceeds traditional automation risk")
+        gainers = (
+            thenow.nlargest(15, "risk_delta")
+            [["occupation", "occupation_group", "automation_prob", "genai_exposure_2025", "risk_delta"]]
+            .sort_values("risk_delta", ascending=True)
+        )
+        fig_gain = px.bar(
+            gainers,
+            x="risk_delta",
+            y="occupation",
+            orientation="h",
+            color="risk_delta",
+            color_continuous_scale=[[0, "#f9c6c6"], [1, "#e74c3c"]],
+            hover_data={
+                "automation_prob":     ":.0%",
+                "genai_exposure_2025": ":.0%",
+                "occupation_group":    True,
+                "risk_delta":          ":.2f",
+            },
+            labels={"risk_delta": "Risk Delta", "occupation": ""},
+            template="plotly_white",
+            height=480,
+        )
+        fig_gain.update_layout(
+            coloraxis_showscale=False,
+            yaxis={"categoryorder": "total ascending"},
+        )
+        fig_gain.add_vline(x=0, line_color="black", line_width=0.8)
+        st.plotly_chart(fig_gain, use_container_width=True)
+
+    with col_lose:
+        st.markdown("#### De-Risked by GenAI Shift")
+        st.caption("High traditional automation risk — but GenAI poses little threat (physical/manual jobs)")
+        losers = (
+            thenow.nsmallest(15, "risk_delta")
+            [["occupation", "occupation_group", "automation_prob", "genai_exposure_2025", "risk_delta"]]
+            .sort_values("risk_delta", ascending=False)
+        )
+        fig_lose = px.bar(
+            losers,
+            x="risk_delta",
+            y="occupation",
+            orientation="h",
+            color="risk_delta",
+            color_continuous_scale=[[0, "#2980b9"], [1, "#d6eaf8"]],
+            hover_data={
+                "automation_prob":     ":.0%",
+                "genai_exposure_2025": ":.0%",
+                "occupation_group":    True,
+                "risk_delta":          ":.2f",
+            },
+            labels={"risk_delta": "Risk Delta", "occupation": ""},
+            template="plotly_white",
+            height=480,
+        )
+        fig_lose.update_layout(
+            coloraxis_showscale=False,
+            yaxis={"categoryorder": "total descending"},
+        )
+        fig_lose.add_vline(x=0, line_color="black", line_width=0.8)
+        st.plotly_chart(fig_lose, use_container_width=True)
+
+    # ── Raw comparison table ───────────────────────────────────────────────────
+    st.subheader("Full Then vs. Now Table")
+    st.caption("Sortable. Use sidebar filters to narrow by sector or wage range.")
+    display = (
+        thenow[["occupation", "occupation_group", "automation_prob",
+                "genai_exposure_2025", "risk_delta"]]
+        .sort_values("risk_delta", ascending=False)
+        .rename(columns={
+            "occupation":          "Occupation",
+            "occupation_group":    "Sector",
+            "automation_prob":     "Traditional Risk (2013)",
+            "genai_exposure_2025": "GenAI Exposure (2025)",
+            "risk_delta":          "Δ Risk",
+        })
+    )
+    st.dataframe(
+        display.style.format({
+            "Traditional Risk (2013)": "{:.0%}",
+            "GenAI Exposure (2025)":   "{:.0%}",
+            "Δ Risk":                  "{:+.2f}",
+        }).background_gradient(subset=["Δ Risk"], cmap="RdBu_r", vmin=-0.9, vmax=0.6),
+        use_container_width=True,
+        height=380,
+    )

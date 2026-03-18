@@ -12,6 +12,8 @@ Two machine learning techniques are applied to the merged dataset of 606 occupat
 
 Both techniques run on `data/processed/cleaned_main.csv`. Output is saved to `data/processed/clustered.csv` and `figures/`.
 
+> **Note on dataset expansion:** `cleaned_main.csv` now includes `genai_exposure_2025` and `genai_exposure_2023` columns from the ILO 2025 GenAI Exposure Index (Gmyrek et al.). These columns are used in the "Then vs. Now" visualization stage (Stage 5) but are intentionally excluded from the clustering and regression models here. Reason: including a 2025-era variable alongside a 2013-era variable would conflate two different AI eras and obscure the Automation Paradox finding. The mining models represent the 2013-baseline analysis; the GenAI columns add a comparative layer in visualization.
+
 ---
 
 ## Technique A: K-Means Clustering

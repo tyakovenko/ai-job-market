@@ -1,6 +1,6 @@
 # Project Log — AI Impact on Job Market
 **Course:** MIS502 — Data Management for Business
-**Last updated:** 2026-03-17
+**Last updated:** 2026-03-17 (Session 2)
 
 ---
 
@@ -93,8 +93,78 @@ Full project build from setup through live deployment in a single session.
 
 ---
 
+## Session 2 — 2026-03-17
+
+### Summary
+Resumed after a crash. Existing pipeline confirmed running. Planning extension to add ILO 2025 GenAI exposure dataset for a "then vs. now" comparison against the Frey & Osborne (2013) traditional automation scores.
+
+### What Was Completed
+- Confirmed all existing pipeline scripts and Streamlit dashboard are running
+- Researched and located the ILO 2025 dataset: *"Generative AI and Jobs: A Refined Global Index of Occupational Exposure"* (Gmyrek et al., ILO Working Paper 140, May 2025)
+- Located downloadable Excel file: `Final_Scores_ISCO08_Gmyrek_et_al_2025.xlsx` on GitHub (pgmyrek/2025_GenAI_scores_ISCO08)
+- Confirmed data structure: 423 ISCO-08 4-digit occupations, GenAI exposure score 0–1, 4 gradient tiers
+- Identified integration challenge: ILO uses ISCO-08 codes; pipeline uses US SOC codes — requires BLS SOC↔ISCO-08 crosswalk
+- Defined extension plan (approved by user, implementation pending)
+
+### Crosswalk Analysis — ISCO-08 → SOC Code Overlap
+
+The ILO 2025 dataset uses ISCO-08 4-digit codes; our pipeline uses US SOC 2010 codes (via Frey & Osborne).
+We used the BLS official ISCO-08 × SOC 2010 crosswalk (`https://www.bls.gov/soc/ISCO_SOC_Crosswalk.xls`) to bridge them.
+
+**Results across our 606 occupations:**
+
+| Category | Count | Notes |
+|---|---|---|
+| Matched (have GenAI score) | 600 (99%) | Full coverage |
+| Unmatched (no GenAI score) | 6 (1%) | See list below |
+
+**Among the 600 matched SOC codes:**
+
+| Match type | SOC codes | Handling |
+|---|---|---|
+| Exactly 1 ISCO-08 code → 1 SOC code | 660 crosswalk entries | Direct assignment |
+| 2+ ISCO-08 codes → 1 SOC code (fan-in) | 151 crosswalk entries | Averaged genai_exposure scores |
+| Max ISCO codes converging on one SOC | 17 | Edge case, averaged |
+
+Fan-in occurs because US SOC codes are broader categories than ISCO-08 codes (e.g., a single SOC "Software Developers" may cover several ISCO-08 codes for different specializations). Averaging is the standard approach for many-to-one crosswalks and is appropriate here since the ILO scores within a broad occupational family tend to cluster closely.
+
+**6 unmatched SOC codes (assigned NaN — excluded from then/now charts):**
+
+| Occupation | SOC Code | Group |
+|---|---|---|
+| Physical scientists, all other | 19-2099 | Life & Social Science |
+| Costume attendants | 39-3092 | Personal Care |
+| Counter and rental clerks | 41-2021 | Sales |
+| Semiconductor processing technicians | 51-9141 | Production |
+| Airfield operations specialists | 53-2022 | Transportation |
+| Conveyor operators and tenders | 53-7011 | Transportation |
+
+These 6 occupations have no ISCO-08 equivalent in the BLS crosswalk (residual "all other" and niche categories). They are excluded only from then/now comparison charts, not from the main analysis.
+
+---
+
+### Extension Plan — "Then vs. Now"
+
+**Narrative:** Traditional automation (2013) predicted physical/routine jobs were most at risk. GenAI (2025) flipped the script — knowledge workers and creatives now face highest exposure.
+
+**Files to modify:**
+| File | Change |
+|---|---|
+| `src/00_fetch.py` | Add ILO xlsx download + BLS SOC↔ISCO-08 crosswalk download |
+| `src/01_clean.py` | Parse ILO data, apply crosswalk, add `genai_exposure_2025` to `cleaned_main.csv` |
+| `src/02_analyze.py` | Add figures comparing F&O 2013 vs ILO 2025 exposure by sector/occupation |
+| `dashboard/app.py` | Add "Then vs. Now" tab |
+
+---
+
 ## Open Tasks
 
+- [x] **[COMPLETE]** Integrate ILO 2025 GenAI exposure dataset (then vs. now extension)
+  - [x] Update `src/00_fetch.py` — added ILO xlsx + BLS ISCO-SOC crosswalk downloads
+  - [x] Update `src/01_clean.py` — ISCO-08 → SOC crosswalk applied, `genai_exposure_2025` and `genai_exposure_2023` added to `cleaned_main.csv`
+  - [x] Update `src/02_analyze.py` — fig12, fig13, fig14 added (scatter, dumbbell, movers)
+  - [x] Update `dashboard/app.py` — "⏳ Then vs. Now" tab added (tab 6)
+- [x] Update all documentation (README, milestone reports, project log, lessons-learned)
 - [ ] Fill in written narrative sections of `report/report.qmd` (currently scaffolded with data)
 - [ ] Verify Streamlit Cloud and GitHub Pages URLs are live
 - [ ] Complete Stage 9: peer review comments on classmates' projects (3 pts)
@@ -113,6 +183,8 @@ Full project build from setup through live deployment in a single session.
 | Report hosting | GitHub Pages (Quarto → docs/) | — | Standard static site, free, integrates with Quarto natively |
 | Data refresh cadence | Annual (January 1st) | Monthly | BLS only releases new projections every ~2 years |
 | PDF generation | Quarto built-in (LuaLaTeX via TinyTeX) | Separate LaTeX setup | Quarto handles this automatically with `quarto install tinytex` |
+| GenAI exposure source | ILO WP140 / Gmyrek et al. 2025 (ISCO-08) | Eloundou et al. "GPTs are GPTs" (2023) | ILO 2025 is more recent, global, task-validated with 29K+ tasks; Eloundou is US-only and older |
+| ISCO→SOC mapping | BLS official SOC↔ISCO-08 crosswalk | Fuzzy name matching | Crosswalk is authoritative; name matching introduces uncontrolled error |
 
 ---
 

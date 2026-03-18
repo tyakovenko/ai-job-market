@@ -1,12 +1,14 @@
 # Stage 5: Data Visualization
 **MIS502 Final Project — AI's Impact on the Job Market**
-**Points: 25 | Status: Complete**
+**Points: 25 | Status: Complete — Updated with 3 Then vs. Now figures (fig12–14)**
 
 ---
 
 ## Overview
 
-This stage produces 11 visualizations across 5 chart types to support the project narrative. All figures are saved as high-resolution PNGs in `figures/` and interactive HTML versions are provided for the 3 Plotly charts. Source code is in `src/02_analyze.py`.
+This stage produces 14 visualizations across 6 chart types to support the project narrative. All figures are saved as high-resolution PNGs in `figures/` and interactive HTML versions are provided for Plotly charts. Source code is in `src/02_analyze.py`.
+
+Figures 1–11 cover the core Automation Paradox analysis. Figures 12–14 are the "Then vs. Now" extension, comparing Frey & Osborne (2013) traditional automation risk against the ILO (2025) Generative AI exposure index.
 
 ---
 
@@ -159,6 +161,49 @@ This stage produces 11 visualizations across 5 chart types to support the projec
 
 ---
 
+---
+
+## Chart 12: Scatter — Traditional Automation (2013) vs. GenAI Exposure (2025)
+
+**File:** `figures/fig12_then_vs_now_scatter.png` | `figures/fig12_then_vs_now_scatter.html`
+**Chart type:** Scatter plot (interactive Plotly)
+
+**Variables:** `automation_prob` (x-axis, Frey & Osborne 2013), `genai_exposure_2025` (y-axis, ILO 2025), `occupation_group` (color)
+
+**Why this chart type:** A scatter plot with a diagonal reference line (x = y) is the most direct way to show a shift between two comparable scores for the same set of observations. Points above the diagonal were underestimated by 2013 models; points below were overestimated. This layout makes the "flip" immediately legible without requiring additional computation.
+
+**What it reveals:** Two distinct clouds emerge. A large cluster of physical/manual occupations sits below the diagonal — high traditional automation risk, low GenAI exposure (brickmasons, sewers, construction laborers). A second cluster of knowledge/office occupations sits above or on the diagonal — low or moderate traditional risk, elevated GenAI exposure (writers, analysts, counselors, mathematicians). The Computer & Math sector is almost entirely above the diagonal. This chart is the clearest single visualization of the GenAI risk flip.
+
+---
+
+## Chart 13: Dumbbell Chart — Sector-Level Risk Shift (2013 → 2025)
+
+**File:** `figures/fig13_sector_risk_shift.png`
+**Chart type:** Dumbbell chart (grouped horizontal bar in dashboard)
+
+**Variables:** `occupation_group` (y-axis), mean `automation_prob` vs. mean `genai_exposure_2025` (x-axis), sorted by GenAI exposure
+
+**Why this chart type:** A dumbbell chart places two data points for the same observation on a shared axis, connected by a line. This shows both the absolute values and the direction/magnitude of change simultaneously. It is more compact and readable than two separate bar charts and makes sector-level comparisons across eras easy to track.
+
+**What it reveals:** Every physical-labor sector (Production, Building & Grounds, Farming, Construction, Food Preparation, Transportation) shows a large leftward move — high traditional automation risk that does not carry over to GenAI. Every knowledge sector (Computer & Math, Management, Community & Social Service, Education) shows a rightward move or reversal — low traditional risk that GenAI elevates substantially. Computer & Math has the largest reversal: from 13% traditional risk to 56% GenAI exposure (+43 pp).
+
+---
+
+## Chart 14: Diverging Bar Chart — The Biggest Movers
+
+**File:** `figures/fig14_biggest_movers.png`
+**Chart type:** Diverging horizontal bar chart (two panels)
+
+**Variables:** `occupation` (y-axis), `risk_delta` = `genai_exposure_2025` − `automation_prob` (x-axis), split into top 15 positive (newly exposed) and top 15 negative (de-risked)
+
+**Why this chart type:** Side-by-side horizontal bars for the extremes of a distribution communicate the occupational-level story in a concrete, name-by-name format. The diverging layout immediately conveys that the risk shift has two directions simultaneously.
+
+**What it reveals:**
+- **Newly exposed (right panel, red):** Credit counselors (+0.56), Operations research analysts (+0.53), Securities sales agents (+0.52), Mathematicians (+0.51), Writers (+0.51). These are all information-processing, language-heavy, or analytical roles — precisely the task types GenAI handles best. None of them appeared in traditional "at risk" lists.
+- **De-risked (left panel, blue):** Sewers by hand (−0.87), Log graders (−0.85), Cement masons (−0.84), Landscapers (−0.83), Construction helpers (−0.83). These are physical, outdoor, or manual-dexterity roles where GenAI has no mechanism for displacement.
+
+---
+
 ## Visualization Summary
 
 | Figure | Chart Type | Key Finding |
@@ -174,3 +219,6 @@ This stage produces 11 visualizations across 5 chart types to support the projec
 | fig9 | Heatmap | Moderate correlation structure — no single dominant predictor |
 | fig10 | Box plot | Vulnerable workers cluster tightly at low wages, no upside |
 | fig11 | Scatter + OLS | Trend confirmed; high variance shows Paradox is real |
+| fig12 | Scatter (interactive) | The GenAI flip: physical jobs below diagonal, knowledge jobs above |
+| fig13 | Dumbbell | Every physical sector de-risked; Computer & Math reversed by +43 pp |
+| fig14 | Diverging bar | Writers, analysts, counselors newly exposed; manual jobs de-risked |

@@ -20,6 +20,11 @@ Outputs (figures/):
   fig9_correlation_heatmap.png
   fig10_salary_vulnerability_boxplot.png
   fig11_risk_vs_growth_trend.png + .html
+
+  — Then vs. Now extension (ILO 2025 GenAI exposure) —
+  fig12_then_vs_now_scatter.png + .html   Traditional automation vs. GenAI exposure per occupation
+  fig13_sector_risk_shift.png             Sector-level dumbbell: 2013 → 2025 risk shift
+  fig14_biggest_movers.png               Top 15 newly exposed + top 15 de-risked occupations
 """
 
 import pandas as pd
@@ -228,5 +233,157 @@ fig11 = px.scatter(
 pio.write_image(fig11, "figures/fig11_risk_vs_growth_trend.png", scale=2)
 fig11.write_html("figures/fig11_risk_vs_growth_trend.html")
 print("Saved fig11")
+
+# ── Then vs. Now extension ────────────────────────────────────────────────────
+# Figures 12–14 compare Frey & Osborne (2013) traditional automation risk
+# against the ILO/Gmyrek et al. (2025) GenAI occupational exposure index.
+# Occupations without a GenAI score (6 unmatched SOC codes) are dropped here.
+
+thenow = df.dropna(subset=["genai_exposure_2025"]).copy()
+
+# Pre-compute risk shift: positive = more exposed under GenAI than traditional automation
+thenow["risk_delta"] = thenow["genai_exposure_2025"] - thenow["automation_prob"]
+
+# ── Fig 12: Scatter — Traditional automation (2013) vs. GenAI exposure (2025) ──
+# Each dot is one occupation. The diagonal line marks "same risk then as now".
+# Points above the line were underestimated by traditional automation models;
+# points below were overestimated (physical/manual jobs safe from GenAI).
+fig12 = px.scatter(
+    thenow,
+    x="automation_prob",
+    y="genai_exposure_2025",
+    color="occupation_group",
+    hover_name="occupation",
+    hover_data={
+        "automation_prob":      ":.0%",
+        "genai_exposure_2025":  ":.0%",
+        "risk_delta":           ":.2f",
+        "occupation_group":     False,
+    },
+    labels={
+        "automation_prob":     "Traditional Automation Risk — Frey & Osborne (2013)",
+        "genai_exposure_2025": "GenAI Exposure Score — ILO (2025)",
+        "occupation_group":    "Sector",
+    },
+    title="Then vs. Now: Traditional Automation Risk vs. GenAI Exposure by Occupation",
+    template="plotly_white",
+    height=580,
+    opacity=0.65,
+)
+# Diagonal reference line: x = y (risk unchanged between 2013 and 2025)
+fig12.add_shape(
+    type="line", x0=0, y0=0, x1=1, y1=1,
+    line=dict(color="gray", dash="dash", width=1),
+)
+fig12.add_annotation(
+    x=0.85, y=0.92, text="Same risk then & now",
+    showarrow=False, font=dict(color="gray", size=11), textangle=-38,
+)
+fig12.add_annotation(
+    x=0.1, y=0.65, text="↑ GenAI newly exposed",
+    showarrow=False, font=dict(color="#e74c3c", size=11),
+)
+fig12.add_annotation(
+    x=0.75, y=0.12, text="↓ Physical jobs — GenAI safe",
+    showarrow=False, font=dict(color="#2ecc71", size=11),
+)
+fig12.update_layout(legend_title="Sector")
+pio.write_image(fig12, "figures/fig12_then_vs_now_scatter.png", scale=2)
+fig12.write_html("figures/fig12_then_vs_now_scatter.html")
+print("Saved fig12")
+
+# ── Fig 13: Sector dumbbell — avg automation 2013 vs. avg GenAI exposure 2025 ──
+# Each row is a sector. Two dots connected by a line show the direction of shift.
+# Sorted by GenAI exposure (descending) to surface the biggest flip at the top.
+
+sector = (
+    thenow.groupby("occupation_group")[["automation_prob", "genai_exposure_2025"]]
+    .mean()
+    .reset_index()
+    .sort_values("genai_exposure_2025", ascending=True)  # ascending for horizontal plot
+)
+
+fig13, ax13 = plt.subplots(figsize=(10, 8))
+
+for _, row in sector.iterrows():
+    y = row["occupation_group"]
+    x1 = row["automation_prob"]
+    x2 = row["genai_exposure_2025"]
+    # Connector line
+    ax13.plot([x1, x2], [y, y], color="#aaa", linewidth=1.2, zorder=1)
+    # 2013 dot (traditional automation)
+    ax13.scatter(x1, y, color="#3498db", s=60, zorder=2, label="2013 (F&O)" if _ == sector.index[0] else "")
+    # 2025 dot (GenAI exposure)
+    ax13.scatter(x2, y, color="#e74c3c", s=60, zorder=2, marker="D",
+                 label="2025 (ILO GenAI)" if _ == sector.index[0] else "")
+
+# Build legend manually — one entry per marker type
+from matplotlib.lines import Line2D
+legend_elements = [
+    Line2D([0], [0], marker="o", color="w", markerfacecolor="#3498db",
+           markersize=8, label="2013 Traditional Automation (Frey & Osborne)"),
+    Line2D([0], [0], marker="D", color="w", markerfacecolor="#e74c3c",
+           markersize=8, label="2025 GenAI Exposure (ILO)"),
+]
+ax13.legend(handles=legend_elements, loc="lower right", fontsize=9)
+ax13.axvline(0.5, color="gray", linestyle="--", linewidth=0.8, alpha=0.6)
+ax13.set_xlabel("Average Risk / Exposure Score")
+ax13.set_title(
+    "Sector Risk Shift: Traditional Automation (2013) → GenAI Exposure (2025)",
+    fontweight="bold",
+)
+ax13.set_xlim(-0.02, 1.02)
+sns.despine(ax=ax13)
+plt.tight_layout()
+fig13.savefig("figures/fig13_sector_risk_shift.png", dpi=150)
+plt.close()
+print("Saved fig13")
+
+# ── Fig 14: Biggest movers — top 15 newly exposed + top 15 de-risked ──────────
+# "Newly exposed": occupations where GenAI score >> traditional automation risk.
+# "De-risked":    occupations where traditional automation >> GenAI score.
+# Side-by-side horizontal bars, colored by direction of shift.
+
+top_gainers = thenow.nlargest(15, "risk_delta")[
+    ["occupation", "automation_prob", "genai_exposure_2025", "risk_delta"]
+].sort_values("risk_delta")
+
+top_losers = thenow.nsmallest(15, "risk_delta")[
+    ["occupation", "automation_prob", "genai_exposure_2025", "risk_delta"]
+].sort_values("risk_delta", ascending=False)
+
+fig14, (ax_l, ax_r) = plt.subplots(1, 2, figsize=(14, 7))
+
+# Left panel — De-risked (traditional automation >> GenAI)
+ax_l.barh(top_losers["occupation"], top_losers["risk_delta"],
+          color="#3498db", alpha=0.85)
+ax_l.axvline(0, color="black", linewidth=0.8)
+ax_l.set_title("De-Risked by GenAI Shift\n(High traditional risk, low GenAI exposure)",
+               fontweight="bold", fontsize=10)
+ax_l.set_xlabel("Risk Delta (GenAI − Traditional)")
+ax_l.invert_xaxis()  # negative values read naturally left-to-right
+ax_l.tick_params(axis="y", labelsize=8)
+sns.despine(ax=ax_l)
+
+# Right panel — Newly exposed (GenAI >> traditional automation)
+ax_r.barh(top_gainers["occupation"], top_gainers["risk_delta"],
+          color="#e74c3c", alpha=0.85)
+ax_r.axvline(0, color="black", linewidth=0.8)
+ax_r.set_title("Newly Exposed by GenAI\n(Low traditional risk, high GenAI exposure)",
+               fontweight="bold", fontsize=10)
+ax_r.set_xlabel("Risk Delta (GenAI − Traditional)")
+ax_r.tick_params(axis="y", labelsize=8)
+ax_r.yaxis.set_label_position("right")
+ax_r.yaxis.tick_right()
+sns.despine(ax=ax_r)
+
+plt.suptitle(
+    "The GenAI Flip: Which Occupations Changed Risk Category? (2013 → 2025)",
+    fontweight="bold", fontsize=12, y=1.01,
+)
+plt.tight_layout()
+fig14.savefig("figures/fig14_biggest_movers.png", dpi=150, bbox_inches="tight")
+plt.close()
+print("Saved fig14")
 
 print("\nAll figures generated.")

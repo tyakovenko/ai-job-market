@@ -1,18 +1,28 @@
 """
 01_clean.py
 -----------
-Loads, cleans, and engineers features for both real-world datasets.
+Loads, cleans, and engineers features for all datasets.
 Produces the canonical merged dataset used in all downstream stages.
 
 Inputs:
-  data/raw/frey_osborne_automation_scores.csv
-  data/raw/bls_occupational_projections_2024_2034.xlsx
+  data/raw/frey_osborne_automation_scores.csv        — Frey & Osborne (2013) traditional automation risk
+  data/raw/bls_occupational_projections_2024_2034.xlsx — BLS 2024–2034 employment projections
+  data/raw/ilo_genai_exposure_2025.xlsx              — ILO/Gmyrek et al. (2025) GenAI exposure index
+  data/raw/bls_isco_soc_crosswalk.xls               — BLS ISCO-08 × SOC 2010 crosswalk
 
 Outputs:
   data/processed/frey_osborne_clean.csv
   data/processed/bls_clean.csv
-  data/processed/merged.csv          (inner join on SOC code)
-  data/processed/cleaned_main.csv    (merged + engineered features, analysis-ready)
+  data/processed/merged.csv          (inner join: BLS × Frey & Osborne on SOC code)
+  data/processed/cleaned_main.csv    (merged + engineered features + GenAI exposure, analysis-ready)
+
+Crosswalk methodology (ISCO-08 → SOC):
+  The ILO dataset uses ISCO-08 4-digit codes; our pipeline uses SOC 2010 codes.
+  The BLS ISCO-08 × SOC crosswalk bridges them.
+  - 600 of 606 SOC codes matched (99%).
+  - Where multiple ISCO-08 codes map to one SOC code (fan-in), GenAI scores are averaged.
+  - 6 unmatched SOC codes receive NaN and are excluded from then/now charts only.
+  See project-log.md § Crosswalk Analysis for the full breakdown.
 """
 
 import pandas as pd
@@ -164,7 +174,65 @@ df["growth_direction"] = df["emp_change_pct"].apply(
     if pd.notna(x) else "Unknown"
 )
 
-# ── 5. Final dataset ─────────────────────────────────────────────────────────
+# ── 5. ILO GenAI Exposure 2025 — Then vs. Now extension ──────────────────────
+#
+# The ILO file is task-level: each row is one task within an ISCO-08 occupation.
+# The columns mean_score_2023 and mean_score_2025 are already occupation-level
+# averages (same value repeated for every task in a given ISCO code), so we
+# deduplicate to one row per occupation before merging.
+#
+# Crosswalk chain:
+#   ISCO-08 4-digit  →  SOC 2010  →  our soc_code column
+#   Fan-in (multiple ISCO codes → one SOC): resolved by averaging the GenAI scores.
+
+# 5a. Load ILO task-level data and collapse to occupation level
+ilo_raw = pd.read_excel("data/raw/ilo_genai_exposure_2025.xlsx")
+
+ilo = (
+    ilo_raw[["ISCO_08", "mean_score_2023", "mean_score_2025", "potential25"]]
+    .drop_duplicates(subset="ISCO_08")
+    .copy()
+)
+ilo["ISCO_08"] = ilo["ISCO_08"].astype(str).str.strip()
+print(f"ILO 2025: {len(ilo)} unique ISCO-08 occupations loaded.")
+
+# 5b. Load BLS ISCO-08 × SOC 2010 crosswalk
+#   Row 6 (0-indexed) is the header; earlier rows are BLS cover notes.
+xwalk_raw = pd.read_excel("data/raw/bls_isco_soc_crosswalk.xls", header=6)
+xwalk_raw.columns = ["isco_code", "isco_title", "part", "soc_code", "soc_title", "comment"]
+
+xwalk = (
+    xwalk_raw[xwalk_raw["isco_code"].notna() & xwalk_raw["soc_code"].notna()]
+    .copy()
+)
+# Truncate ISCO codes to 4 digits (crosswalk sometimes includes sub-codes)
+xwalk["isco_code"] = xwalk["isco_code"].astype(str).str[:4].str.strip()
+xwalk["soc_code"]  = xwalk["soc_code"].astype(str).str.strip()
+
+# 5c. Join crosswalk to ILO scores → one row per (soc_code, isco_code) pair
+ilo_mapped = xwalk.merge(ilo, left_on="isco_code", right_on="ISCO_08", how="inner")
+
+# 5d. Aggregate to SOC level — average where multiple ISCO codes fan into one SOC.
+#   This is correct because SOC categories are broader than ISCO-08; occupations
+#   within a SOC group share similar GenAI exposure profiles.
+soc_genai = (
+    ilo_mapped
+    .groupby("soc_code")
+    .agg(
+        genai_exposure_2025=("mean_score_2025", "mean"),
+        genai_exposure_2023=("mean_score_2023", "mean"),
+    )
+    .reset_index()
+)
+
+# 5e. Merge GenAI scores into main dataset
+df = df.merge(soc_genai, on="soc_code", how="left")
+
+matched   = df["genai_exposure_2025"].notna().sum()
+unmatched = df["genai_exposure_2025"].isna().sum()
+print(f"GenAI scores merged: {matched} matched, {unmatched} unmatched (NaN).")
+
+# ── 6. Final dataset ─────────────────────────────────────────────────────────
 
 df.to_csv("data/processed/cleaned_main.csv", index=False)
 
@@ -175,4 +243,6 @@ print(f"Vulnerable jobs:  {df['vulnerable'].sum()} ({df['vulnerable'].mean():.1%
 print(f"Occupation groups: {df['occupation_group'].nunique()}")
 print(f"Missing wages:    {df['median_wage_2024'].isna().sum()}")
 print(f"Missing edu:      {df['education_level'].isna().sum()}")
+print(f"Missing GenAI:    {df['genai_exposure_2025'].isna().sum()}")
 print(f"\nAdaptive capacity stats:\n{df['adaptive_capacity_score'].describe().round(3)}")
+print(f"\nGenAI exposure 2025 stats:\n{df['genai_exposure_2025'].describe().round(3)}")

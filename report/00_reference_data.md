@@ -213,7 +213,39 @@
 
 ---
 
-## Source 6: Kaggle Dataset (Synthetic)
+## Source 6: ILO / Gmyrek et al. (2025)
+**"Generative AI and Jobs: A Refined Global Index of Occupational Exposure" — ILO Working Paper 140, May 2025**
+*Joint study: International Labour Organization & NASK (Poland's National Research Institute)*
+
+| Metric | Value | Notes |
+|---|---|---|
+| Occupations scored (ISCO-08 4-digit) | 427 | Global coverage |
+| Tasks evaluated | 29,753 | Via Polish occupational classification |
+| Survey respondents | 1,640 | One per 1-digit ISCO group |
+| Data points collected | 52,558 | Task-level automation potential ratings |
+| Global employment in exposed occupations | 25% | Of all global employment |
+| Share in high-income countries | 34% | Higher due to knowledge-work concentration |
+| Highest exposure tier (Gradient 4) | 3.3% of global employment | — |
+| Female employment in Gradient 4 | 4.7% | Vs. 2.4% male — gender gap persists into GenAI era |
+| Score range | 0–1 | 0 = no GenAI potential; 1 = fully automatable by GenAI |
+| Highest-scored occupation (our pipeline) | Data entry keyers | 0.70 |
+| Lowest-scored occupation (our pipeline) | Construction laborers / Brickmasons | 0.09 |
+| Computer & Math avg GenAI exposure | 56% | vs. 13% traditional automation (F&O 2013) — largest positive shift |
+| Production sector avg GenAI exposure | 20% | vs. 82% traditional automation — largest negative shift |
+
+### Key Methodological Differences from Frey & Osborne (2013)
+| Dimension | Frey & Osborne (2013) | ILO Gmyrek et al. (2025) |
+|---|---|---|
+| Question asked | Can the whole occupation be automated? | Which specific tasks can GenAI perform or assist? |
+| Technology scope | Machine learning / robotics | Generative AI (LLMs, multimodal) |
+| Validation | Expert panel + ML classifier | Worker survey + dual AI scoring (GPT-4o, Gemini) |
+| Geographic scope | US only | Global (ISCO-08) |
+| Output | Single probability per occupation | Mean score + SD + 4-tier gradient |
+| Era | 2013 (predates deep learning dominance) | 2025 (post-ChatGPT, GPT-4 era) |
+
+---
+
+## Source 7: Kaggle Dataset (Synthetic)
 **Primary dataset — AI Impact on Job Market, 2024–2030**
 *Generated to reflect OECD, McKinsey, and WEF labor market patterns*
 

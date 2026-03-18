@@ -47,10 +47,10 @@ wage_safe    = df[df["vulnerable"]==False]["median_wage_2024"].median()
 ## Executive Summary
 
 Artificial intelligence is transforming the US labor market — but not in the simple
-"robots taking all jobs" narrative that dominates headlines. Using two authoritative
-real-world datasets — Frey & Osborne's automation probability scores for 702 occupations
-and the Bureau of Labor Statistics' 2024–2034 employment projections — this report
-finds a more nuanced and more troubling pattern.
+"robots taking all jobs" narrative that dominates headlines. Using three authoritative
+real-world datasets — Frey & Osborne's automation probability scores (2013), the Bureau
+of Labor Statistics' 2024–2034 employment projections, and the ILO's 2025 Generative AI
+Occupational Exposure Index — this report finds a more nuanced and more troubling pattern.
 
 The **Automation Paradox**: most workers exposed to AI are currently seeing stable or
 growing employment. Yet hidden inside that aggregate is a concentrated crisis. Roughly
@@ -70,6 +70,12 @@ concern but a present reality.
   of the variation in job outcomes
 - The most important protective factor is **education + wage combined** (adaptive
   capacity score), not automation risk alone
+- A "Then vs. Now" comparison using the ILO 2025 GenAI Exposure Index reveals the
+  risk map has fundamentally shifted: **Computer & Math** reversed from low traditional
+  risk (13%) to highest GenAI exposure (56%), while **Production and Construction** —
+  flagged as near-certain automation targets in 2013 — score among the lowest on GenAI
+  exposure today. The workers we thought were safe may not be; the workers we feared
+  for may be safer than expected from GenAI specifically.
 
 ---
 
@@ -95,17 +101,18 @@ the data says about where the US labor market is heading through 2034.
 
 ## 2. Data Sources
 
-Two datasets are combined for this analysis:
+Three datasets are combined for this analysis:
 
-| Dataset | Source | Occupations |
-|---|---|---|
-| Automation Probability Scores | Frey & Osborne (2013), *The Future of Employment* | 702 |
-| Employment Projections 2024–2034 | US Bureau of Labor Statistics | 832 |
-| **Merged (inner join on SOC code)** | | **`{python} n_total`** |
+| Dataset | Source | Coverage | Role |
+|---|---|---|---|
+| Automation Probability Scores | Frey & Osborne (2013), *The Future of Employment* | 702 US occupations | Traditional automation baseline ("then") |
+| Employment Projections 2024–2034 | US Bureau of Labor Statistics | 832 occupations | Employment outlook |
+| GenAI Occupational Exposure Index | Gmyrek et al. (2025), ILO Working Paper 140 | 427 ISCO-08 occupations | GenAI exposure ("now") |
+| **Analysis dataset** | Inner join F&O × BLS; left join ILO via crosswalk | | **`{python} n_total` occupations, 99% with GenAI scores** |
 
-The datasets are linked via US Standard Occupational Classification (SOC) codes,
-achieving an 86% match rate. The merged dataset covers 606 occupations with both
-automation risk scores and real 10-year employment projections.
+Frey & Osborne and BLS are joined on SOC codes (86% match rate). The ILO dataset uses
+ISCO-08 codes and is bridged via the BLS official ISCO-08 × SOC crosswalk, covering
+600 of 606 occupations.
 
 *Note: A synthetic Kaggle dataset was evaluated and rejected. Preliminary analysis
 showed near-zero correlations between all numeric variables (r ≈ 0.001–0.012) — a
@@ -305,7 +312,163 @@ wages 2.5× higher than the at-risk group.
 
 ---
 
-## 9. Conclusions and Policy Implications
+## 9. Then vs. Now: The GenAI Risk Shift (2013 → 2025)
+
+```{python}
+import plotly.express as px
+
+thenow = df.dropna(subset=["genai_exposure_2025"]).copy()
+thenow["risk_delta"] = thenow["genai_exposure_2025"] - thenow["automation_prob"]
+
+sector = (
+    thenow.groupby("occupation_group")[["automation_prob", "genai_exposure_2025"]]
+    .mean()
+    .reset_index()
+    .sort_values("genai_exposure_2025", ascending=False)
+)
+```
+
+The Frey & Osborne (2013) scores that underpin this report were groundbreaking for
+their era, but they measured a specific form of AI risk: algorithmic and robotic
+automation of routine tasks. A decade later, Generative AI — large language models,
+multimodal systems, code generation — presents a different kind of risk that targets
+a different kind of work. The ILO's 2025 Generative AI Occupational Exposure Index
+(Gmyrek et al., ILO Working Paper 140) provides the most rigorous current estimate
+of that new risk, scored from 29,753 tasks across 427 ISCO-08 occupations.
+
+**Why this comparison matters:** If the risk landscape has shifted, then policies and
+career advice built on 2013 assumptions may be protecting the wrong people and exposing
+the wrong sectors.
+
+### The Sector-Level Flip
+
+```{python}
+sector_long = sector.melt(
+    id_vars="occupation_group",
+    value_vars=["automation_prob", "genai_exposure_2025"],
+    var_name="Era", value_name="Score"
+)
+sector_long["Era"] = sector_long["Era"].map({
+    "automation_prob":     "2013 — Traditional Automation (F&O)",
+    "genai_exposure_2025": "2025 — GenAI Exposure (ILO)",
+})
+
+fig, ax = plt.subplots(figsize=(10, 8))
+for _, row in sector.iterrows():
+    y = row["occupation_group"]
+    ax.plot([row["automation_prob"], row["genai_exposure_2025"]], [y, y],
+            color="#aaa", linewidth=1.2, zorder=1)
+    ax.scatter(row["automation_prob"], y, color="#3498db", s=55, zorder=2)
+    ax.scatter(row["genai_exposure_2025"], y, color="#e74c3c", s=55, zorder=2, marker="D")
+
+from matplotlib.lines import Line2D
+legend_elements = [
+    Line2D([0], [0], marker="o", color="w", markerfacecolor="#3498db",
+           markersize=8, label="2013 Traditional Automation (F&O)"),
+    Line2D([0], [0], marker="D", color="w", markerfacecolor="#e74c3c",
+           markersize=8, label="2025 GenAI Exposure (ILO)"),
+]
+ax.legend(handles=legend_elements, loc="lower right", fontsize=9)
+ax.axvline(0.5, color="gray", linestyle="--", linewidth=0.8, alpha=0.6)
+ax.set_xlabel("Average Risk / Exposure Score")
+ax.set_title("Sector Risk Shift: Traditional Automation (2013) → GenAI Exposure (2025)",
+             fontweight="bold")
+ax.set_xlim(-0.02, 1.02)
+sns.despine(ax=ax)
+plt.tight_layout()
+plt.show()
+```
+
+The dumbbell chart above tells the story clearly. Every sector with a connector line
+pointing **left** (from blue to red dot) saw its risk *fall* moving from 2013 to 2025
+— these are physical sectors where GenAI has no mechanism for displacement. Every sector
+with a line pointing **right** saw its risk *rise* — these are knowledge and information
+sectors that GenAI targets directly.
+
+**The largest reversals:**
+
+| Sector | 2013 Risk | 2025 GenAI Exposure | Δ |
+|---|---|---|---|
+| Computer & Math | 13% | 56% | **+43 pp** |
+| Community & Social Service | 5% | 28% | **+23 pp** |
+| Management | 14% | 37% | **+22 pp** |
+| Arts & Media | 21% | 37% | **+16 pp** |
+| Production | 82% | 20% | **−62 pp** |
+| Building & Grounds | 78% | 15% | **−62 pp** |
+| Construction | 74% | 13% | **−61 pp** |
+
+### The Occupation-Level Picture
+
+```{python}
+fig, ax = plt.subplots(figsize=(9, 5))
+ax.scatter(thenow["automation_prob"], thenow["genai_exposure_2025"],
+           alpha=0.45, color="#7f8c8d", s=25)
+ax.plot([0, 1], [0, 1], color="gray", linestyle="--", linewidth=1, label="Same risk then & now")
+ax.set_xlabel("Traditional Automation Risk — Frey & Osborne (2013)")
+ax.set_ylabel("GenAI Exposure Score — ILO (2025)")
+ax.set_title("Then vs. Now: Every Occupation's Risk Shift", fontweight="bold")
+ax.annotate("↑ GenAI newly exposed\n(knowledge work)", xy=(0.08, 0.62),
+            color="#e74c3c", fontsize=9)
+ax.annotate("↓ Physical jobs —\nGenAI safe", xy=(0.72, 0.11),
+            color="#27ae60", fontsize=9)
+ax.legend(fontsize=9)
+plt.tight_layout()
+plt.show()
+```
+
+The scatter plot places every occupation against a diagonal reference line. Points
+**above** the diagonal were underestimated by 2013 models — they face more GenAI
+exposure than traditional automation suggested. Points **below** were overestimated
+— high traditional automation risk that GenAI does not replicate.
+
+**The five most newly exposed occupations** (largest positive delta):
+
+```{python}
+top5 = thenow.nlargest(5, "risk_delta")[
+    ["occupation", "occupation_group", "automation_prob", "genai_exposure_2025", "risk_delta"]
+].reset_index(drop=True)
+top5.columns = ["Occupation", "Sector", "Traditional Risk (2013)", "GenAI Exposure (2025)", "Δ"]
+top5["Traditional Risk (2013)"] = top5["Traditional Risk (2013)"].map("{:.0%}".format)
+top5["GenAI Exposure (2025)"] = top5["GenAI Exposure (2025)"].map("{:.0%}".format)
+top5["Δ"] = top5["Δ"].map("{:+.2f}".format)
+top5
+```
+
+**The five most de-risked occupations** (largest negative delta):
+
+```{python}
+bot5 = thenow.nsmallest(5, "risk_delta")[
+    ["occupation", "occupation_group", "automation_prob", "genai_exposure_2025", "risk_delta"]
+].reset_index(drop=True)
+bot5.columns = ["Occupation", "Sector", "Traditional Risk (2013)", "GenAI Exposure (2025)", "Δ"]
+bot5["Traditional Risk (2013)"] = bot5["Traditional Risk (2013)"].map("{:.0%}".format)
+bot5["GenAI Exposure (2025)"] = bot5["GenAI Exposure (2025)"].map("{:.0%}".format)
+bot5["Δ"] = bot5["Δ"].map("{:+.2f}".format)
+bot5
+```
+
+### What This Means
+
+The 2013 automation literature and the 2025 GenAI exposure data agree on one thing:
+**Office & Administrative Support is highly exposed** (84% traditional, 52% GenAI).
+Clerical workers face sustained risk across both eras. But the agreement ends there.
+
+GenAI differs from robotic automation in a fundamental way: **it targets language,
+reasoning, and information synthesis** — not physical manipulation. This is why writers,
+analysts, counselors, and mathematicians appear in the newly-exposed list, while
+brickmasons, sewers, and groundskeepers appear in the de-risked list. The physical
+dexterity barrier that protected manual workers from robotics also protects them from
+GenAI.
+
+The policy implication is significant: **retraining programs designed around the 2013
+risk map may be solving the wrong problem.** A displaced office worker retrained for
+a knowledge-intensive analytical role may be walking into the highest-GenAI-exposure
+sector. Healthcare and skilled trades — identified as safe harbors in the 2013 analysis
+— remain strong options under the 2025 lens.
+
+---
+
+## 10. Conclusions and Policy Implications
 
 **The Automation Paradox is real.** Automation risk and employment decline are related
 (r = −0.414) but not synonymous. Many high-automation occupations still show positive
@@ -329,10 +492,12 @@ absorbing the displacement costs with no safety net.
    that reduce barriers to healthcare careers (licensing, cost, geographic access) are
    simultaneously labor market policies.
 
-**Limitations:** Frey & Osborne's scores date to 2013 and may understate AI progress in
-some fields (e.g., radiology, legal research) while overstating it in others. BLS
-projections are point estimates with unquantified uncertainty. The merged dataset covers
-606 of the ~900 US occupations and may undersample smaller occupation categories.
+**Limitations:** Frey & Osborne's scores date to 2013 and reflect a pre-GenAI understanding
+of automation risk — which is why this report includes the ILO 2025 comparison in Section 9.
+Even so, the ILO scores are global (ISCO-08) and were validated using Polish worker surveys;
+US-specific GenAI adoption rates may differ. BLS projections are point estimates with
+unquantified uncertainty. The merged dataset covers 606 of the ~900 US occupations; 6
+occupations have no ISCO-08 equivalent and are excluded from the then/now analysis only.
 
 ---
 
@@ -342,6 +507,9 @@ projections are point estimates with unquantified uncertainty. The merged datase
   Jobs to Computerisation?* Oxford Martin School Working Paper.
 - U.S. Bureau of Labor Statistics (2024). *Employment Projections 2024–2034.*
   U.S. Department of Labor. https://www.bls.gov/emp/
+- Gmyrek, P., Berg, J., & Bescond, D. (2025). *Generative AI and Jobs: A Refined
+  Global Index of Occupational Exposure.* ILO Working Paper 140. International Labour
+  Organization. https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure
 - Acemoglu, D. & Restrepo, P. (2018). Artificial Intelligence, Automation, and Work.
   *NBER Working Paper 24196.*
 - Brookings Institution. *Automation and Artificial Intelligence: How Machines Are

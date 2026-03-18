@@ -1,6 +1,6 @@
 # Stage 2: Dataset Description
 **MIS502 Final Project — AI's Impact on the Job Market**
-**Points: 15 | Status: Complete**
+**Points: 15 | Status: Complete — Updated with ILO 2025 GenAI dataset**
 
 ---
 
@@ -55,9 +55,38 @@ This project uses two peer-reviewed and government-published datasets rather tha
 
 ---
 
+---
+
+### Dataset 3: ILO Generative AI Occupational Exposure Index (2025)
+
+**Source:** Gmyrek, P., Berg, J., & Bescond, D. (2025). *Generative AI and Jobs: A Refined Global Index of Occupational Exposure.* ILO Working Paper 140. International Labour Organization & NASK (Poland's National Research Institute).
+
+**Coverage:** 427 ISCO-08 4-digit occupations globally; task-level scoring aggregated from 29,753 tasks across 2,861 sub-tasks, validated by surveys of 1,640 workers.
+
+**Key variables:**
+
+| Variable | Description |
+|---|---|
+| `ISCO_08` | 4-digit ISCO-08 international occupation code |
+| `mean_score_2025` | Mean GenAI exposure score (0–1) in 2025 — how much of the occupation's tasks can be performed or substantially assisted by GenAI |
+| `mean_score_2023` | Same score for the 2023 baseline (pre-2025 update) — used as the "early GenAI" comparison point |
+| `potential25` | Categorical exposure gradient: Not Exposed, Minimal Exposure, Exposed: Gradient 1–4 |
+
+**How the scores were generated:** Human raters and AI models (GPT-4o and Gemini) independently scored 29,753 occupation tasks on a 0–1 scale for GenAI exposure. Scores were calibrated using semantic similarity to anchor tasks, validated against a worker survey, and aggregated to the occupation level. This is a methodological step beyond Frey & Osborne: instead of predicting *full automation*, it measures *task-level augmentation or replacement* by current GenAI tools.
+
+**Distribution (2025):** 231 occupations (54%) are Not Exposed, 84 (20%) Minimal Exposure, 17+44+38+13 = 112 (26%) in Exposed Gradients 1–4. Only 13 occupations (3%) fall in the highest exposure tier (Gradient 4).
+
+**Bridging to our pipeline:** The ILO dataset uses ISCO-08 codes; our pipeline uses US SOC codes. The BLS official ISCO-08 × SOC 2010 crosswalk was used to map ILO occupations to SOC codes. Where multiple ISCO-08 codes map to one SOC code (fan-in), GenAI exposure scores are averaged. This produced coverage of **600 of 606 occupations (99%)**.
+
+---
+
 ### Merged Dataset
 
-The two datasets were joined on SOC code, producing a merged dataset of **606 occupations** with both an automation probability score and real BLS employment projections. This merge covers 86% of Frey & Osborne occupations that have a direct BLS match.
+The three datasets are combined into a single analysis file of **606 occupations**:
+- Frey & Osborne × BLS join: inner join on SOC code → 606 occupations (86% of F&O matches BLS)
+- ILO 2025 join: left join via ISCO-SOC crosswalk → 600 of 606 matched (99%)
+
+The 6 unmatched occupations (residual "all other" and niche categories with no ISCO-08 equivalent) retain NaN for GenAI scores and are excluded only from the then/now comparison analysis.
 
 ---
 
