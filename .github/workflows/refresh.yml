@@ -1,0 +1,76 @@
+name: Refresh Data & Redeploy
+
+on:
+  # Run on the 1st of every month at 6am UTC
+  schedule:
+    - cron: "0 6 1 * *"
+
+  # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to commit and push updated data
+
+    steps:
+      # ── 1. Checkout ──────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Python ────────────────────────────────────────────────────────
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      # ── 3. Quarto ────────────────────────────────────────────────────────
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Install TinyTeX (for PDF rendering)
+        run: quarto install tinytex --no-prompt
+
+      # ── 4. Fetch latest data ─────────────────────────────────────────────
+      - name: Download latest datasets
+        run: python src/00_fetch.py
+
+      # ── 5. Run pipeline ───────────────────────────────────────────────────
+      - name: Clean and engineer features
+        run: python src/01_clean.py
+
+      - name: Generate figures
+        run: python src/02_analyze.py
+
+      - name: Run data mining
+        run: python src/03_mine.py
+
+      # ── 6. Re-render Quarto report ────────────────────────────────────────
+      - name: Render Quarto site to docs/
+        run: quarto render
+
+      # ── 7. Commit and push if anything changed ────────────────────────────
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet \
+            data/processed/ figures/ docs/ _freeze/ \
+            || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push updated files
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/processed/ figures/ docs/ _freeze/
+          git commit -m "Auto-refresh: updated data $(date +'%Y-%m-%d')"
+          git push
+
+      - name: No changes detected
+        if: steps.changes.outputs.changed != 'true'
+        run: echo "Data unchanged — no commit needed."
