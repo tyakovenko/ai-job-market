@@ -1,0 +1,133 @@
+# Project Log — AI Impact on Job Market
+**Course:** MIS502 — Data Management for Business
+**Last updated:** 2026-03-17
+
+---
+
+## Session 1 — 2026-03-17
+
+### Summary
+Full project build from setup through live deployment in a single session.
+
+### What Was Completed
+
+#### Stage 1 — Project Setup
+- Created full folder structure: `src/`, `data/raw/`, `data/processed/`, `notebooks/`, `figures/`, `dashboard/`, `report/`, `presentation/`
+- Created `.gitignore` with security entries (secrets, OS noise, Python artifacts, raw data)
+- Created Python virtual environment at `.venv/`
+- Created `requirements.txt` with all dependencies (pandas, numpy, scikit-learn, matplotlib, seaborn, plotly, streamlit, quarto, kaleido, statsmodels, openpyxl)
+- **Decision:** Replaced Jupyter notebooks with Python scripts + Quarto + Streamlit for reproducibility. Jupyter notebooks have hidden state and cell-order issues; scripts run top-to-bottom deterministically.
+- **Decision:** Replaced synthetic Kaggle dataset with two real-world datasets. Preliminary analysis of the Kaggle data showed near-zero correlations between all variables (r ≈ 0.001–0.012) — a hallmark of random synthetic generation with no signal.
+
+#### Datasets Acquired
+- `data/raw/frey_osborne_automation_scores.csv` — 702 US occupations with automation probability (Frey & Osborne, 2013)
+- `data/raw/bls_occupational_projections_2024_2034.xlsx` — 832 BLS occupations with 2024–2034 employment projections
+- Both downloadable programmatically via `src/00_fetch.py`
+
+#### Stage 2 — Dataset Description
+- Written: `report/01_dataset_description.md` (15 pts)
+- Documents both datasets, 3 research hypotheses (H1–H3), data quality assessment, and ethical considerations
+
+#### Stage 3 — Data Wrangling
+- Written: `report/02_data_wrangling.md` (25 pts)
+- Script: `src/01_clean.py`
+- Output: `data/processed/cleaned_main.csv` (606 rows, 20 columns)
+- Feature engineering:
+  - `risk_tier` — Low/Medium/High automation risk bands
+  - `occupation_group` — 22 groups from SOC major code
+  - `education_level` — ordinal encoding 0–6
+  - `adaptive_capacity_score` — composite of normalized wage + education (0–1)
+  - `vulnerable` — binary flag: high automation + low adaptive capacity (144 occupations, 23.8%)
+  - `growth_direction` — Growing / Declining / Stable
+
+#### Stage 4 — Data Mining
+- Written: `report/03_data_mining.md` (25 pts)
+- Script: `src/03_mine.py`
+- **K-Means Clustering (k=4, 3 distinct segments):**
+  - High Risk / Low Resilience: 305 occupations, automation 85%, wage $49K, growth −1.75%
+  - Low Risk / Stable: 225 occupations, automation 27%, wage $67K, growth +2.58%
+  - Low Risk / High Skill: 70 occupations, automation 9%, wage $126K, growth +5.51%
+- **Linear Regression:**
+  - Target: `emp_change_pct`; Features: automation prob, adaptive capacity, wage, education, occupation group dummies
+  - R² = 0.175, MAE = 4.32 pp
+  - Key coefficient: automation_prob = −4.15 (each +10pp automation → −0.42pp employment change)
+  - H1 confirmed (negative relationship), H2 confirmed (R² = 0.175 — automation is weak predictor alone), H3 confirmed (wage gap: $41,503 vs $72,293)
+
+#### Stage 5 — Data Visualization
+- Written: `report/04_data_visualization.md` (25 pts)
+- Script: `src/02_analyze.py`
+- 11 figures generated to `figures/` (PNG + HTML for interactive Plotly charts):
+  - fig1: Risk tier distribution (bar)
+  - fig2: Automation vs. employment change (scatter, interactive)
+  - fig3: Top 15 most at-risk occupations (ranked bar)
+  - fig4: Top 15 safest growing occupations (ranked bar)
+  - fig5: Median wage by risk tier (bar)
+  - fig6: Education level vs. risk tier (stacked bar)
+  - fig7: Bubble chart — automation vs. wage, size = annual openings (interactive)
+  - fig8: Average automation risk by occupation group (ranked bar)
+  - fig9: Correlation heatmap
+  - fig10: Wage distribution — vulnerable vs. not (box plot)
+  - fig11: Automation vs. growth with OLS trend line (interactive)
+
+#### Stage 6 — Interactive Dashboard
+- Built: `dashboard/app.py` — Streamlit, 5 tabs
+- Tabs: Overview, Job Explorer, By Sector, Clusters, The Paradox
+- Sidebar filters: risk tier, occupation group, wage range, automation probability range
+- Deployed to Streamlit Community Cloud
+
+#### Stage 7 — Final Report
+- Built: `report/report.qmd` — Quarto document with live Python code
+- Renders to HTML and PDF
+- Covers: executive summary, introduction, all 5 analysis stages, conclusions, policy implications
+- Deployed to GitHub Pages at `tyakovenko.github.io/ai-job-market`
+
+#### Deployment
+- GitHub repo: `github.com/tyakovenko/ai-job-market`
+- GitHub Pages: enabled from `docs/` folder on `main` branch (Quarto report)
+- Streamlit Community Cloud: dashboard deployed from `dashboard/app.py`
+- GitHub Actions workflow (`refresh.yml`): annual refresh every January 1st
+  - Downloads fresh BLS + F&O data
+  - Re-runs full pipeline
+  - Re-renders Quarto
+  - Commits and pushes — triggers automatic Streamlit redeploy
+
+---
+
+## Open Tasks
+
+- [ ] Fill in written narrative sections of `report/report.qmd` (currently scaffolded with data)
+- [ ] Verify Streamlit Cloud and GitHub Pages URLs are live
+- [ ] Complete Stage 9: peer review comments on classmates' projects (3 pts)
+- [ ] Create presentation in NotebookLM using milestone reports as source documents
+- [ ] Final submission
+
+---
+
+## Decisions Log
+
+| Decision | What Was Chosen | What Was Rejected | Why |
+|---|---|---|---|
+| Notebook format | Python scripts + Quarto + Streamlit | Jupyter notebooks | Scripts are deterministic; notebooks have hidden state and cell-order issues |
+| Primary dataset | Frey & Osborne (2013) + BLS 2024–2034 | Kaggle synthetic dataset | Synthetic data had r ≈ 0.001 between all variables — no real signal |
+| Dashboard hosting | Streamlit Community Cloud | GitHub Pages | GitHub Pages is static only; Streamlit needs a Python server |
+| Report hosting | GitHub Pages (Quarto → docs/) | — | Standard static site, free, integrates with Quarto natively |
+| Data refresh cadence | Annual (January 1st) | Monthly | BLS only releases new projections every ~2 years |
+| PDF generation | Quarto built-in (LuaLaTeX via TinyTeX) | Separate LaTeX setup | Quarto handles this automatically with `quarto install tinytex` |
+
+---
+
+## Key Numbers (for quick reference)
+
+| Metric | Value |
+|---|---|
+| Total occupations analyzed | 606 |
+| High-risk occupations (>70% automation prob) | 283 (46.7%) |
+| Vulnerable occupations (high risk + low adaptive capacity) | 144 (23.8%) |
+| Median wage — high risk tier | $48,350 |
+| Median wage — low risk tier | $79,000 |
+| Wage gap (vulnerable vs. not) | $41,503 vs. $72,293 |
+| Correlation: automation prob vs. emp change | r = −0.414 |
+| Regression R² | 0.175 |
+| Regression coefficient (automation_prob) | −4.15 |
+| Automation risk — highest sector | Office & Admin Support (84%) |
+| Automation risk — lowest sector | Community & Social Service (5%) |
