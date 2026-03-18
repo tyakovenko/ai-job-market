@@ -51,8 +51,10 @@ jobs:
         run: python src/02_analyze.py
 
       # ── 6. Re-render Quarto report ────────────────────────────────────────
+      # --no-freeze forces all Python cells to re-execute so the rendered report
+      # always reflects the latest data rather than a stale _freeze cache.
       - name: Render Quarto site to docs/
-        run: quarto render
+        run: quarto render --no-freeze
 
       # ── 7. Commit and push if anything changed ────────────────────────────
       - name: Check for changes
