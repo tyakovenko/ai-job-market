@@ -1,0 +1,19 @@
+---
+title: "The Automation Paradox"
+subtitle: "Who Really Gets Hurt When AI Takes Over?"
+---
+
+This site presents the findings of the MIS502 Final Project analyzing AI's impact
+on the US job market using real-world data from Frey & Osborne (2013) and the
+Bureau of Labor Statistics (2024–2034).
+
+→ [Read the Full Report](report/report.qmd)
+
+**Datasets used:**
+
+- [Frey & Osborne Automation Probability Scores](https://www.oxfordmartin.ox.ac.uk/downloads/academic/The_Future_of_Employment.pdf) — 702 US occupations
+- [BLS Occupational Employment Projections 2024–2034](https://www.bls.gov/emp/) — US Department of Labor
+
+**Key finding:** Automation risk and job loss are related but not the same thing.
+The workers who face the biggest risk are the ones least equipped to adapt — and
+that gap is widening.

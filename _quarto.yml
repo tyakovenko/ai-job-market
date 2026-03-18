@@ -1,0 +1,25 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "The Automation Paradox"
+  navbar:
+    left:
+      - href: report/report.qmd
+        text: Report
+    right:
+      - icon: github
+        href: https://github.com/tyakovenko/ai-job-market
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    fig-width: 9
+    fig-height: 5
+
+execute:
+  freeze: auto

@@ -1,0 +1,57 @@
+# Secrets & credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*_rsa
+*_dsa
+*credentials*
+secrets.*
+
+# OS & editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.cursor/
+*.swp
+*.suo
+*.user
+*.iml
+.project
+.classpath
+.settings/
+nbproject/private/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+*.nbconvert/
+
+# Data — raw source files are never committed (too large / third-party)
+data/raw/
+# data/processed/ is committed — small derived files needed for deployment
+*.zip
+*.gz
+
+# Quarto internals (freeze cache is committed, these are not)
+/.quarto/
+
+# Claude global config — never commit
+~/.claude/
+
+**/*.quarto_ipynb

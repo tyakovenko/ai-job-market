@@ -1,0 +1,607 @@
+occupation,soc_code,emp_2024,emp_2034,emp_change_num,emp_change_pct,median_wage_2024,education_required,annual_openings,automation_prob,occupation_fo
+      Chief executives,11-1011,309.4,322.7,13.3,4.3,206420.0,Bachelor's degree,22.2,0.015,Chief executives
+      General and operations managers,11-1021,3712.9,3876.8,164.0,4.4,102950.0,Bachelor's degree,308.7,0.16,General and operations managers
+      Advertising and promotions managers,11-2011,27.0,26.4,-0.6,-2.2,126960.0,Bachelor's degree,2.1,0.039,Advertising and promotions managers
+        Marketing managers,11-2021,407.0,433.7,26.7,6.6,161030.0,Bachelor's degree,34.3,0.014,Marketing managers
+        Sales managers,11-2022,619.5,648.5,29.0,4.7,138060.0,Bachelor's degree,49.0,0.013,Sales managers
+      Computer and information systems managers,11-3021,667.1,768.7,101.6,15.2,171200.0,Bachelor's degree,55.6,0.035,Computer and information systems managers
+      Financial managers,11-3031,868.6,997.4,128.8,14.8,161700.0,Bachelor's degree,74.6,0.069,Financial managers
+      Industrial production managers,11-3051,241.9,246.5,4.6,1.9,121440.0,Bachelor's degree,17.1,0.03,Industrial production managers
+      Purchasing managers,11-3061,83.5,86.1,2.6,3.1,139510.0,Bachelor's degree,6.4,0.03,Purchasing managers
+"      Transportation, storage, and distribution managers",11-3071,216.7,229.8,13.1,6.1,102010.0,High school diploma or equivalent,18.5,0.59,"Transportation, storage, and distribution managers"
+      Compensation and benefits managers,11-3111,20.9,20.9,0.0,0.2,140360.0,Bachelor's degree,1.5,0.96,Compensation and benefits managers
+      Human resources managers,11-3121,221.9,233.0,11.1,5.0,140030.0,Bachelor's degree,17.9,0.0055,Human resources managers
+      Training and development managers,11-3131,46.4,49.2,2.7,5.8,127090.0,Bachelor's degree,3.8,0.0063,Training and development managers
+"      Farmers, ranchers, and other agricultural managers",11-9013,836.1,825.0,-11.1,-1.3,87980.0,High school diploma or equivalent,85.5,0.047,"Farmers, ranchers, and other agricultural managers"
+      Construction managers,11-9021,550.3,598.4,48.1,8.7,106980.0,Bachelor's degree,46.8,0.071,Construction managers
+"        Education and childcare administrators, preschool and daycare",11-9031,90.2,87.9,-2.3,-2.5,56270.0,Bachelor's degree,5.5,0.015,"Education administrators, preschool and childcare center/program"
+"        Education administrators, kindergarten through secondary",11-9032,333.3,328.1,-5.1,-1.5,104070.0,Master's degree,20.8,0.0046,"Education administrators, elementary and secondary school"
+"        Education administrators, postsecondary",11-9033,226.6,230.5,4.0,1.7,103960.0,Master's degree,15.1,0.01,"Education administrators, postsecondary"
+      Architectural and engineering managers,11-9041,212.5,220.5,8.0,3.8,167740.0,Bachelor's degree,14.5,0.017,Architectural and engineering managers
+      Food service managers,11-9051,352.8,375.3,22.6,6.4,65310.0,High school diploma or equivalent,42.0,0.083,Food service managers
+        Gambling managers,11-9071,5.1,5.2,0.1,1.2,85580.0,High school diploma or equivalent,0.6,0.091,Gaming managers
+      Lodging managers,11-9081,52.0,53.8,1.8,3.4,68130.0,High school diploma or equivalent,5.4,0.0039,Lodging managers
+      Medical and health services managers,11-9111,616.2,759.1,142.9,23.2,117960.0,Bachelor's degree,62.1,0.0073,Medical and health services managers
+      Natural sciences managers,11-9121,104.3,108.2,3.9,3.7,161180.0,Bachelor's degree,8.5,0.018,Natural sciences managers
+      Postmasters and mail superintendents,11-9131,13.1,12.7,-0.5,-3.5,92730.0,High school diploma or equivalent,0.9,0.75,Postmasters and mail superintendents
+"      Property, real estate, and community association managers",11-9141,466.1,483.1,17.0,3.6,66700.0,High school diploma or equivalent,39.0,0.81,"Property, real estate, and community association managers"
+      Social and community service managers,11-9151,219.8,233.9,14.1,6.4,78240.0,Bachelor's degree,18.6,0.0067,Social and community service managers
+      Emergency management directors,11-9161,13.2,13.6,0.4,3.0,86130.0,Bachelor's degree,1.0,0.003,Emergency management directors
+"      Managers, all other",11-9199,1333.7,1393.5,59.8,4.5,136550.0,Bachelor's degree,106.7,0.25,"Managers, all other"
+"      Agents and business managers of artists, performers, and athletes",13-1011,21.4,23.2,1.9,8.7,96310.0,Bachelor's degree,2.2,0.24,"Agents and business managers of artists, performers, and athletes"
+"        Claims adjusters, examiners, and investigators",13-1031,356.1,337.9,-18.2,-5.1,76790.0,High school diploma or equivalent,21.1,0.98,"Claims adjusters, examiners, and investigators"
+"        Insurance appraisers, auto damage",13-1032,9.2,8.4,-0.8,-8.2,76650.0,Postsecondary nondegree award,0.5,0.98,"Insurance appraisers, auto damage"
+      Compliance officers,13-1041,418.0,430.3,12.3,3.0,78420.0,Bachelor's degree,33.3,0.08,Compliance officers
+      Cost estimators,13-1051,221.4,212.1,-9.3,-4.2,77070.0,Bachelor's degree,16.9,0.57,Cost estimators
+        Farm labor contractors,13-1074,3.9,4.2,0.2,6.0,48690.0,No formal educational credential,0.3,0.97,Farm labour contractors
+        Logisticians,13-1081,241.0,281.3,40.3,16.7,80880.0,Bachelor's degree,26.4,0.012,Logisticians
+      Management analysts,13-1111,1075.1,1169.7,94.5,8.8,101190.0,Bachelor's degree,98.1,0.13,Management analysts
+"      Meeting, convention, and event planners",13-1121,155.8,163.3,7.5,4.8,59440.0,Bachelor's degree,15.5,0.037,"Meeting, convention, and event planners"
+"      Compensation, benefits, and job analysis specialists",13-1141,107.0,112.7,5.6,5.3,77020.0,Bachelor's degree,8.5,0.47,"Compensation, benefits, and job analysis specialists"
+      Training and development specialists,13-1151,452.3,501.0,48.7,10.8,65850.0,Bachelor's degree,43.9,0.014,Training and development specialists
+      Market research analysts and marketing specialists,13-1161,941.7,1004.7,63.0,6.7,76950.0,Bachelor's degree,87.2,0.61,Market research analysts and marketing specialists
+"      Business operations specialists, all other",13-1199,1205.7,1242.0,36.3,3.0,81270.0,Bachelor's degree,108.2,0.23,"Business operations specialists, all other"
+      Accountants and auditors,13-2011,1579.8,1652.6,72.8,4.6,81680.0,Bachelor's degree,124.2,0.94,Accountants and auditors
+      Budget analysts,13-2031,50.4,51.0,0.5,1.0,87930.0,Bachelor's degree,3.1,0.94,Budget analysts
+      Credit analysts,13-2041,67.8,64.8,-3.0,-4.4,80970.0,Bachelor's degree,3.7,0.98,Credit analysts
+        Financial and investment analysts,13-2051,368.5,389.6,21.1,5.7,101350.0,Bachelor's degree,25.1,0.23,Financial analysts
+        Personal financial advisors,13-2052,326.0,357.2,31.2,9.6,102140.0,Bachelor's degree,24.1,0.58,Personal financial advisors
+        Insurance underwriters,13-2053,127.0,123.7,-3.3,-2.6,79880.0,Bachelor's degree,8.2,0.99,Insurance underwriters
+      Financial examiners,13-2061,65.1,77.2,12.1,18.5,90400.0,Bachelor's degree,5.7,0.17,Financial examiners
+        Credit counselors,13-2071,31.8,32.9,1.1,3.3,50480.0,Bachelor's degree,2.2,0.04,Credit counselors
+        Loan officers,13-2072,301.4,306.5,5.0,1.7,74180.0,Bachelor's degree,20.3,0.98,Loan officers
+"        Tax examiners and collectors, and revenue agents",13-2081,57.6,56.5,-1.0,-1.8,59740.0,Bachelor's degree,4.3,0.93,"Tax examiners and collectors, and revenue agents"
+        Tax preparers,13-2082,90.6,94.7,4.1,4.5,50560.0,High school diploma or equivalent,10.4,0.99,Tax preparers
+"      Financial specialists, all other",13-2099,137.1,141.4,4.3,3.1,80190.0,Bachelor's degree,10.3,0.33,"Financial specialists, all other"
+      Actuaries,15-2011,33.6,40.9,7.3,21.8,125770.0,Bachelor's degree,2.4,0.21,Actuaries
+      Mathematicians,15-2021,2.4,2.4,0.0,-0.7,121680.0,Master's degree,0.1,0.047,Mathematicians
+      Operations research analysts,15-2031,112.1,136.2,24.1,21.5,91290.0,Bachelor's degree,9.6,0.035,Operations research analysts
+      Statisticians,15-2041,32.2,34.9,2.7,8.5,103300.0,Master's degree,2.0,0.22,Statisticians
+"        Architects, except landscape and naval",17-1011,123.6,128.4,4.8,3.9,96690.0,Bachelor's degree,7.8,0.018,"Architects, except landscape and naval"
+        Landscape architects,17-1012,21.8,22.6,0.8,3.5,79660.0,Bachelor's degree,1.7,0.045,Landscape architects
+        Cartographers and photogrammetrists,17-1021,13.4,14.3,0.9,6.4,78380.0,Bachelor's degree,1.0,0.88,Cartographers and photogrammetrists
+        Surveyors,17-1022,56.1,58.6,2.5,4.4,72740.0,Bachelor's degree,3.9,0.38,Surveyors
+      Aerospace engineers,17-2011,71.6,75.9,4.4,6.1,134830.0,Bachelor's degree,4.5,0.017,Aerospace engineers
+      Agricultural engineers,17-2021,1.7,1.8,0.1,5.9,84630.0,Bachelor's degree,0.1,0.49,Agricultural engineers
+      Bioengineers and biomedical engineers,17-2031,22.2,23.3,1.1,5.2,106950.0,Bachelor's degree,1.3,0.037,Biomedical engineers
+      Chemical engineers,17-2041,21.6,22.1,0.6,2.6,121860.0,Bachelor's degree,1.1,0.017,Chemical engineers
+      Civil engineers,17-2051,368.9,387.5,18.5,5.0,99590.0,Bachelor's degree,23.6,0.019,Civil engineers
+      Computer hardware engineers,17-2061,76.8,82.4,5.6,7.3,155020.0,Bachelor's degree,4.7,0.22,Computer hardware engineers
+        Electrical engineers,17-2071,192.0,205.7,13.8,7.2,111910.0,Bachelor's degree,11.7,0.1,Electrical engineers
+"        Electronics engineers, except computer",17-2072,95.9,101.8,6.0,6.2,127590.0,Bachelor's degree,5.7,0.025,"Electronics engineers, except computer"
+      Environmental engineers,17-2081,39.4,41.0,1.5,3.9,104170.0,Bachelor's degree,3.0,0.018,Environmental engineers
+"        Health and safety engineers, except mining safety engineers and inspectors",17-2111,23.8,24.9,1.1,4.4,109660.0,Bachelor's degree,1.5,0.028,"Health and safety engineers, except mining safety engineers and inspectors"
+        Industrial engineers,17-2112,351.1,389.6,38.5,11.0,101140.0,Bachelor's degree,25.2,0.029,Industrial engineers
+      Marine engineers and naval architects,17-2121,8.5,9.0,0.5,5.8,105670.0,Bachelor's degree,0.6,0.01,Marine engineers and naval architects
+      Materials engineers,17-2131,23.0,24.3,1.3,5.7,108310.0,Bachelor's degree,1.5,0.021,Materials engineers
+      Mechanical engineers,17-2141,293.1,319.6,26.5,9.1,102320.0,Bachelor's degree,18.1,0.011,Mechanical engineers
+"      Mining and geological engineers, including mining safety engineers",17-2151,7.0,7.0,0.0,0.7,101020.0,Bachelor's degree,0.4,0.14,"Mining and geological engineers, including mining safety engineers"
+      Nuclear engineers,17-2161,15.4,15.3,-0.2,-1.1,127520.0,Bachelor's degree,0.8,0.07,Nuclear engineers
+      Petroleum engineers,17-2171,19.6,19.8,0.2,1.3,141280.0,Bachelor's degree,1.2,0.16,Petroleum engineers
+"      Engineers, all other",17-2199,158.8,162.1,3.3,2.1,117750.0,Bachelor's degree,9.3,0.014,"Engineers, all other"
+        Architectural and civil drafters,17-3011,110.5,115.1,4.6,4.1,64280.0,Associate's degree,10.0,0.52,Architectural and civil drafters
+        Electrical and electronics drafters,17-3012,21.6,20.4,-1.2,-5.6,73720.0,Associate's degree,1.7,0.81,Electrical and electronics drafters
+        Mechanical drafters,17-3013,42.9,40.1,-2.8,-6.5,68510.0,Associate's degree,3.3,0.68,Mechanical drafters
+        Aerospace engineering and operations technologists and technicians,17-3021,9.3,10.1,0.8,8.1,79830.0,Associate's degree,0.9,0.48,Aerospace engineering and operations technicians
+        Civil engineering technologists and technicians,17-3022,64.9,66.2,1.4,2.1,64200.0,Associate's degree,5.5,0.75,Civil engineering technicians
+        Electrical and electronic engineering technologists and technicians,17-3023,93.7,94.3,0.6,0.6,77180.0,Associate's degree,8.4,0.84,Electrical and electronics engineering technicians
+        Electro-mechanical and mechatronics technologists and technicians,17-3024,15.0,15.1,0.2,1.1,70760.0,Associate's degree,1.3,0.81,Electro-mechanical technicians
+        Environmental engineering technologists and technicians,17-3025,12.9,13.0,0.1,1.2,58890.0,Associate's degree,1.1,0.25,Environmental engineering technicians
+        Industrial engineering technologists and technicians,17-3026,74.6,75.9,1.3,1.7,64790.0,Associate's degree,6.3,0.03,Industrial engineering technicians
+        Mechanical engineering technologists and technicians,17-3027,38.3,38.3,0.0,0.0,68730.0,Associate's degree,3.2,0.38,Mechanical engineering technicians
+"        Engineering technologists and technicians, except drafters, all other",17-3029,67.3,68.3,1.0,1.5,77390.0,Associate's degree,5.7,0.24,"Engineering technicians, except drafters, all other"
+      Surveying and mapping technicians,17-3031,59.4,62.1,2.7,4.5,51940.0,High school diploma or equivalent,7.6,0.96,Surveying and mapping technicians
+        Animal scientists,19-1011,2.8,2.9,0.2,5.8,79120.0,Bachelor's degree,0.2,0.061,Animal scientists
+        Food scientists and technologists,19-1012,15.2,16.2,1.0,6.5,85310.0,Bachelor's degree,1.2,0.077,Food scientists and technologists
+        Soil and plant scientists,19-1013,20.7,21.8,1.1,5.4,71410.0,Bachelor's degree,1.7,0.021,Soil and plant scientists
+        Biochemists and biophysicists,19-1021,35.6,37.6,2.1,5.8,103650.0,Doctoral or professional degree,2.9,0.027,Biochemists and biophysicists
+        Microbiologists,19-1022,20.7,21.6,0.8,4.1,87330.0,Bachelor's degree,1.7,0.012,Microbiologists
+        Zoologists and wildlife biologists,19-1023,18.2,18.5,0.3,1.6,72860.0,Bachelor's degree,1.4,0.3,Zoologists and wildlife biologists
+"        Biological scientists, all other",19-1029,63.7,64.5,0.8,1.2,93330.0,Bachelor's degree,4.8,0.015,"Biological scientists, all other"
+        Conservation scientists,19-1031,28.5,29.5,1.0,3.4,67950.0,Bachelor's degree,2.5,0.016,Conservation scientists
+        Foresters,19-1032,13.8,14.0,0.2,1.2,70660.0,Bachelor's degree,1.1,0.0081,Foresters
+        Epidemiologists,19-1041,12.3,14.3,2.0,16.2,83980.0,Master's degree,0.8,0.2,Epidemiologists
+"        Medical scientists, except epidemiologists",19-1042,165.3,179.6,14.3,8.7,100590.0,Doctoral or professional degree,9.6,0.0045,"Medical scientists, except epidemiologists"
+        Astronomers,19-2011,1.8,1.8,0.0,2.2,132170.0,Doctoral or professional degree,0.1,0.041,Astronomers
+        Physicists,19-2012,24.6,25.6,1.0,4.0,166290.0,Doctoral or professional degree,1.7,0.1,Physicists
+      Atmospheric and space scientists,19-2021,9.4,9.5,0.1,0.7,97450.0,Bachelor's degree,0.7,0.67,Atmospheric and space scientists
+        Chemists,19-2031,86.8,91.0,4.3,4.9,84150.0,Bachelor's degree,6.3,0.1,Chemists
+        Materials scientists,19-2032,8.7,9.1,0.4,4.9,104160.0,Bachelor's degree,0.6,0.021,Materials scientists
+"        Environmental scientists and specialists, including health",19-2041,90.3,94.3,4.0,4.4,80060.0,Bachelor's degree,8.5,0.033,"Environmental scientists and specialists, including health"
+"        Geoscientists, except hydrologists and geographers",19-2042,25.1,26.0,0.8,3.2,99240.0,Bachelor's degree,2.0,0.63,"Geoscientists, except hydrologists and geographers"
+        Hydrologists,19-2043,6.3,6.3,0.0,-0.1,92060.0,Bachelor's degree,0.5,0.014,Hydrologists
+"      Physical scientists, all other",19-2099,31.9,32.1,0.2,0.6,117960.0,Bachelor's degree,2.0,0.43,"Physical scientists, all other"
+      Economists,19-3011,17.6,17.8,0.2,1.2,115440.0,Master's degree,0.9,0.43,Economists
+      Survey researchers,19-3022,8.8,8.3,-0.5,-5.2,63380.0,Master's degree,0.7,0.23,Survey researchers
+        Industrial-organizational psychologists,19-3032,5.6,5.9,0.3,6.3,109840.0,Master's degree,0.4,0.012,Industrial-organizational psychologists
+"        Psychologists, all other",19-3039,55.3,57.7,2.4,4.3,117580.0,Master's degree,3.9,0.0043,"Psychologists, all other"
+      Sociologists,19-3041,3.4,3.6,0.1,3.6,101690.0,Master's degree,0.3,0.059,Sociologists
+      Urban and regional planners,19-3051,44.7,46.2,1.5,3.4,83720.0,Master's degree,3.4,0.13,Urban and regional planners
+        Anthropologists and archeologists,19-3091,8.8,9.2,0.3,3.7,64910.0,Master's degree,0.8,0.0077,Anthropologists and archeologists
+        Geographers,19-3092,1.5,1.5,0.0,-3.1,97200.0,Bachelor's degree,0.1,0.25,Geographers
+        Historians,19-3093,3.4,3.5,0.1,2.2,74050.0,Master's degree,0.3,0.44,Historians
+        Political scientists,19-3094,6.5,6.3,-0.2,-3.1,139380.0,Master's degree,0.5,0.039,Political scientists
+"        Social scientists and related workers, all other",19-3099,40.8,40.1,-0.7,-1.7,100340.0,Bachelor's degree,3.2,0.04,"Social scientists and related workers, all other"
+      Biological technicians,19-4021,82.7,85.6,2.9,3.5,52000.0,Bachelor's degree,9.1,0.3,Biological technicians
+      Chemical technicians,19-4031,57.0,59.0,2.1,3.7,57790.0,Associate's degree,6.7,0.57,Chemical technicians
+      Nuclear technicians,19-4051,6.0,5.5,-0.5,-7.7,104240.0,Associate's degree,0.7,0.85,Nuclear technicians
+      Social science research assistants,19-4061,40.6,42.3,1.8,4.4,58040.0,Bachelor's degree,5.2,0.65,Social science research assistants
+        Forensic science technicians,19-4092,20.7,23.3,2.6,12.8,67440.0,Bachelor's degree,2.9,0.0095,Forensic science technicians
+"        Life, physical, and social science technicians, all other",19-4099,83.2,86.2,2.9,3.5,60130.0,Associate's degree,10.6,0.61,"Life, physical, and social science technicians, all other"
+"        Educational, guidance, and career counselors and advisors",21-1012,376.3,389.6,13.3,3.5,65140.0,Master's degree,31.0,0.0085,"Educational, guidance, school, and vocational counselors"
+        Marriage and family therapists,21-1013,77.8,87.7,9.8,12.6,63780.0,Master's degree,7.7,0.014,Marriage and family therapists
+        Rehabilitation counselors,21-1015,91.9,93.2,1.3,1.4,46110.0,Master's degree,10.0,0.0094,Rehabilitation counselors
+"        Child, family, and school social workers",21-1021,399.9,413.3,13.4,3.4,58570.0,Bachelor's degree,35.1,0.028,"Child, family, and school social workers"
+        Healthcare social workers,21-1022,193.2,208.1,14.8,7.7,68090.0,Master's degree,18.4,0.0035,Healthcare social workers
+        Mental health and substance abuse social workers,21-1023,136.8,150.1,13.3,9.7,60060.0,Master's degree,13.5,0.0031,Mental health and substance abuse social workers
+        Health education specialists,21-1091,71.8,75.0,3.2,4.5,63000.0,Bachelor's degree,7.9,0.045,Health educators
+        Probation officers and correctional treatment specialists,21-1092,92.3,94.8,2.4,2.6,64520.0,Bachelor's degree,7.9,0.25,Probation officers and correctional treatment specialists
+        Social and human service assistants,21-1093,449.6,478.5,28.9,6.4,45120.0,High school diploma or equivalent,50.6,0.13,Social and human service assistants
+      Clergy,21-2011,262.0,264.6,2.6,1.0,60820.0,Bachelor's degree,23.0,0.0081,Clergy
+"      Directors, religious activities and education",21-2021,138.9,141.8,2.9,2.1,54840.0,Bachelor's degree,13.8,0.025,"Directors, religious activities and education"
+        Lawyers,23-1011,864.8,900.7,35.9,4.1,151160.0,Doctoral or professional degree,31.5,0.035,Lawyers
+        Judicial law clerks,23-1012,14.5,14.9,0.4,2.5,60400.0,Doctoral or professional degree,1.0,0.41,Judicial law clerks
+"        Administrative law judges, adjudicators, and hearing officers",23-1021,17.5,17.4,-0.1,-0.7,115230.0,Doctoral or professional degree,0.5,0.64,"Administrative law judges, adjudicators, and hearing officers"
+"        Arbitrators, mediators, and conciliators",23-1022,9.1,9.5,0.4,4.3,67710.0,Bachelor's degree,0.3,0.06,"Arbitrators, mediators, and conciliators"
+"        Judges, magistrate judges, and magistrates",23-1023,27.3,28.0,0.7,2.5,156210.0,Doctoral or professional degree,0.9,0.4,"Judges, magistrate judges, and magistrates"
+      Paralegals and legal assistants,23-2011,376.2,376.8,0.6,0.2,61010.0,Associate's degree,39.3,0.94,Paralegals and legal assistants
+"        Title examiners, abstractors, and searchers",23-2093,57.4,58.5,1.1,2.0,54980.0,High school diploma or equivalent,5.4,0.99,"Title examiners, abstractors, and searchers"
+"        Preschool teachers, except special education",25-2011,555.1,578.1,22.9,4.1,37120.0,Associate's degree,65.5,0.0074,"Preschool reachers, except special education"
+"        Kindergarten teachers, except special education",25-2012,117.2,115.2,-1.9,-1.6,61430.0,Bachelor's degree,12.8,0.15,"Kindergarten teachers, except special education"
+"        Elementary school teachers, except special education",25-2021,1422.7,1394.8,-27.9,-2.0,62340.0,Bachelor's degree,91.0,0.0044,"Elementary school teachers, except special education"
+"        Middle school teachers, except special and career/technical education",25-2022,633.7,621.3,-12.4,-2.0,62970.0,Bachelor's degree,40.5,0.17,"Middle school teachers, except special and career/technical education"
+"        Career/technical education teachers, middle school",25-2023,14.0,13.8,-0.3,-2.0,63620.0,Bachelor's degree,0.9,0.26,"Career/technical education teachers, middle school"
+"        Secondary school teachers, except special and career/technical education",25-2031,1094.5,1076.7,-17.8,-1.6,64580.0,Bachelor's degree,66.2,0.0078,"Secondary school teachers, except special and career/technical education"
+"        Career/technical education teachers, secondary school",25-2032,103.4,101.5,-1.9,-1.8,63910.0,Bachelor's degree,6.2,0.0088,"Career/technical education teachers, secondary school"
+"      Adult basic education, adult secondary education, and english as a second language instructors",25-3011,40.9,35.3,-5.6,-13.7,59950.0,Bachelor's degree,3.9,0.19,Adult basic and secondary education and literacy teachers and instructors
+      Self-enrichment teachers,25-3021,417.5,433.0,15.5,3.7,45590.0,High school diploma or equivalent,51.4,0.13,Self-enrichment education teachers
+        Archivists,25-4011,9.3,9.7,0.4,3.8,61570.0,Master's degree,1.1,0.76,Archivists
+        Curators,25-4012,15.1,16.2,1.1,7.0,61770.0,Master's degree,1.8,0.0068,Curators
+        Museum technicians and conservators,25-4013,15.7,16.5,0.8,5.4,47460.0,Bachelor's degree,1.9,0.59,Museum technicians and conservators
+      Library technicians,25-4031,78.6,73.2,-5.4,-6.8,39970.0,Postsecondary nondegree award,13.0,0.99,Library technicians
+      Farm and home management educators,25-9021,12.4,12.1,-0.3,-2.5,58120.0,Master's degree,1.1,0.0075,Farm and home management advisors
+      Instructional coordinators,25-9031,232.6,235.5,2.9,1.3,74720.0,Master's degree,21.9,0.0042,Instructional coordinators
+        Art directors,27-1011,135.0,140.7,5.7,4.2,111040.0,Bachelor's degree,12.3,0.023,Art directors
+        Craft artists,27-1012,11.6,11.9,0.2,2.1,38480.0,No formal educational credential,1.0,0.035,Craft artists
+"        Fine artists, including painters, sculptors, and illustrators",27-1013,26.5,26.2,-0.3,-1.2,60560.0,Bachelor's degree,2.2,0.042,"Fine artists, including painters, sculptors, and illustrators"
+        Special effects artists and animators,27-1014,57.1,58.0,0.9,1.6,99800.0,Bachelor's degree,5.0,0.015,Multimedia artists and animators
+        Commercial and industrial designers,27-1021,30.6,31.6,1.0,3.2,79450.0,Bachelor's degree,2.5,0.037,Commercial and industrial designers
+        Fashion designers,27-1022,25.7,26.2,0.5,2.0,80690.0,Bachelor's degree,2.3,0.021,Fashion designers
+        Floral designers,27-1023,43.8,41.2,-2.6,-5.9,36120.0,High school diploma or equivalent,5.1,0.047,Floral designers
+        Graphic designers,27-1024,265.9,271.5,5.7,2.1,61300.0,Bachelor's degree,20.0,0.082,Graphic designers
+        Interior designers,27-1025,87.1,89.9,2.8,3.2,63490.0,Bachelor's degree,7.8,0.022,Interior designers
+        Merchandise displayers and window trimmers,27-1026,193.0,199.3,6.2,3.2,37350.0,High school diploma or equivalent,20.8,0.48,Merchandise displayers and window trimmers
+        Set and exhibit designers,27-1027,31.3,32.0,0.7,2.3,66280.0,Bachelor's degree,2.5,0.0055,Set and exhibit designers
+        Actors,27-2011,57.0,57.1,0.2,0.3,,"Some college, no degree",6.3,0.37,Actors
+        Producers and directors,27-2012,167.0,175.2,8.3,4.9,83480.0,Bachelor's degree,12.8,0.022,Producers and directors
+        Athletes and sports competitors,27-2021,19.1,20.2,1.0,5.5,62360.0,No formal educational credential,2.1,0.28,Athletes and sports competitors
+        Coaches and scouts,27-2022,306.5,326.0,19.5,6.4,45920.0,Bachelor's degree,41.8,0.013,Coaches and scouts
+"        Umpires, referees, and other sports officials",27-2023,19.3,20.4,1.1,5.7,38820.0,High school diploma or equivalent,4.6,0.98,"Umpires, referees, and other sports officials"
+        Dancers,27-2031,12.3,12.9,0.6,4.5,,No formal educational credential,1.8,0.13,Dancers
+        Choreographers,27-2032,4.6,4.9,0.3,6.1,55600.0,High school diploma or equivalent,0.7,0.004,Choreographers
+        Music directors and composers,27-2041,47.3,47.2,-0.1,-0.3,63670.0,Bachelor's degree,4.3,0.015,Music directors and composers
+        Musicians and singers,27-2042,169.8,171.6,1.8,1.1,,No formal educational credential,19.4,0.074,Musicians and singers
+      Broadcast announcers and radio disc jockeys,27-3011,24.1,22.8,-1.3,-5.5,45680.0,Bachelor's degree,2.3,0.1,Radio and television announcers
+      Public relations specialists,27-3031,315.9,331.0,15.0,4.8,69780.0,Bachelor's degree,27.6,0.18,Public relations specialists
+        Editors,27-3041,115.8,116.5,0.7,0.6,75260.0,Bachelor's degree,9.8,0.055,Editors
+        Technical writers,27-3042,56.4,56.9,0.5,0.9,91670.0,Bachelor's degree,4.5,0.89,Technical writers
+        Writers and authors,27-3043,135.4,140.3,4.9,3.6,72270.0,Bachelor's degree,13.4,0.038,Writers and authors
+        Interpreters and translators,27-3091,75.3,76.6,1.3,1.7,59440.0,Bachelor's degree,6.9,0.38,Interpreters and translators
+        Audio and video technicians,27-4011,92.3,95.4,3.1,3.3,54830.0,Postsecondary nondegree award,7.3,0.55,Audio and video equipment technicians
+        Broadcast technicians,27-4012,24.8,24.2,-0.7,-2.8,53920.0,Associate's degree,1.8,0.74,Broadcast technicians
+        Sound engineering technicians,27-4014,16.9,16.6,-0.3,-1.7,66430.0,Postsecondary nondegree award,1.2,0.13,Sound engineering technicians
+      Photographers,27-4021,151.2,154.0,2.8,1.8,42520.0,High school diploma or equivalent,12.7,0.021,Photographers
+"        Camera operators, television, video, and film",27-4031,36.4,36.9,0.4,1.2,68810.0,Bachelor's degree,2.9,0.6,"Camera operators, television, video, and motion picture"
+        Film and video editors,27-4032,43.5,45.2,1.7,4.0,70980.0,Bachelor's degree,3.6,0.31,Film and video editors
+      Chiropractors,29-1011,57.2,62.6,5.4,9.5,79000.0,Doctoral or professional degree,2.8,0.027,Chiropractors
+"        Dentists, general",29-1021,129.8,135.2,5.4,4.1,172790.0,Doctoral or professional degree,3.9,0.0044,"Dentists, general"
+        Oral and maxillofacial surgeons,29-1022,6.1,6.4,0.3,4.1,,Doctoral or professional degree,0.2,0.0036,Oral and maxillofacial surgeons
+        Orthodontists,29-1023,5.9,6.2,0.3,4.4,,Doctoral or professional degree,0.2,0.023,Orthodontists
+        Prosthodontists,29-1024,0.9,0.9,0.0,4.5,,Doctoral or professional degree,0.0,0.055,Prosthodontists
+      Dietitians and nutritionists,29-1031,90.9,95.9,5.0,5.5,73850.0,Bachelor's degree,6.2,0.0039,Dietitians and nutritionists
+      Optometrists,29-1041,47.8,51.6,3.8,8.0,134830.0,Doctoral or professional degree,2.4,0.14,Optometrists
+      Pharmacists,29-1051,335.1,350.5,15.4,4.6,137480.0,Doctoral or professional degree,14.2,0.012,Pharmacists
+      Physician assistants,29-1071,162.7,195.8,33.2,20.4,133260.0,Master's degree,12.0,0.14,Physician assistants
+      Podiatrists,29-1081,9.7,9.9,0.2,1.8,152800.0,Doctoral or professional degree,0.3,0.0046,Podiatrists
+        Occupational therapists,29-1122,160.0,182.1,22.1,13.8,98340.0,Master's degree,10.2,0.0035,Occupational therapists
+        Physical therapists,29-1123,267.2,296.4,29.3,10.9,101020.0,Doctoral or professional degree,13.2,0.021,Physical therapists
+        Radiation therapists,29-1124,19.2,19.6,0.4,1.9,101990.0,Associate's degree,0.9,0.34,Radiation therapists
+        Recreational therapists,29-1125,16.1,16.6,0.5,3.3,60280.0,Bachelor's degree,1.3,0.0028,Recreational therapists
+        Respiratory therapists,29-1126,139.6,156.4,16.8,12.1,80450.0,Associate's degree,8.8,0.066,Respiratory therapists
+        Speech-language pathologists,29-1127,187.4,215.5,28.2,15.0,95410.0,Master's degree,13.3,0.0064,Speech-language pathologists
+      Veterinarians,29-1131,86.4,94.7,8.3,9.6,125510.0,Doctoral or professional degree,3.0,0.038,Veterinarians
+      Registered nurses,29-1141,3391.0,3557.1,166.1,4.9,93600.0,Bachelor's degree,189.1,0.009,Registered nurses
+      Audiologists,29-1181,15.8,17.3,1.5,9.5,92120.0,Doctoral or professional degree,0.7,0.0033,Audiologists
+        Cardiovascular technologists and technicians,29-2031,64.7,66.6,1.9,3.0,67260.0,Associate's degree,3.8,0.23,Cardiovascular technologists and technicians
+        Diagnostic medical sonographers,29-2032,90.0,101.7,11.7,13.0,89340.0,Associate's degree,5.8,0.35,Diagnostic medical sonographers
+        Nuclear medicine technologists,29-2033,20.0,20.6,0.6,3.0,97020.0,Associate's degree,0.9,0.13,Nuclear medicine technologists
+        Dietetic technicians,29-2051,30.9,31.7,0.8,2.5,37040.0,Associate's degree,4.0,0.13,Dietetic technicians
+        Pharmacy technicians,29-2052,490.4,521.8,31.5,6.4,43460.0,High school diploma or equivalent,49.0,0.92,Pharmacy technicians
+        Psychiatric technicians,29-2053,144.5,173.3,28.9,20.0,42590.0,Postsecondary nondegree award,15.9,0.043,Psychiatric technicians
+        Surgical technologists,29-2055,115.6,120.8,5.2,4.5,62830.0,Postsecondary nondegree award,7.0,0.34,Surgical technologists
+        Veterinary technologists and technicians,29-2056,134.2,146.4,12.2,9.1,45980.0,Associate's degree,14.3,0.029,Veterinary technologists and technicians
+      Licensed practical and licensed vocational nurses,29-2061,651.4,668.5,17.1,2.6,62340.0,Postsecondary nondegree award,54.4,0.058,Licensed practical and licensed vocational nurses
+"      Opticians, dispensing",29-2081,79.9,82.2,2.3,2.9,46560.0,High school diploma or equivalent,6.8,0.71,"Opticians, dispensing"
+        Orthotists and prosthetists,29-2091,10.1,11.5,1.3,13.3,78310.0,Master's degree,0.9,0.0035,Orthotists and prosthetists
+        Athletic trainers,29-9091,33.9,37.6,3.8,11.1,60250.0,Master's degree,2.4,0.0071,Athletic trainers
+        Occupational therapy assistants,31-2011,49.2,58.7,9.5,19.2,68340.0,Associate's degree,7.2,0.028,Occupational therapy assistants
+        Occupational therapy aides,31-2012,5.2,5.3,0.1,2.5,37370.0,High school diploma or equivalent,0.6,0.27,Occupational therapy aides
+        Physical therapist assistants,31-2021,111.5,136.0,24.5,22.0,65510.0,Associate's degree,19.8,0.018,Physical therapist assistants
+        Physical therapist aides,31-2022,45.6,46.9,1.3,2.8,34520.0,High school diploma or equivalent,6.6,0.61,Physical therapist aides
+      Massage therapists,31-9011,168.0,193.9,25.9,15.4,57950.0,Postsecondary nondegree award,24.7,0.54,Massage therapists
+        Dental assistants,31-9091,381.9,406.3,24.4,6.4,47300.0,Postsecondary nondegree award,52.9,0.51,Dental assistants
+        Medical assistants,31-9092,811.0,912.2,101.2,12.5,44200.0,Postsecondary nondegree award,112.3,0.3,Medical assistants
+        Medical equipment preparers,31-9093,76.5,84.2,7.6,10.0,46490.0,High school diploma or equivalent,10.9,0.78,Medical equipment preparers
+        Medical transcriptionists,31-9094,43.9,41.8,-2.2,-4.9,37550.0,Postsecondary nondegree award,7.4,0.89,Medical transcriptionists
+        Pharmacy aides,31-9095,41.1,41.1,-0.1,-0.1,37000.0,High school diploma or equivalent,6.1,0.72,Pharmacy aides
+        Veterinary assistants and laboratory animal caretakers,31-9096,117.8,128.1,10.3,8.7,37320.0,High school diploma or equivalent,22.2,0.86,Veterinary assistants and laboratory animal caretakers
+        First-line supervisors of correctional officers,33-1011,57.1,55.5,-1.6,-2.8,76310.0,High school diploma or equivalent,4.3,0.025,First-line supervisors of oorrectional officers
+        First-line supervisors of police and detectives,33-1012,160.8,165.4,4.6,2.9,105980.0,High school diploma or equivalent,10.9,0.0044,First-line supervisors of police and detectives
+      First-line supervisors of firefighting and prevention workers,33-1021,97.2,100.5,3.4,3.4,92430.0,Postsecondary nondegree award,6.5,0.0036,First-line supervisors of fire fighting and prevention workers
+      Firefighters,33-2011,344.9,356.7,11.8,3.4,59530.0,Postsecondary nondegree award,27.1,0.17,Firefighters
+        Fire inspectors and investigators,33-2021,14.7,15.2,0.6,3.8,78060.0,Postsecondary nondegree award,1.5,0.48,Fire inspectors and investigators
+        Forest fire inspectors and prevention specialists,33-2022,2.9,3.3,0.4,14.6,52380.0,High school diploma or equivalent,0.3,0.048,Forest fire inspectors and prevention specialists
+        Bailiffs,33-3011,19.0,18.6,-0.4,-2.2,57050.0,High school diploma or equivalent,1.8,0.36,Bailiffs
+        Correctional officers and jailers,33-3012,387.5,357.4,-30.1,-7.8,57970.0,High school diploma or equivalent,30.1,0.6,Correctional officers and jailers
+      Detectives and criminal investigators,33-3021,117.9,117.1,-0.8,-0.7,93580.0,High school diploma or equivalent,7.8,0.34,Detectives and criminal investigators
+      Fish and game wardens,33-3031,7.0,6.6,-0.4,-6.0,68180.0,Bachelor's degree,0.5,0.08,Fish and game wardens
+      Parking enforcement workers,33-3041,8.4,8.2,-0.1,-1.5,47150.0,High school diploma or equivalent,0.7,0.84,Parking enforcement workers
+        Police and sheriff's patrol officers,33-3051,698.8,720.8,22.0,3.1,76290.0,High school diploma or equivalent,53.7,0.098,Police and sheriff's patrol officers
+        Transit and railroad police,33-3052,3.1,3.2,0.1,3.0,82320.0,High school diploma or equivalent,0.2,0.57,Transit and railroad police
+      Animal control workers,33-9011,12.2,12.7,0.5,3.9,45830.0,High school diploma or equivalent,1.3,0.21,Animal control workers
+      Private detectives and investigators,33-9021,43.6,46.2,2.6,6.0,52370.0,High school diploma or equivalent,3.9,0.31,Private detectives and investigators
+        Gambling surveillance officers and gambling investigators,33-9031,10.3,10.3,0.0,0.3,43900.0,High school diploma or equivalent,1.3,0.95,Gaming surveillance officers and gaming investigators
+        Security guards,33-9032,1262.1,1267.1,5.1,0.4,38370.0,High school diploma or equivalent,161.0,0.84,Security guards
+        Crossing guards and flaggers,33-9091,91.4,94.7,3.3,3.6,37700.0,No formal educational credential,18.0,0.49,Crossing guards
+"        Lifeguards, ski patrol, and other recreational protective service workers",33-9092,149.7,158.4,8.7,5.8,33720.0,No formal educational credential,42.7,0.67,"Lifeguards, ski patrol, and other recreational protective service workers"
+      Chefs and head cooks,35-1011,197.3,211.3,14.0,7.1,60990.0,High school diploma or equivalent,24.4,0.1,Chefs and head cooks
+      First-line supervisors of food preparation and serving workers,35-1012,1215.0,1288.0,73.0,6.0,42010.0,High school diploma or equivalent,183.9,0.63,First-line supervisors of food preparation and serving workers
+"        Cooks, fast food",35-2011,669.5,579.2,-90.3,-13.5,30160.0,No formal educational credential,82.1,0.81,"Cooks, fast food"
+"        Cooks, institution and cafeteria",35-2012,466.1,475.4,9.3,2.0,36450.0,No formal educational credential,69.7,0.83,"Cooks, institution and cafeteria"
+"        Cooks, private household",35-2013,34.2,36.0,1.7,5.1,44530.0,Postsecondary nondegree award,5.3,0.3,"Cooks, private household"
+"        Cooks, restaurant",35-2014,1460.2,1677.2,217.0,14.9,36830.0,No formal educational credential,250.7,0.96,"Cooks, restaurant"
+"        Cooks, short order",35-2015,151.1,142.7,-8.4,-5.6,35620.0,No formal educational credential,20.6,0.94,"Cooks, short order"
+      Food preparation workers,35-2021,902.7,871.8,-30.9,-3.4,34220.0,No formal educational credential,148.0,0.87,Food preparation workers
+      Bartenders,35-3011,756.7,801.5,44.8,5.9,33530.0,No formal educational credential,129.6,0.77,Bartenders
+      Waiters and waitresses,35-3031,2329.7,2313.5,-16.3,-0.7,33760.0,No formal educational credential,456.7,0.94,Waiters and waitresses
+"      Food servers, nonrestaurant",35-3041,277.2,285.3,8.2,3.0,34460.0,No formal educational credential,48.0,0.86,"Food servers, nonrestaurant"
+      Dining room and cafeteria attendants and bartender helpers,35-9011,527.4,560.6,33.1,6.3,32670.0,No formal educational credential,99.6,0.91,Dining room and cafeteria attendants and bartender helpers
+      Dishwashers,35-9021,477.7,478.6,0.9,0.2,33670.0,No formal educational credential,76.8,0.77,Dishwashers
+"      Hosts and hostesses, restaurant, lounge, and coffee shop",35-9031,429.9,423.5,-6.4,-1.5,30380.0,No formal educational credential,107.7,0.97,"Hosts and hostesses, restaurant, lounge, and coffee shop"
+      First-line supervisors of housekeeping and janitorial workers,37-1011,269.8,276.4,6.7,2.5,47520.0,High school diploma or equivalent,33.0,0.94,First-line Supervisors of housekeeping and janitorial workers
+"      First-line supervisors of landscaping, lawn service, and groundskeeping workers",37-1012,224.7,230.0,5.2,2.3,56170.0,High school diploma or equivalent,23.2,0.57,"First-line supervisors of landscaping, lawn service, and groundskeeping workers"
+"        Janitors and cleaners, except maids and housekeeping cleaners",37-2011,2447.7,2495.5,47.8,2.0,35930.0,No formal educational credential,351.3,0.66,"Janitors and cleaners, except maids and housekeeping cleaners"
+        Maids and housekeeping cleaners,37-2012,1356.8,1362.8,6.0,0.4,34660.0,No formal educational credential,193.5,0.69,Maids and housekeeping cleaners
+      Pest control workers,37-2021,102.4,107.5,5.1,4.9,44730.0,High school diploma or equivalent,13.4,0.66,Pest control workers
+      Landscaping and groundskeeping workers,37-3011,1192.5,1235.0,42.4,3.6,38090.0,No formal educational credential,158.2,0.95,Landscaping and groundskeeping workers
+"      Pesticide handlers, sprayers, and applicators, vegetation",37-3012,29.6,30.7,1.1,3.8,45200.0,High school diploma or equivalent,4.1,0.97,"Pesticide handlers, sprayers, and applicators, vegetation"
+      Tree trimmers and pruners,37-3013,60.1,62.1,2.0,3.3,50430.0,High school diploma or equivalent,7.4,0.77,Tree trimmers and pruners
+      Animal trainers,39-2011,47.3,49.8,2.4,5.1,38750.0,High school diploma or equivalent,7.1,0.1,Animal trainers
+      Animal caretakers,39-2021,392.1,439.6,47.6,12.1,33470.0,High school diploma or equivalent,74.6,0.82,Nonfarm animal caretakers
+        Gambling dealers,39-3011,88.7,88.1,-0.6,-0.6,33280.0,High school diploma or equivalent,14.1,0.96,Gaming dealers
+        Gambling and sports book writers and runners,39-3012,8.2,7.7,-0.5,-6.1,30460.0,High school diploma or equivalent,1.2,0.91,Gaming and sports book writers and runners
+      Motion picture projectionists,39-3021,2.0,2.0,-0.1,-3.7,38180.0,No formal educational credential,0.5,0.97,Motion picture projectionists
+"      Ushers, lobby attendants, and ticket takers",39-3031,121.7,123.1,1.4,1.2,31150.0,No formal educational credential,30.8,0.96,"Ushers, lobby attendants, and ticket takers"
+        Amusement and recreation attendants,39-3091,392.3,405.5,13.2,3.4,30490.0,No formal educational credential,102.4,0.72,Amusement and recreation attendants
+        Costume attendants,39-3092,6.7,7.1,0.4,5.9,54810.0,High school diploma or equivalent,1.8,0.61,Costume attendants
+"        Locker room, coatroom, and dressing room attendants",39-3093,15.6,16.6,1.0,6.4,34800.0,High school diploma or equivalent,4.2,0.43,"Locker room, coatroom, and dressing room attendants"
+        Embalmers,39-4011,3.6,3.7,0.0,1.3,56280.0,Associate's degree,0.6,0.54,Embalmers
+      Funeral attendants,39-4021,32.5,33.5,1.0,3.1,34610.0,High school diploma or equivalent,5.7,0.37,Funeral attendants
+        Barbers,39-5011,76.0,79.2,3.1,4.1,38960.0,Postsecondary nondegree award,8.4,0.8,Barbers
+"        Hairdressers, hairstylists, and cosmetologists",39-5012,575.2,607.4,32.2,5.6,35250.0,Postsecondary nondegree award,75.8,0.11,"Hairdressers, hairstylists, and cosmetologists"
+"        Makeup artists, theatrical and performance",39-5091,7.0,7.6,0.6,8.1,50280.0,Postsecondary nondegree award,1.1,0.01,"Makeup artists, theatrical and performance"
+        Manicurists and pedicurists,39-5092,210.1,224.8,14.7,7.0,34660.0,Postsecondary nondegree award,24.8,0.95,Manicurists and pedicurists
+        Shampooers,39-5093,18.5,19.6,1.0,5.5,31470.0,No formal educational credential,2.7,0.79,Shampooers
+        Skincare specialists,39-5094,97.4,103.9,6.6,6.7,41560.0,Postsecondary nondegree award,14.5,0.29,Skincare specialists
+      Baggage porters and bellhops,39-6011,32.5,32.0,-0.5,-1.6,36020.0,High school diploma or equivalent,4.6,0.83,Baggage porters and bellhops
+      Concierges,39-6012,45.6,46.7,1.1,2.3,37320.0,High school diploma or equivalent,6.8,0.21,Concierges
+      Childcare workers,39-9011,991.6,962.4,-29.2,-2.9,32050.0,High school diploma or equivalent,160.2,0.084,Childcare workers
+        Exercise trainers and group fitness instructors,39-9031,370.1,414.2,44.1,11.9,46180.0,High school diploma or equivalent,74.2,0.085,Fitness trainers and aerobics instructors
+        Recreation workers,39-9032,327.7,341.1,13.4,4.1,35380.0,High school diploma or equivalent,68.1,0.0061,Recreation workers
+      Residential advisors,39-9041,91.2,94.7,3.5,3.8,39180.0,High school diploma or equivalent,17.4,0.064,Residential advisors
+      First-line supervisors of retail sales workers,41-1011,1432.6,1360.3,-72.3,-5.0,47320.0,High school diploma or equivalent,125.1,0.28,First-line supervisors of retail sales workers
+      First-line supervisors of non-retail sales workers,41-1012,320.0,320.0,0.0,0.0,84130.0,High school diploma or equivalent,24.8,0.075,First-line supervisors of non-retail sales workers
+        Cashiers,41-2011,3157.2,2843.6,-313.6,-9.9,31190.0,No formal educational credential,542.6,0.97,Cashiers
+        Gambling change persons and booth cashiers,41-2012,22.6,21.1,-1.5,-6.4,34810.0,No formal educational credential,4.0,0.83,Gaming change persons and booth cashiers
+        Counter and rental clerks,41-2021,408.2,421.3,13.1,3.2,38540.0,No formal educational credential,45.9,0.97,Counter and rental clerks
+        Parts salespersons,41-2022,272.1,280.6,8.5,3.1,37440.0,No formal educational credential,30.2,0.98,Parts salespersons
+      Retail salespersons,41-2031,3936.7,3917.1,-19.6,-0.5,34580.0,No formal educational credential,555.8,0.92,Retail salespersons
+      Advertising sales agents,41-3011,103.7,97.1,-6.6,-6.4,61460.0,High school diploma or equivalent,9.3,0.54,Advertising sales agents
+      Insurance sales agents,41-3021,568.8,589.8,21.1,3.7,60370.0,High school diploma or equivalent,47.0,0.92,Insurance sales agents
+"      Securities, commodities, and financial services sales agents",41-3031,514.5,531.6,17.1,3.3,78140.0,Bachelor's degree,38.1,0.016,"Securities, commodities, and financial services sales agents"
+      Travel agents,41-3041,65.7,67.2,1.4,2.2,48450.0,High school diploma or equivalent,7.1,0.099,Travel agents
+"      Sales representatives, wholesale and manufacturing, technical and scientific products",41-4011,303.2,308.9,5.7,1.9,100070.0,Bachelor's degree,27.2,0.25,"Sales representatives, wholesale and manufacturing, technical and scientific products"
+"      Sales representatives, wholesale and manufacturing, except technical and scientific products",41-4012,1310.5,1314.9,4.4,0.3,66780.0,High school diploma or equivalent,114.8,0.85,"Sales representatives, wholesale and manufacturing, except technical and scientific products"
+        Demonstrators and product promoters,41-9011,79.2,79.1,-0.1,-0.1,37960.0,No formal educational credential,14.0,0.51,Demonstrators and product promoters
+        Models,41-9012,6.7,6.7,0.0,-0.5,89990.0,No formal educational credential,1.2,0.98,Models
+        Real estate brokers,41-9021,111.3,115.0,3.7,3.3,72280.0,High school diploma or equivalent,9.7,0.97,Real estate brokers
+        Real estate sales agents,41-9022,420.9,433.7,12.8,3.1,56320.0,High school diploma or equivalent,36.6,0.86,Real estate sales agents
+      Sales engineers,41-9031,56.8,59.9,3.1,5.5,121520.0,Bachelor's degree,5.0,0.0041,Sales engineers
+      Telemarketers,41-9041,67.4,52.5,-14.9,-22.1,34410.0,No formal educational credential,6.5,0.99,Telemarketers
+"        Door-to-door sales workers, news and street vendors, and related workers",41-9091,25.3,22.8,-2.5,-10.0,34530.0,No formal educational credential,2.7,0.94,"Door-to-door sales workers, news and street vendors, and related workers"
+      First-line supervisors of office and administrative support workers,43-1011,1558.4,1554.4,-3.9,-0.3,66140.0,High school diploma or equivalent,144.5,0.014,First-line supervisors of office and administrative support workers
+"      Switchboard operators, including answering service",43-2011,36.6,27.0,-9.6,-26.3,38370.0,High school diploma or equivalent,2.8,0.96,"Switchboard operators, including answering service"
+      Telephone operators,43-2021,4.0,2.9,-1.1,-27.5,39130.0,High school diploma or equivalent,0.3,0.97,Telephone operators
+      Bill and account collectors,43-3011,166.9,149.4,-17.5,-10.5,46040.0,High school diploma or equivalent,13.7,0.95,Bill and account collectors
+      Billing and posting clerks,43-3021,429.8,427.9,-1.9,-0.4,47170.0,High school diploma or equivalent,42.2,0.96,Billing and posting clerks
+"      Bookkeeping, accounting, and auditing clerks",43-3031,1613.4,1519.1,-94.3,-5.8,49210.0,"Some college, no degree",170.0,0.98,"Bookkeeping, accounting, and auditing clerks"
+      Gambling cage workers,43-3041,14.1,13.4,-0.7,-5.0,36990.0,High school diploma or equivalent,1.3,0.39,Gaming cage workers
+      Payroll and timekeeping clerks,43-3051,161.1,134.2,-27.0,-16.7,55290.0,High school diploma or equivalent,13.0,0.97,Payroll and timekeeping clerks
+      Procurement clerks,43-3061,61.9,56.6,-5.4,-8.7,48510.0,High school diploma or equivalent,4.6,0.98,Procurement clerks
+      Tellers,43-3071,347.4,302.5,-44.9,-12.9,39340.0,High school diploma or equivalent,29.8,0.98,Tellers
+      Brokerage clerks,43-4011,40.8,36.9,-3.9,-9.5,62940.0,High school diploma or equivalent,4.1,0.98,Brokerage clerks
+      Correspondence clerks,43-4021,6.9,6.5,-0.4,-5.6,46740.0,High school diploma or equivalent,0.7,0.86,Correspondence clerks
+"      Court, municipal, and license clerks",43-4031,180.4,185.9,5.5,3.0,47700.0,High school diploma or equivalent,18.5,0.46,"Court, municipal, and license clerks"
+"      Credit authorizers, checkers, and clerks",43-4041,12.0,11.3,-0.7,-6.2,49130.0,High school diploma or equivalent,1.0,0.97,"Credit authorizers, checkers, and clerks"
+      Customer service representatives,43-4051,2814.0,2660.3,-153.7,-5.5,42830.0,High school diploma or equivalent,341.7,0.55,Customer service representatives
+"      Eligibility interviewers, government programs",43-4061,166.8,168.5,1.7,1.0,51500.0,High school diploma or equivalent,14.0,0.7,"Eligibility interviewers, government programs"
+      File clerks,43-4071,84.3,70.9,-13.4,-15.9,41270.0,High school diploma or equivalent,7.3,0.97,File clerks
+"      Hotel, motel, and resort desk clerks",43-4081,264.2,274.0,9.9,3.7,34270.0,High school diploma or equivalent,43.6,0.94,"Hotel, motel, and resort desk clerks"
+"      Interviewers, except eligibility and loan",43-4111,164.3,145.1,-19.1,-11.6,43830.0,High school diploma or equivalent,15.8,0.94,"Interviewers, except eligibility and loan"
+"      Library assistants, clerical",43-4121,84.5,78.9,-5.6,-6.7,36010.0,High school diploma or equivalent,12.8,0.95,"Library assistants, clerical"
+      Loan interviewers and clerks,43-4131,177.6,173.5,-4.1,-2.3,48950.0,High school diploma or equivalent,13.3,0.92,Loan interviewers and clerks
+      New accounts clerks,43-4141,38.9,33.8,-5.2,-13.2,46610.0,High school diploma or equivalent,2.3,0.99,New accounts clerks
+      Order clerks,43-4151,89.5,74.1,-15.4,-17.2,44660.0,"Some college, no degree",8.0,0.98,Order clerks
+"      Human resources assistants, except payroll and timekeeping",43-4161,95.2,88.4,-6.8,-7.1,49440.0,Associate's degree,9.0,0.9,"Human resources assistants, except payroll and timekeeping"
+      Receptionists and information clerks,43-4171,1007.2,1007.6,0.3,0.0,37230.0,High school diploma or equivalent,128.5,0.96,Receptionists and information clerks
+      Reservation and transportation ticket agents and travel clerks,43-4181,131.9,135.6,3.7,2.8,41460.0,High school diploma or equivalent,14.4,0.61,Reservation and transportation ticket agents and travel clerks
+      Cargo and freight agents,43-5011,100.6,109.2,8.6,8.5,49900.0,High school diploma or equivalent,8.8,0.99,Cargo and freight agents
+      Couriers and messengers,43-5021,247.2,267.6,20.4,8.2,38340.0,High school diploma or equivalent,27.9,0.94,Couriers and messengers
+        Public safety telecommunicators,43-5031,105.2,108.9,3.6,3.5,50730.0,High school diploma or equivalent,10.7,0.49,"Police, fire, and ambulance dispatchers"
+"        Dispatchers, except police, fire, and ambulance",43-5032,218.7,216.7,-2.1,-0.9,48880.0,High school diploma or equivalent,18.5,0.96,"Dispatchers, except police, fire, and ambulance"
+"      Meter readers, utilities",43-5041,20.1,17.7,-2.4,-12.0,49180.0,High school diploma or equivalent,1.3,0.85,"Meter readers, utilities"
+        Postal service clerks,43-5051,74.2,71.6,-2.6,-3.5,61630.0,No formal educational credential,6.1,0.95,Postal service clerks
+        Postal service mail carriers,43-5052,319.4,308.1,-11.3,-3.5,57490.0,No formal educational credential,20.6,0.68,Postal service mail carriers
+"        Postal service mail sorters, processors, and processing machine operators",43-5053,106.4,97.5,-8.9,-8.4,56530.0,No formal educational credential,7.8,0.79,"Postal service mail sorters, processors, and processing machine operators"
+"      Production, planning, and expediting clerks",43-5061,388.8,381.7,-7.1,-1.8,57770.0,High school diploma or equivalent,34.1,0.88,"Production, planning, and expediting clerks"
+"      Shipping, receiving, and inventory clerks",43-5071,862.2,795.8,-66.3,-7.7,43190.0,High school diploma or equivalent,69.3,0.98,"Shipping, receiving, and traffic clerks"
+"      Weighers, measurers, checkers, and samplers, recordkeeping",43-5111,49.8,47.4,-2.4,-4.8,45650.0,High school diploma or equivalent,5.3,0.95,"Weighers, measurers, checkers, and samplers, recordkeeping"
+      Executive secretaries and executive administrative assistants,43-6011,502.8,494.9,-7.9,-1.6,74260.0,High school diploma or equivalent,50.0,0.86,Executive secretaries and executive administrative assistants
+      Legal secretaries and administrative assistants,43-6012,156.3,147.3,-9.0,-5.8,54140.0,High school diploma or equivalent,19.6,0.98,Legal secretaries
+      Medical secretaries and administrative assistants,43-6013,850.0,885.3,35.3,4.2,44640.0,High school diploma or equivalent,85.9,0.81,Medical secretaries
+"      Secretaries and administrative assistants, except legal, medical, and executive",43-6014,1944.0,1913.2,-30.8,-1.6,46290.0,High school diploma or equivalent,202.8,0.96,"Secretaries and administrative assistants, except legal, medical, and executive"
+        Data entry keyers,43-9021,141.6,104.9,-36.7,-25.9,39850.0,High school diploma or equivalent,9.5,0.99,Data entry keyers
+        Word processors and typists,43-9022,40.0,25.6,-14.4,-36.1,47850.0,High school diploma or equivalent,2.2,0.81,Word processors and typists
+      Desktop publishers,43-9031,5.0,4.4,-0.6,-12.4,53620.0,Associate's degree,0.4,0.16,Desktop publishers
+      Insurance claims and policy processing clerks,43-9041,256.7,247.2,-9.5,-3.7,48450.0,High school diploma or equivalent,20.3,0.98,Insurance claims and policy processing clerks
+"      Mail clerks and mail machine operators, except postal service",43-9051,67.4,62.9,-4.4,-6.6,38150.0,High school diploma or equivalent,6.9,0.94,"Mail clerks and mail machine operators, except postal service"
+"      Office clerks, general",43-9061,2646.0,2468.2,-177.8,-6.7,43630.0,High school diploma or equivalent,282.4,0.96,"Office clerks, general"
+"      Office machine operators, except computer",43-9071,25.5,21.6,-3.9,-15.2,39020.0,High school diploma or equivalent,2.8,0.92,"Office machine operators, except computer"
+      Proofreaders and copy markers,43-9081,12.0,11.9,-0.1,-0.6,49210.0,Bachelor's degree,1.9,0.84,Proofreaders and copy markers
+      Statistical assistants,43-9111,6.5,6.3,-0.2,-2.5,51440.0,Bachelor's degree,0.8,0.66,Statistical assistants
+"      First-line supervisors of farming, fishing, and forestry workers",45-1011,65.4,67.0,1.6,2.5,59330.0,High school diploma or equivalent,8.5,0.57,"First-line supervisors of farming, fishing, and forestry workers"
+      Agricultural inspectors,45-2011,14.7,14.9,0.2,1.5,50990.0,Bachelor's degree,2.2,0.94,Agricultural inspectors
+      Animal breeders,45-2021,7.9,8.1,0.2,2.4,52000.0,High school diploma or equivalent,1.2,0.95,Animal breeders
+"      Graders and sorters, agricultural products",45-2041,38.9,36.8,-2.1,-5.4,35430.0,No formal educational credential,5.1,0.41,"Graders and sorters, agricultural products"
+      Forest and conservation workers,45-4011,10.8,10.3,-0.5,-4.7,43680.0,High school diploma or equivalent,2.0,0.87,Forest and conservation workers
+        Fallers,45-4021,5.6,5.2,-0.4,-7.3,53900.0,High school diploma or equivalent,0.7,0.76,Fallers
+        Logging equipment operators,45-4022,30.9,30.5,-0.4,-1.4,49210.0,High school diploma or equivalent,4.2,0.79,Logging equipment operators
+        Log graders and scalers,45-4023,4.6,4.6,0.0,-0.7,46710.0,High school diploma or equivalent,0.6,0.97,Log graders and scalers
+      First-line supervisors of construction trades and extraction workers,47-1011,921.6,970.6,49.0,5.3,78690.0,High school diploma or equivalent,74.4,0.17,First-line supervisors of construction trades and extraction workers
+      Boilermakers,47-2011,10.4,10.1,-0.2,-2.4,73340.0,High school diploma or equivalent,0.8,0.68,Boilermakers
+        Brickmasons and blockmasons,47-2021,74.1,76.4,2.4,3.2,60800.0,High school diploma or equivalent,5.6,0.82,Brickmasons and blockmasons
+        Stonemasons,47-2022,12.1,11.8,-0.4,-3.0,51990.0,High school diploma or equivalent,0.8,0.89,Stonemasons
+      Carpenters,47-2031,959.0,1002.1,43.1,4.5,59310.0,High school diploma or equivalent,74.1,0.72,Carpenters
+        Carpet installers,47-2041,20.3,18.3,-1.9,-9.6,49850.0,No formal educational credential,1.1,0.87,Carpet Installers
+"        Floor layers, except carpet, wood, and hard tiles",47-2042,33.7,36.9,3.2,9.5,54340.0,No formal educational credential,2.7,0.79,"Floor layers, except carpet, wood, and hard tiles"
+        Floor sanders and finishers,47-2043,5.6,5.8,0.1,2.6,49150.0,No formal educational credential,0.4,0.87,Floor sanders and finishers
+        Tile and stone setters,47-2044,52.6,58.0,5.3,10.1,52240.0,No formal educational credential,4.2,0.75,Tile and marble setters
+        Cement masons and concrete finishers,47-2051,206.7,210.4,3.8,1.8,54660.0,No formal educational credential,14.3,0.94,Cement masons and concrete finishers
+        Terrazzo workers and finishers,47-2053,1.5,1.3,-0.2,-11.1,57260.0,High school diploma or equivalent,0.1,0.88,Terrazzo workers and finishers
+      Construction laborers,47-2061,1457.0,1563.4,106.5,7.3,46730.0,No formal educational credential,129.4,0.88,Construction labourers
+"        Paving, surfacing, and tamping equipment operators",47-2071,47.0,48.6,1.5,3.2,51650.0,High school diploma or equivalent,4.0,0.83,"Paving, surfacing, and tamping equipment operators"
+        Pile driver operators,47-2072,3.2,3.3,0.1,4.3,70510.0,High school diploma or equivalent,0.3,0.82,Pile-driver operators
+        Operating engineers and other construction equipment operators,47-2073,489.3,507.1,17.8,3.6,58710.0,High school diploma or equivalent,41.9,0.95,Operating engineers and other construction equipment operators
+        Drywall and ceiling tile installers,47-2081,103.1,107.4,4.3,4.2,58140.0,No formal educational credential,7.7,0.79,Drywall and ceiling tile installers
+        Tapers,47-2082,15.6,15.6,0.0,0.1,64700.0,No formal educational credential,1.1,0.62,Tapers
+      Electricians,47-2111,818.7,896.1,77.4,9.5,62350.0,High school diploma or equivalent,81.0,0.15,Electricians
+      Glaziers,47-2121,60.5,62.5,2.0,3.3,55440.0,High school diploma or equivalent,5.1,0.73,Glaziers
+"        Insulation workers, floor, ceiling, and wall",47-2131,40.2,41.7,1.5,3.8,48680.0,No formal educational credential,3.4,0.83,"Insulation workers, floor, ceiling, and wall"
+"        Insulation workers, mechanical",47-2132,27.2,28.5,1.3,4.7,57250.0,High school diploma or equivalent,2.3,0.64,"Insulation workers, mechanical"
+"        Painters, construction and maintenance",47-2141,342.2,355.2,13.0,3.8,48660.0,No formal educational credential,28.1,0.75,"Painters, construction and maintenance"
+        Paperhangers,47-2142,2.3,2.5,0.1,5.3,48260.0,No formal educational credential,0.2,0.87,Paperhangers
+        Pipelayers,47-2151,34.4,32.9,-1.4,-4.1,48710.0,No formal educational credential,2.4,0.62,Pipelayers
+"        Plumbers, pipefitters, and steamfitters",47-2152,504.5,527.2,22.7,4.5,62970.0,High school diploma or equivalent,44.0,0.35,"Plumbers, pipefitters, and steamfitters"
+      Plasterers and stucco masons,47-2161,24.2,25.2,1.0,4.1,56020.0,No formal educational credential,1.9,0.84,Plasterers and stucco masons
+      Reinforcing iron and rebar workers,47-2171,19.4,20.3,0.9,4.6,59280.0,High school diploma or equivalent,1.5,0.9,Reinforcing iron and rebar workers
+      Roofers,47-2181,166.7,176.5,9.8,5.9,50970.0,No formal educational credential,12.7,0.9,Roofers
+      Sheet metal workers,47-2211,127.0,130.1,3.1,2.4,60850.0,High school diploma or equivalent,10.6,0.82,Sheet metal workers
+      Structural iron and steel workers,47-2221,65.7,68.6,2.9,4.4,62700.0,High school diploma or equivalent,5.5,0.83,Structural iron and steel workers
+"      Helpers--brickmasons, blockmasons, stonemasons, and tile and marble setters",47-3011,16.1,14.4,-1.7,-10.5,46480.0,No formal educational credential,1.4,0.83,"Helpers–brickmasons, blockmasons, stonemasons, and tile and marble setters"
+      Helpers--carpenters,47-3012,25.2,26.4,1.1,4.5,41600.0,No formal educational credential,2.7,0.92,Helpers–carpenters
+      Helpers--electricians,47-3013,66.6,66.7,0.1,0.2,39890.0,High school diploma or equivalent,6.8,0.74,Helpers–electricians
+"      Helpers--painters, paperhangers, plasterers, and stucco masons",47-3014,7.4,7.6,0.2,2.3,38140.0,No formal educational credential,0.8,0.94,"Helpers–painters, paperhangers, plasterers, and stucco masons"
+"      Helpers--pipelayers, plumbers, pipefitters, and steamfitters",47-3015,45.3,47.5,2.2,4.9,39270.0,High school diploma or equivalent,4.9,0.57,"Helpers–pipelayers, plumbers, pipefitters, and steamfitters"
+      Helpers--roofers,47-3016,5.2,5.5,0.3,5.7,40590.0,No formal educational credential,0.6,0.72,Helpers–roofers
+      Construction and building inspectors,47-4011,147.6,146.5,-1.2,-0.8,72120.0,High school diploma or equivalent,14.8,0.63,Construction and building inspectors
+      Elevator and escalator installers and repairers,47-4021,24.2,25.4,1.2,5.0,106580.0,High school diploma or equivalent,2.0,0.39,Elevator installers and repairers
+      Fence erectors,47-4031,26.4,27.6,1.2,4.6,46940.0,No formal educational credential,2.3,0.92,Fence erectors
+      Hazardous materials removal workers,47-4041,51.3,51.8,0.5,1.0,48490.0,High school diploma or equivalent,5.0,0.53,Hazardous materials removal workers
+      Highway maintenance workers,47-4051,159.1,163.9,4.8,3.0,49070.0,High school diploma or equivalent,12.3,0.87,Highway maintenance workers
+      Rail-track laying and maintenance equipment operators,47-4061,15.0,15.3,0.2,1.6,67370.0,High school diploma or equivalent,1.1,0.89,Rail-track laying and maintenance equipment operators
+      Septic tank servicers and sewer pipe cleaners,47-4071,30.4,32.7,2.3,7.6,49140.0,High school diploma or equivalent,2.9,0.83,Septic tank servicers and sewer pipe cleaners
+"        Derrick operators, oil and gas",47-5011,11.3,11.3,0.1,0.5,62740.0,No formal educational credential,1.0,0.8,"Derrick operators, oil and gas"
+"        Rotary drill operators, oil and gas",47-5012,13.3,13.4,0.0,0.2,65010.0,No formal educational credential,1.2,0.53,"Rotary drill operators, oil and gas"
+"        Service unit operators, oil and gas",47-5013,45.2,45.4,0.2,0.4,57980.0,No formal educational credential,4.1,0.93,"Service unit operators, oil, gas, and mining"
+        Continuous mining machine operators,47-5041,14.9,15.0,0.1,0.6,63380.0,No formal educational credential,1.6,0.54,Continuous mining machine operators
+"      Rock splitters, quarry",47-5051,3.2,3.4,0.1,4.4,47460.0,No formal educational credential,0.4,0.96,"Rock splitters, quarry"
+"      Roustabouts, oil and gas",47-5071,46.0,47.1,1.1,2.5,47510.0,No formal educational credential,4.3,0.68,"Roustabouts, oil and gas"
+      Helpers--extraction workers,47-5081,7.0,6.9,-0.1,-1.7,48400.0,High school diploma or equivalent,0.7,0.37,Helpers–extraction workers
+"      First-line supervisors of mechanics, installers, and repairers",49-1011,617.5,636.5,19.1,3.1,78300.0,High school diploma or equivalent,52.4,0.003,"First-line supervisors of mechanics, installers, and repairers"
+"      Computer, automated teller, and office machine repairers",49-2011,79.1,78.4,-0.7,-0.9,46860.0,"Some college, no degree",7.6,0.74,"Computer, automated teller, and office machine repairers"
+"        Radio, cellular, and tower equipment installers and repairers",49-2021,11.7,12.7,1.0,8.6,64190.0,Associate's degree,1.2,0.93,"Radio, cellular, and tower equipment installers and repairs"
+"        Telecommunications equipment installers and repairers, except line installers",49-2022,156.9,150.4,-6.6,-4.2,62630.0,Postsecondary nondegree award,13.2,0.36,"Telecommunications equipment installers and repairers, except line installers"
+        Avionics technicians,49-2091,21.4,23.1,1.7,8.2,81390.0,Postsecondary nondegree award,1.8,0.7,Avionics technicians
+"        Electric motor, power tool, and related repairers",49-2092,17.1,17.7,0.6,3.4,53990.0,High school diploma or equivalent,1.7,0.76,"Electric motor, power tool, and related repairers"
+"        Electrical and electronics installers and repairers, transportation equipment",49-2093,7.0,7.4,0.4,6.1,82730.0,Postsecondary nondegree award,0.6,0.91,"Electrical and electronics installers and repairers, transportation equipment"
+"        Electrical and electronics repairers, commercial and industrial equipment",49-2094,61.1,60.7,-0.5,-0.8,71300.0,Postsecondary nondegree award,4.7,0.41,"Electrical and electronics repairers, commercial and industrial equipment"
+"        Electrical and electronics repairers, powerhouse, substation, and relay",49-2095,23.4,24.7,1.3,5.5,100940.0,Postsecondary nondegree award,2.0,0.38,"Electrical and electronics repairers, powerhouse, substation, and relay"
+"        Electronic equipment installers and repairers, motor vehicles",49-2096,10.3,8.9,-1.4,-13.6,47940.0,High school diploma or equivalent,0.6,0.61,"Electronic equipment installers and repairers, motor vehicles"
+        Audiovisual equipment installers and repairers,49-2097,24.6,26.3,1.6,6.6,50620.0,Postsecondary nondegree award,2.6,0.65,Electronic home entertainment equipment installers and repairers
+        Security and fire alarm systems installers,49-2098,85.9,94.9,8.9,10.4,59300.0,High school diploma or equivalent,9.4,0.82,Security and fire alarm systems installers
+      Aircraft mechanics and service technicians,49-3011,139.4,145.0,5.6,4.0,78680.0,Postsecondary nondegree award,11.3,0.71,Aircraft mechanics and service technicians
+        Automotive body and related repairers,49-3021,172.6,175.4,2.8,1.6,51680.0,High school diploma or equivalent,14.6,0.91,Automotive body and related repairers
+        Automotive glass installers and repairers,49-3022,20.4,21.1,0.7,3.6,47260.0,High school diploma or equivalent,1.4,0.55,Automotive glass installers and repairers
+        Automotive service technicians and mechanics,49-3023,805.6,839.2,33.6,4.2,49670.0,Postsecondary nondegree award,70.0,0.59,Automotive service technicians and mechanics
+      Bus and truck mechanics and diesel engine specialists,49-3031,319.9,327.7,7.8,2.4,60640.0,High school diploma or equivalent,26.5,0.73,Bus and truck mechanics and diesel engine specialists
+        Farm equipment mechanics and service technicians,49-3041,39.0,43.3,4.3,11.0,52080.0,High school diploma or equivalent,3.7,0.75,Farm equipment mechanics and service technicians
+"        Mobile heavy equipment mechanics, except engines",49-3042,188.7,199.6,10.9,5.8,63980.0,High school diploma or equivalent,16.5,0.4,"Mobile heavy equipment mechanics, except engines"
+        Rail car repairers,49-3043,17.9,18.4,0.5,2.8,65680.0,High school diploma or equivalent,1.5,0.88,Rail car repairers
+        Motorboat mechanics and service technicians,49-3051,26.2,27.8,1.6,6.0,54950.0,High school diploma or equivalent,2.6,0.66,Motorboat mechanics and service technicians
+        Motorcycle mechanics,49-3052,14.9,15.7,0.8,5.3,47200.0,Postsecondary nondegree award,1.5,0.79,Motorcycle mechanics
+        Outdoor power equipment and other small engine mechanics,49-3053,36.9,37.8,0.9,2.5,46560.0,High school diploma or equivalent,3.5,0.93,Outdoor power equipment and other small engine mechanics
+        Bicycle repairers,49-3091,13.2,12.9,-0.3,-2.3,40360.0,High school diploma or equivalent,1.6,0.94,Bicycle repairers
+        Recreational vehicle service technicians,49-3092,19.5,21.7,2.2,11.5,50540.0,High school diploma or equivalent,2.8,0.59,Recreational vehicle service technicians
+        Tire repairers and changers,49-3093,113.4,119.9,6.5,5.7,37120.0,High school diploma or equivalent,15.3,0.7,Tire repairers and changers
+        Mechanical door repairers,49-9011,28.4,31.7,3.2,11.4,51050.0,High school diploma or equivalent,2.7,0.91,Mechanical door repairers
+"        Control and valve installers and repairers, except mechanical door",49-9012,47.7,48.3,0.6,1.3,74690.0,High school diploma or equivalent,3.9,0.63,"Control and valve installers and repairers, except mechanical door"
+"      Heating, air conditioning, and refrigeration mechanics and installers",49-9021,425.2,459.7,34.5,8.1,59810.0,Postsecondary nondegree award,40.1,0.65,"Heating, air conditioning, and refrigeration mechanics and installers"
+      Home appliance repairers,49-9031,37.3,38.3,1.0,2.6,49410.0,High school diploma or equivalent,3.1,0.72,Home appliance repairers
+        Industrial machinery mechanics,49-9041,439.6,510.3,70.7,16.1,63760.0,High school diploma or equivalent,45.7,0.67,Industrial machinery mechanics
+"        Maintenance workers, machinery",49-9043,57.5,55.9,-1.6,-2.8,60500.0,High school diploma or equivalent,4.8,0.86,"Maintenance workers, machinery"
+        Millwrights,49-9044,41.3,41.3,0.0,0.0,65170.0,High school diploma or equivalent,3.6,0.59,Millwrights
+"        Refractory materials repairers, except brickmasons",49-9045,1.1,0.9,-0.2,-16.9,58540.0,High school diploma or equivalent,0.1,0.82,"Refractory materials repairers, except brickmasons"
+        Electrical power-line installers and repairers,49-9051,127.4,135.8,8.4,6.6,92560.0,High school diploma or equivalent,10.7,0.097,Electrical power-line installers and repairers
+        Telecommunications line installers and repairers,49-9052,99.9,96.8,-3.1,-3.1,70500.0,High school diploma or equivalent,8.9,0.49,Telecommunications line installers and repairers
+        Camera and photographic equipment repairers,49-9061,2.3,1.9,-0.3,-15.1,49300.0,High school diploma or equivalent,0.2,0.97,Camera and photographic equipment repairers
+        Medical equipment repairers,49-9062,68.0,76.8,8.8,12.9,62630.0,Associate's degree,7.3,0.27,Medical equipment repairers
+        Musical instrument repairers and tuners,49-9063,6.2,6.3,0.1,1.4,45320.0,High school diploma or equivalent,0.6,0.91,Musical instrument repairers and tuners
+        Watch and clock repairers,49-9064,1.4,1.4,0.0,-1.1,60690.0,High school diploma or equivalent,0.1,0.99,Watch repairers
+"      Maintenance and repair workers, general",49-9071,1629.7,1692.1,62.4,3.8,48620.0,High school diploma or equivalent,159.8,0.64,"Maintenance and repair workers, general"
+"        Coin, vending, and amusement machine servicers and repairers",49-9091,32.5,31.6,-0.9,-2.9,47350.0,High school diploma or equivalent,3.5,0.94,"Coin, vending, and amusement machine servicers and repairers"
+        Commercial divers,49-9092,4.2,4.5,0.4,8.5,61130.0,Postsecondary nondegree award,0.4,0.18,Commercial divers
+        Locksmiths and safe repairers,49-9094,18.8,17.2,-1.6,-8.3,50490.0,High school diploma or equivalent,1.7,0.77,Locksmiths and safe repairers
+        Manufactured building and mobile home installers,49-9095,3.1,3.3,0.2,5.9,41080.0,High school diploma or equivalent,0.3,0.18,Manufactured building and mobile home installers
+        Riggers,49-9096,24.6,25.4,0.8,3.2,62060.0,High school diploma or equivalent,2.5,0.89,Riggers
+        Signal and track switch repairers,49-9097,8.7,8.8,0.1,1.7,83600.0,High school diploma or equivalent,0.8,0.9,Signal and track switch repairers
+"        Helpers--installation, maintenance, and repair workers",49-9098,98.7,101.0,2.2,2.3,38860.0,High school diploma or equivalent,11.8,0.79,"Helpers–installation, maintenance, and repair workers"
+      First-line supervisors of production and operating workers,51-1011,698.6,706.9,8.3,1.2,71190.0,High school diploma or equivalent,67.7,0.016,First-line supervisors of production and operating workers
+"      Aircraft structure, surfaces, rigging, and systems assemblers",51-2011,33.6,28.7,-4.9,-14.5,61680.0,High school diploma or equivalent,2.8,0.79,"Aircraft structure, surfaces, rigging, and systems assemblers"
+"        Coil winders, tapers, and finishers",51-2021,12.2,11.5,-0.8,-6.3,47260.0,High school diploma or equivalent,1.2,0.73,"Coil winders, tapers, and finishers"
+      Engine and other machine assemblers,51-2031,38.4,30.3,-8.1,-21.1,52540.0,High school diploma or equivalent,2.8,0.82,Engine and other machine assemblers
+      Structural metal fabricators and fitters,51-2041,53.8,45.0,-8.8,-16.3,49900.0,High school diploma or equivalent,4.1,0.41,Structural metal fabricators and fitters
+      Bakers,51-3011,249.1,263.2,14.0,5.6,36650.0,No formal educational credential,39.9,0.89,Bakers
+        Butchers and meat cutters,51-3021,143.1,144.5,1.4,1.0,38960.0,No formal educational credential,16.9,0.93,Butchers and meat cutters
+"        Meat, poultry, and fish cutters and trimmers",51-3022,146.8,154.9,8.1,5.5,37700.0,No formal educational credential,18.4,0.94,"Meat, poultry, and fish cutters and trimmers"
+        Slaughterers and meat packers,51-3023,69.6,71.2,1.5,2.2,39790.0,No formal educational credential,8.4,0.6,Slaughterers and meat packers
+"        Food and tobacco roasting, baking, and drying machine operators and tenders",51-3091,20.7,20.8,0.1,0.6,42730.0,No formal educational credential,2.4,0.91,"Food and tobacco roasting, baking, and drying machine operators and tenders"
+        Food batchmakers,51-3092,173.5,185.4,11.9,6.9,40790.0,High school diploma or equivalent,24.2,0.7,Food batchmakers
+        Food cooking machine operators and tenders,51-3093,29.7,29.9,0.2,0.6,40550.0,High school diploma or equivalent,4.4,0.61,Food cooking machine operators and tenders
+"        Extruding and drawing machine setters, operators, and tenders, metal and plastic",51-4021,66.0,66.8,0.8,1.2,46980.0,High school diploma or equivalent,6.5,0.91,"Extruding and drawing machine setters, operators, and tenders, metal and plastic"
+"        Forging machine setters, operators, and tenders, metal and plastic",51-4022,8.8,7.2,-1.7,-18.9,49240.0,High school diploma or equivalent,0.6,0.93,"Forging machine setters, operators, and tenders, Metal and Plastic"
+"        Rolling machine setters, operators, and tenders, metal and plastic",51-4023,22.5,20.6,-1.9,-8.3,48630.0,High school diploma or equivalent,1.9,0.83,"Rolling machine setters, operators, and tenders, metal and plastic"
+"        Cutting, punching, and press machine setters, operators, and tenders, metal and plastic",51-4031,174.7,153.6,-21.1,-12.1,45590.0,High school diploma or equivalent,14.4,0.78,"Cutting, punching, and press machine setters, operators, and tenders, metal and plastic"
+"        Drilling and boring machine tool setters, operators, and tenders, metal and plastic",51-4032,5.3,4.3,-1.0,-19.6,46630.0,High school diploma or equivalent,0.4,0.94,"Drilling and boring machine tool setters, operators, and tenders, metal and plastic"
+"        Grinding, lapping, polishing, and buffing machine tool setters, operators, and tenders, metal and plastic",51-4033,70.1,61.7,-8.4,-12.0,45190.0,High school diploma or equivalent,5.5,0.95,"Grinding, lapping, polishing, and buffing machine tool setters, operators, and tenders, metal and plastic"
+"        Lathe and turning machine tool setters, operators, and tenders, metal and plastic",51-4034,18.9,16.4,-2.6,-13.6,48620.0,High school diploma or equivalent,1.5,0.84,"Lathe and turning machine tool setters, operators, and tenders, metal and plastic"
+"        Milling and planing machine setters, operators, and tenders, metal and plastic",51-4035,13.8,11.8,-2.0,-14.4,48310.0,High school diploma or equivalent,1.1,0.98,"Milling and planing machine setters, operators, and tenders, metal and plastic"
+      Machinists,51-4041,299.5,299.6,0.0,0.0,56150.0,High school diploma or equivalent,29.5,0.65,Machinists
+        Metal-refining furnace operators and tenders,51-4051,20.8,20.3,-0.5,-2.3,55770.0,High school diploma or equivalent,2.0,0.88,Metal-refining furnace operators and tenders
+"        Pourers and casters, metal",51-4052,5.9,5.7,-0.3,-4.7,48940.0,High school diploma or equivalent,0.6,0.87,"Pourers and casters, metal"
+"        Model makers, metal and plastic",51-4061,3.2,2.6,-0.6,-18.2,62700.0,High school diploma or equivalent,0.3,0.93,"Model makers, metal and plastic"
+"        Patternmakers, metal and plastic",51-4062,1.6,1.2,-0.4,-24.4,54540.0,High school diploma or equivalent,0.1,0.9,"Patternmakers, metal and plastic"
+        Foundry mold and coremakers,51-4071,12.7,9.4,-3.3,-25.9,45700.0,High school diploma or equivalent,0.9,0.67,Foundry mold and coremakers
+"        Molding, coremaking, and casting machine setters, operators, and tenders, metal and plastic",51-4072,154.6,148.8,-5.8,-3.8,41230.0,High school diploma or equivalent,15.9,0.95,"Molding, coremaking, and casting machine setters, operators, and tenders, metal and plastic"
+"      Multiple machine tool setters, operators, and tenders, metal and plastic",51-4081,131.0,130.3,-0.7,-0.5,46060.0,High school diploma or equivalent,12.8,0.91,"Multiple machine tool setters, operators, and tenders, metal and plastic"
+      Tool and die makers,51-4111,55.2,49.3,-6.0,-10.8,63180.0,Postsecondary nondegree award,4.7,0.84,Tool and die makers
+"        Welders, cutters, solderers, and brazers",51-4121,457.3,467.2,9.9,2.2,51000.0,High school diploma or equivalent,45.6,0.94,"Welders, cutters, solderers, and brazers"
+"        Welding, soldering, and brazing machine setters, operators, and tenders",51-4122,38.9,35.4,-3.5,-9.0,47060.0,High school diploma or equivalent,3.2,0.61,"Welding, soldering, and brazing machine setters, operators, and tenders"
+"        Heat treating equipment setters, operators, and tenders, metal and plastic",51-4191,14.8,12.9,-1.9,-12.8,47450.0,High school diploma or equivalent,1.2,0.91,"Heat treating equipment setters, operators, and tenders, metal and plastic"
+"        Layout workers, metal and plastic",51-4192,5.7,5.4,-0.3,-5.4,61870.0,High school diploma or equivalent,0.5,0.84,"Layout workers, metal and plastic"
+"        Plating machine setters, operators, and tenders, metal and plastic",51-4193,31.7,27.4,-4.3,-13.6,41600.0,High school diploma or equivalent,2.5,0.92,"Plating and coating machine setters, operators, and tenders, metal and plastic"
+"        Tool grinders, filers, and sharpeners",51-4194,5.8,5.4,-0.5,-7.8,48970.0,High school diploma or equivalent,0.5,0.88,"Tool grinders, filers, and sharpeners"
+      Prepress technicians and workers,51-5111,26.2,22.3,-3.8,-14.6,47300.0,Postsecondary nondegree award,2.8,0.97,Prepress technicians and workers
+      Printing press operators,51-5112,150.2,138.0,-12.2,-8.1,45160.0,High school diploma or equivalent,13.7,0.83,Printing press operators
+      Print binding and finishing workers,51-5113,35.8,30.0,-5.8,-16.1,39820.0,High school diploma or equivalent,2.8,0.95,Print binding and finishing workers
+      Laundry and dry-cleaning workers,51-6011,202.6,213.5,10.9,5.4,33800.0,No formal educational credential,31.9,0.71,Laundry and dry-cleaning workers
+"      Pressers, textile, garment, and related materials",51-6021,28.4,24.6,-3.8,-13.5,33880.0,No formal educational credential,2.8,0.81,"Pressers, textile, garment, and related materials"
+      Sewing machine operators,51-6031,124.0,110.7,-13.3,-10.8,36000.0,No formal educational credential,13.0,0.89,Sewing machine operators
+        Shoe and leather workers and repairers,51-6041,9.5,9.1,-0.4,-3.8,35950.0,High school diploma or equivalent,0.9,0.52,Shoe and leather workers and repairers
+        Shoe machine operators and tenders,51-6042,4.1,3.9,-0.2,-3.7,38160.0,High school diploma or equivalent,0.4,0.97,Shoe machine operators and tenders
+"        Sewers, hand",51-6051,5.4,5.0,-0.4,-7.0,33760.0,No formal educational credential,0.7,0.99,"Sewers, hand"
+"        Tailors, dressmakers, and custom sewers",51-6052,38.8,37.1,-1.7,-4.5,40860.0,No formal educational credential,5.0,0.84,"Tailors, dressmakers, and custom sewers"
+        Textile bleaching and dyeing machine operators and tenders,51-6061,6.2,5.5,-0.6,-10.1,37320.0,High school diploma or equivalent,0.7,0.97,Textile bleaching and dyeing machine operators and tenders
+"        Textile cutting machine setters, operators, and tenders",51-6062,9.3,8.2,-1.1,-11.7,37940.0,High school diploma or equivalent,1.0,0.95,"Textile cutting machine setters, operators, and tenders"
+"        Textile knitting and weaving machine setters, operators, and tenders",51-6063,15.3,13.6,-1.7,-11.2,38260.0,High school diploma or equivalent,1.7,0.73,"Textile knitting and weaving machine setters, operators, and tenders"
+"        Textile winding, twisting, and drawing out machine setters, operators, and tenders",51-6064,21.7,19.8,-1.9,-9.0,37660.0,High school diploma or equivalent,2.5,0.96,"Textile winding, twisting, and drawing out machine setters, operators, and tenders"
+"        Extruding and forming machine setters, operators, and tenders, synthetic and glass fibers",51-6091,15.2,15.0,-0.2,-1.1,44980.0,High school diploma or equivalent,2.0,0.88,"Extruding and forming machine setters, operators, and tenders, synthetic and glass fibers"
+        Fabric and apparel patternmakers,51-6092,2.8,2.5,-0.3,-10.2,67670.0,High school diploma or equivalent,0.3,0.0049,Fabric and apparel patternmakers
+        Upholsterers,51-6093,22.7,22.3,-0.4,-1.8,46190.0,High school diploma or equivalent,2.2,0.39,Upholsterers
+      Cabinetmakers and bench carpenters,51-7011,86.0,84.7,-1.4,-1.6,46020.0,High school diploma or equivalent,8.1,0.92,Cabinetmakers and bench carpenters
+      Furniture finishers,51-7021,20.5,19.8,-0.7,-3.3,42530.0,High school diploma or equivalent,2.0,0.87,Furniture Finishers
+"        Model makers, wood",51-7031,0.9,0.9,0.0,-4.5,51850.0,High school diploma or equivalent,0.1,0.96,"Model makers, wood"
+"        Patternmakers, wood",51-7032,0.5,0.4,0.0,-5.0,52520.0,High school diploma or equivalent,0.0,0.91,"Patternmakers, wood"
+"        Sawing machine setters, operators, and tenders, wood",51-7041,45.0,44.7,-0.3,-0.6,39950.0,High school diploma or equivalent,4.8,0.86,"Sawing machine setters, operators, and tenders, wood"
+"        Woodworking machine setters, operators, and tenders, except sawing",51-7042,63.1,61.9,-1.1,-1.8,40440.0,High school diploma or equivalent,6.4,0.97,"Woodworking machine setters, operators, and tenders, except sawing"
+        Nuclear power reactor operators,51-8011,5.7,4.9,-0.9,-15.3,122610.0,High school diploma or equivalent,0.4,0.95,Nuclear power reactor operators
+        Power distributors and dispatchers,51-8012,9.3,9.0,-0.3,-3.2,107240.0,High school diploma or equivalent,0.8,0.64,Power distributors and dispatchers
+        Power plant operators,51-8013,31.6,28.0,-3.5,-11.2,99670.0,High school diploma or equivalent,2.5,0.85,Power plant operators
+      Stationary engineers and boiler operators,51-8021,33.3,34.0,0.7,2.2,75190.0,High school diploma or equivalent,3.8,0.89,Stationary engineers and boiler operators
+      Water and wastewater treatment plant and system operators,51-8031,132.4,123.8,-8.7,-6.5,58260.0,High school diploma or equivalent,10.7,0.61,Water and wastewater treatment plant and system operators
+        Chemical plant and system operators,51-8091,18.1,17.0,-1.1,-6.1,73540.0,High school diploma or equivalent,1.6,0.85,Chemical plant and system operators
+        Gas plant operators,51-8092,16.2,14.8,-1.4,-8.8,83400.0,High school diploma or equivalent,1.3,0.78,Gas plant operators
+"        Petroleum pump system operators, refinery operators, and gaugers",51-8093,34.9,34.0,-1.0,-2.8,97540.0,High school diploma or equivalent,3.2,0.71,"Petroleum pump system operators, refinery operators, and gaugers"
+"        Plant and system operators, all other",51-8099,16.3,16.6,0.3,1.6,61710.0,High school diploma or equivalent,1.6,0.86,"Plant and system operators, all other"
+        Chemical equipment operators and tenders,51-9011,128.9,133.1,4.3,3.3,57090.0,High school diploma or equivalent,14.4,0.76,Chemical equipment operators and tenders
+"        Separating, filtering, clarifying, precipitating, and still machine setters, operators, and tenders",51-9012,54.4,52.0,-2.3,-4.3,49500.0,High school diploma or equivalent,5.4,0.88,"Separating, filtering, clarifying, precipitating, and still machine setters, operators, and tenders"
+"        Crushing, grinding, and polishing machine setters, operators, and tenders",51-9021,28.7,27.9,-0.7,-2.5,46890.0,High school diploma or equivalent,2.7,0.97,"Crushing, grinding, and polishing machine setters, operators, and tenders"
+"        Grinding and polishing workers, hand",51-9022,11.8,9.3,-2.5,-21.2,41690.0,No formal educational credential,0.8,0.97,"Grinding and polishing workers, hand"
+"        Mixing and blending machine setters, operators, and tenders",51-9023,101.1,94.3,-6.8,-6.8,47680.0,High school diploma or equivalent,8.8,0.83,"Mixing and blending machine setters, operators, and tenders"
+"        Cutters and trimmers, hand",51-9031,7.0,5.7,-1.3,-18.1,38800.0,No formal educational credential,0.6,0.64,"Cutters and trimmers, hand"
+"        Cutting and slicing machine setters, operators, and tenders",51-9032,49.0,47.9,-1.1,-2.3,45700.0,High school diploma or equivalent,5.3,0.86,"Cutting and slicing machine setters, operators, and tenders"
+"      Extruding, forming, pressing, and compacting machine setters, operators, and tenders",51-9041,57.3,58.4,1.1,2.0,45130.0,High school diploma or equivalent,5.2,0.93,"Extruding, forming, pressing, and compacting machine setters, operators, and tenders"
+"      Furnace, kiln, oven, drier, and kettle operators and tenders",51-9051,16.5,17.0,0.5,3.0,47010.0,High school diploma or equivalent,1.9,0.37,"Furnace, kiln, oven, drier, and kettle operators and tenders"
+"      Inspectors, testers, sorters, samplers, and weighers",51-9061,598.0,598.1,0.1,0.0,47460.0,High school diploma or equivalent,69.9,0.98,"Inspectors, testers, sorters, samplers, and weighers"
+      Jewelers and precious stone and metal workers,51-9071,35.1,33.2,-1.9,-5.5,49140.0,High school diploma or equivalent,4.0,0.95,Jewelers and precious stone and metal workers
+        Dental laboratory technicians,51-9081,35.2,33.6,-1.6,-4.7,48310.0,High school diploma or equivalent,3.9,0.97,Dental laboratory technicians
+        Medical appliance technicians,51-9082,12.0,12.4,0.4,3.7,47060.0,High school diploma or equivalent,1.5,0.45,Medical appliance technicians
+        Ophthalmic laboratory technicians,51-9083,19.6,20.0,0.5,2.3,38420.0,High school diploma or equivalent,2.4,0.97,Ophthalmic laboratory technicians
+      Packaging and filling machine operators and tenders,51-9111,381.2,398.2,17.0,4.5,40900.0,High school diploma or equivalent,45.3,0.98,Packaging and filling machine operators and tenders
+"        Painting, coating, and decorating workers",51-9123,8.8,8.9,0.1,1.4,40860.0,No formal educational credential,0.8,0.92,"Painting, coating, and decorating workers"
+      Semiconductor processing technicians,51-9141,31.9,35.4,3.5,10.9,51180.0,High school diploma or equivalent,3.9,0.88,Semiconductor Processors
+      Photographic process workers and processing machine operators,51-9151,11.2,10.9,-0.3,-2.6,40100.0,High school diploma or equivalent,1.5,0.99,Photographic process workers and processing machine operators
+        Adhesive bonding machine operators and tenders,51-9191,12.2,12.3,0.1,1.0,45210.0,High school diploma or equivalent,1.3,0.95,Adhesive bonding machine operators and tenders
+"        Cleaning, washing, and metal pickling equipment operators and tenders",51-9192,14.6,15.2,0.5,3.6,41460.0,High school diploma or equivalent,1.6,0.81,"Cleaning, washing, and metal pickling equipment operators and tenders"
+        Cooling and freezing equipment operators and tenders,51-9193,7.1,7.6,0.5,7.2,40160.0,High school diploma or equivalent,0.8,0.93,Cooling and freezing equipment operators and tenders
+        Etchers and engravers,51-9194,8.6,8.6,-0.1,-0.7,40450.0,High school diploma or equivalent,0.9,0.98,Etchers and engravers
+"        Molders, shapers, and casters, except metal and plastic",51-9195,41.7,44.3,2.6,6.2,45690.0,High school diploma or equivalent,5.5,0.9,"Molders, shapers, and casters, except metal and plastic"
+"        Paper goods machine setters, operators, and tenders",51-9196,97.5,91.4,-6.1,-6.3,49390.0,High school diploma or equivalent,8.1,0.67,"Paper goods machine setters, operators, and tenders"
+        Tire builders,51-9197,20.9,21.4,0.5,2.3,55580.0,High school diploma or equivalent,2.5,0.94,Tire builders
+        Helpers--production workers,51-9198,168.5,153.5,-15.0,-8.9,38220.0,High school diploma or equivalent,23.6,0.66,Helpers–production workers
+"        Airline pilots, copilots, and flight engineers",53-2011,100.0,103.9,3.9,3.9,226600.0,Bachelor's degree,11.7,0.18,"Airline pilots, copilots, and flight engineers"
+        Commercial pilots,53-2012,55.4,58.3,2.8,5.1,122670.0,Postsecondary nondegree award,6.6,0.55,Commercial pilots
+        Air traffic controllers,53-2021,24.1,24.4,0.3,1.2,144580.0,Associate's degree,2.2,0.11,Air traffic controllers
+        Airfield operations specialists,53-2022,16.9,17.6,0.7,4.2,56750.0,High school diploma or equivalent,1.6,0.71,Airfield operations specialists
+      Flight attendants,53-2031,130.8,142.9,12.1,9.2,67130.0,High school diploma or equivalent,19.8,0.35,Flight attendants
+"      Ambulance drivers and attendants, except emergency medical technicians",53-3011,12.3,12.1,-0.2,-1.3,34330.0,High school diploma or equivalent,1.4,0.25,"Ambulance drivers and attendants, except emergency medical technicians"
+        Driver/sales workers,53-3031,451.5,491.3,39.8,8.8,37130.0,High school diploma or equivalent,51.3,0.98,Driver/sales workers
+        Heavy and tractor-trailer truck drivers,53-3032,2235.1,2324.4,89.3,4.0,57440.0,Postsecondary nondegree award,237.6,0.79,Heavy and tractor-trailer truck drivers
+        Light truck drivers,53-3033,1079.8,1158.6,78.9,7.3,44140.0,High school diploma or equivalent,120.2,0.69,Light truck or delivery services drivers
+        Locomotive engineers,53-4011,27.0,27.2,0.2,0.7,77400.0,High school diploma or equivalent,2.2,0.96,Locomotive engineers
+"        Rail yard engineers, dinkey operators, and hostlers",53-4013,3.1,3.1,0.0,0.3,58030.0,High school diploma or equivalent,0.2,0.91,"Rail yard engineers, dinkey operators, and hostlers"
+      Railroad conductors and yardmasters,53-4031,36.8,37.2,0.4,1.1,74080.0,High school diploma or equivalent,3.1,0.83,Railroad conductors and yardmasters
+      Subway and streetcar operators,53-4041,9.6,9.9,0.3,3.4,84830.0,High school diploma or equivalent,0.9,0.86,Subway and streetcar operators
+      Sailors and marine oilers,53-5011,32.1,32.8,0.7,2.3,49610.0,No formal educational credential,3.9,0.83,Sailors and marine oilers
+"        Captains, mates, and pilots of water vessels",53-5021,40.7,40.9,0.2,0.5,85540.0,Postsecondary nondegree award,4.3,0.27,"Captains, mates, and pilots of water vessels"
+        Motorboat operators,53-5022,2.7,2.8,0.0,1.4,51880.0,Postsecondary nondegree award,0.3,0.62,Motorboat operators
+      Ship engineers,53-5031,8.8,9.0,0.1,1.6,101320.0,Postsecondary nondegree award,1.1,0.041,Ship engineers
+      Bridge and lock tenders,53-6011,2.9,2.8,-0.1,-3.3,58490.0,High school diploma or equivalent,0.3,0.97,Bridge and lock tenders
+      Parking attendants,53-6021,135.7,139.8,4.0,3.0,34600.0,No formal educational credential,18.5,0.87,Parking lot attendants
+        Automotive and watercraft service attendants,53-6031,100.0,99.0,-1.0,-1.0,34850.0,No formal educational credential,14.4,0.83,Automotive and watercraft service attendants
+      Traffic technicians,53-6041,7.9,8.2,0.3,3.7,58480.0,High school diploma or equivalent,0.8,0.9,Traffic technicians
+      Transportation inspectors,53-6051,25.7,26.1,0.4,1.7,85750.0,High school diploma or equivalent,2.5,0.9,Transportation inspectors
+      Passenger attendants,53-6061,25.6,26.8,1.2,4.7,37560.0,High school diploma or equivalent,4.1,0.75,"Transportation attendants, except flight attendants"
+      Conveyor operators and tenders,53-7011,29.1,28.1,-1.0,-3.4,41230.0,No formal educational credential,2.6,0.93,Conveyor operators and tenders
+      Crane and tower operators,53-7021,42.3,43.5,1.3,3.0,66370.0,High school diploma or equivalent,3.8,0.9,Crane and tower operators
+      Dredge operators,53-7031,1.1,1.2,0.0,1.2,48430.0,High school diploma or equivalent,0.1,0.92,Dredge operators
+      Hoist and winch operators,53-7041,2.7,2.7,0.0,-1.1,52310.0,No formal educational credential,0.3,0.65,Hoist and winch operators
+      Industrial truck and tractor operators,53-7051,792.5,801.6,9.1,1.1,46390.0,No formal educational credential,76.4,0.93,Industrial truck and tractor operators
+        Cleaners of vehicles and equipment,53-7061,410.1,426.2,16.0,3.9,35270.0,No formal educational credential,56.2,0.37,Cleaners of vehicles and equipment
+"        Laborers and freight, stock, and material movers, hand",53-7062,2988.9,3033.1,44.3,1.5,38940.0,No formal educational credential,384.3,0.85,"Labourers and freight, stock, and material movers, hand"
+        Machine feeders and offbearers,53-7063,46.5,40.4,-6.0,-13.0,39700.0,No formal educational credential,4.7,0.93,Machine feeders and offbearers
+"        Packers and packagers, hand",53-7064,591.8,559.7,-32.2,-5.4,35580.0,No formal educational credential,74.0,0.38,"Packers and packagers, hand"
+        Gas compressor and gas pumping station operators,53-7071,5.4,5.3,-0.1,-1.3,71510.0,High school diploma or equivalent,0.6,0.91,Gas compressor and gas pumping station operators
+"        Pump operators, except wellhead pumpers",53-7072,13.1,13.5,0.3,2.6,60020.0,High school diploma or equivalent,1.5,0.9,"Pump operators, except wellhead pumpers"
+        Wellhead pumpers,53-7073,18.8,17.9,-0.9,-4.7,70010.0,High school diploma or equivalent,2.0,0.84,Wellhead pumpers
+      Refuse and recyclable material collectors,53-7081,147.9,149.2,1.3,0.9,48350.0,No formal educational credential,16.9,0.93,Refuse and recyclable material collectors
+"      Tank car, truck, and ship loaders",53-7121,12.0,12.5,0.5,4.3,58070.0,No formal educational credential,1.3,0.72,"Tank car, truck, and ship loaders"
