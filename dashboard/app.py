@@ -77,6 +77,8 @@ use_genai = risk_view == "GenAI (2025)"
 risk_col   = "genai_exposure_2025" if use_genai else "automation_prob"
 risk_label = "GenAI Exposure — ILO (2025)" if use_genai else "Automation Risk — F&O (2013)"
 risk_short = "GenAI Exposure" if use_genai else "Automation Risk"
+if use_genai:
+    st.sidebar.caption("⚠️ GenAI tiers (Low / Medium / High) are relative — based on the 33rd/67th percentile of the ILO score distribution, since ILO scores top out at 0.70.")
 
 st.sidebar.divider()
 
@@ -110,12 +112,18 @@ auto_filter = st.sidebar.slider(
 )
 
 # ── Build view dataframe with dynamic risk tier ────────────────────────────────
+# GenAI scores (ILO 2025) are on a compressed scale (mean ~0.29, max 0.70),
+# so fixed 0.3/0.7 thresholds produce no "High" tier. Instead, use the
+# 33rd/67th percentile of the GenAI distribution as tier cutpoints.
+_genai_p33 = df["genai_exposure_2025"].quantile(0.33)
+_genai_p67 = df["genai_exposure_2025"].quantile(0.67)
+
 df_view = df.copy()
 if use_genai:
     df_view = df_view.dropna(subset=["genai_exposure_2025"])
     df_view["_risk_tier"] = pd.cut(
         df_view["genai_exposure_2025"],
-        bins=[-0.001, 0.3, 0.7, 1.001],
+        bins=[-0.001, _genai_p33, _genai_p67, df["genai_exposure_2025"].max() + 0.001],
         labels=["Low", "Medium", "High"],
     ).astype(str)
     df_view["_risk_tier"] = df_view["_risk_tier"].where(df_view["_risk_tier"] != "nan", other=None)
