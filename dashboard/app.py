@@ -61,12 +61,27 @@ st.title("🤖 The Automation Paradox")
 st.markdown("**MIS502 Final Project** — Who really gets hurt when AI takes over? | BLS 2024–2034 × Frey & Osborne (2013) × ILO GenAI Index (2025)")
 st.divider()
 
-# ── Sidebar filters ───────────────────────────────────────────────────────────
+# ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.header("🔍 Filters")
 st.sidebar.caption("Filters apply to all tabs except Clusters.")
 
+# Risk data toggle — applies to Overview, Job Explorer, By Sector, Clusters
+risk_view = st.sidebar.radio(
+    "📊 Risk Score",
+    ["Traditional (2013)", "GenAI (2025)"],
+    index=0,
+    horizontal=True,
+    help="Switch between Frey & Osborne (2013) automation probability and ILO (2025) GenAI exposure index.",
+)
+use_genai = risk_view == "GenAI (2025)"
+risk_col   = "genai_exposure_2025" if use_genai else "automation_prob"
+risk_label = "GenAI Exposure — ILO (2025)" if use_genai else "Automation Risk — F&O (2013)"
+risk_short = "GenAI Exposure" if use_genai else "Automation Risk"
+
+st.sidebar.divider()
+
 risk_filter = st.sidebar.multiselect(
-    "Automation Risk Tier",
+    "Risk Tier",
     options=["Low", "Medium", "High"],
     default=["Low", "Medium", "High"],
 )
@@ -88,28 +103,41 @@ wage_filter = st.sidebar.slider(
 )
 
 auto_filter = st.sidebar.slider(
-    "Automation Probability Range",
+    f"{risk_short} Range",
     min_value=0.0, max_value=1.0,
     value=(0.0, 1.0), step=0.05,
     format="%.2f",
 )
 
-filtered = df[
-    df["risk_tier"].isin(risk_filter) &
-    df["occupation_group"].isin(grp_filter) &
-    df["median_wage_2024"].between(wage_filter[0], wage_filter[1]) &
-    df["automation_prob"].between(auto_filter[0], auto_filter[1])
+# ── Build view dataframe with dynamic risk tier ────────────────────────────────
+df_view = df.copy()
+if use_genai:
+    df_view = df_view.dropna(subset=["genai_exposure_2025"])
+    df_view["_risk_tier"] = pd.cut(
+        df_view["genai_exposure_2025"],
+        bins=[-0.001, 0.3, 0.7, 1.001],
+        labels=["Low", "Medium", "High"],
+    ).astype(str)
+    df_view["_risk_tier"] = df_view["_risk_tier"].where(df_view["_risk_tier"] != "nan", other=None)
+else:
+    df_view["_risk_tier"] = df_view["risk_tier"]
+
+filtered = df_view[
+    df_view["_risk_tier"].isin(risk_filter) &
+    df_view["occupation_group"].isin(grp_filter) &
+    df_view["median_wage_2024"].between(wage_filter[0], wage_filter[1]) &
+    df_view[risk_col].between(auto_filter[0], auto_filter[1])
 ]
 
 # ── KPI strip ─────────────────────────────────────────────────────────────────
 c1, c2, c3, c4, c5 = st.columns(5)
 c1.metric("Occupations", f"{len(filtered):,}", help="Matching current filters")
-c2.metric("High-Risk Jobs", f"{(filtered['risk_tier']=='High').sum():,}",
-          delta=f"{(filtered['risk_tier']=='High').mean():.0%} of filtered")
-c3.metric("Avg Automation Risk", f"{filtered['automation_prob'].mean():.0%}")
+c2.metric("High-Risk Jobs", f"{(filtered['_risk_tier']=='High').sum():,}",
+          delta=f"{(filtered['_risk_tier']=='High').mean():.0%} of filtered")
+c3.metric(f"Avg {risk_short}", f"{filtered[risk_col].mean():.0%}")
 c4.metric("Vulnerable Jobs",
           f"{filtered['vulnerable'].sum():,}",
-          help="High automation + low adaptive capacity")
+          help="High traditional automation + low adaptive capacity")
 c5.metric("Avg Projected Growth", f"{filtered['emp_change_pct'].mean():.1f}%")
 
 st.divider()
@@ -131,8 +159,8 @@ with tab1:
     col_a, col_b = st.columns(2)
 
     with col_a:
-        st.subheader("Automation Risk Distribution")
-        counts = filtered["risk_tier"].value_counts().reindex(["Low", "Medium", "High"]).reset_index()
+        st.subheader(f"{risk_short} Distribution")
+        counts = filtered["_risk_tier"].value_counts().reindex(["Low", "Medium", "High"]).reset_index()
         counts.columns = ["Risk Tier", "Count"]
         fig = px.bar(counts, x="Risk Tier", y="Count",
                      color="Risk Tier", color_discrete_map=PALETTE,
@@ -143,7 +171,7 @@ with tab1:
 
     with col_b:
         st.subheader("Median Wage by Risk Tier")
-        wage_df = (filtered.groupby("risk_tier")["median_wage_2024"]
+        wage_df = (filtered.groupby("_risk_tier")["median_wage_2024"]
                    .median().reindex(["Low", "Medium", "High"]).reset_index())
         wage_df.columns = ["Risk Tier", "Median Wage"]
         fig = px.bar(wage_df, x="Risk Tier", y="Median Wage",
@@ -157,7 +185,7 @@ with tab1:
     col_c, col_d = st.columns(2)
 
     with col_c:
-        st.subheader("Education Level vs. Risk Tier")
+        st.subheader(f"Education Level vs. {risk_short} Tier")
         edu_order = [
             "No formal educational credential",
             "High school diploma or equivalent",
@@ -168,14 +196,14 @@ with tab1:
             "Doctoral or professional degree",
         ]
         edu_risk = (filtered[filtered["education_required"].notna()]
-                    .groupby(["education_required", "risk_tier"])
+                    .groupby(["education_required", "_risk_tier"])
                     .size().reset_index(name="count"))
         fig = px.bar(edu_risk, x="education_required", y="count",
-                     color="risk_tier", color_discrete_map=PALETTE,
+                     color="_risk_tier", color_discrete_map=PALETTE,
                      category_orders={"education_required": edu_order,
-                                      "risk_tier": ["Low", "Medium", "High"]},
+                                      "_risk_tier": ["Low", "Medium", "High"]},
                      labels={"education_required": "", "count": "Occupations",
-                             "risk_tier": "Risk Tier"},
+                             "_risk_tier": "Risk Tier"},
                      template="plotly_white", barmode="stack")
         fig.update_xaxes(tickangle=35)
         fig.update_layout(height=360, legend_title="Risk Tier")
@@ -183,6 +211,7 @@ with tab1:
 
     with col_d:
         st.subheader("Wage Gap: Vulnerable vs. Not Vulnerable")
+        st.caption("Vulnerability is defined using traditional automation risk + adaptive capacity.")
         vul = filtered.copy()
         vul["Vulnerability"] = vul["vulnerable"].map({True: "Vulnerable", False: "Not Vulnerable"})
         fig = px.box(vul, x="Vulnerability", y="median_wage_2024",
@@ -199,35 +228,35 @@ with tab1:
 # TAB 2 — JOB EXPLORER
 # ────────────────────────────────────────────────────────────────────────────
 with tab2:
-    st.subheader("Automation Risk vs. Projected Employment Change")
+    st.subheader(f"{risk_label} vs. Projected Employment Change")
     st.caption("Each dot is one occupation. Hover for details. Use sidebar filters to focus.")
 
     bubble_df = filtered.dropna(subset=["emp_change_pct", "annual_openings"])
     fig = px.scatter(
         bubble_df,
-        x="automation_prob", y="emp_change_pct",
+        x=risk_col, y="emp_change_pct",
         size="annual_openings", size_max=45,
-        color="risk_tier", color_discrete_map=PALETTE,
+        color="_risk_tier", color_discrete_map=PALETTE,
         hover_name="occupation",
         hover_data={
             "median_wage_2024":    ":$,.0f",
             "education_required":  True,
             "occupation_group":    True,
             "annual_openings":     ":,.0f",
-            "automation_prob":     ":.0%",
+            risk_col:              ":.0%",
             "emp_change_pct":      ":.1f",
-            "risk_tier":           False,
+            "_risk_tier":          False,
         },
         labels={
-            "automation_prob":  "Automation Probability (Frey & Osborne)",
+            risk_col:           risk_label,
             "emp_change_pct":   "Projected Employment Change 2024–34 (%)",
-            "risk_tier":        "Risk Tier",
+            "_risk_tier":       "Risk Tier",
             "annual_openings":  "Annual Openings",
         },
         template="plotly_white", height=560,
     )
     fig.add_vline(x=0.5, line_dash="dash", line_color="gray",
-                  annotation_text="50% automation threshold",
+                  annotation_text="50% threshold",
                   annotation_position="top right")
     fig.add_hline(y=0, line_dash="dash", line_color="gray",
                   annotation_text="No net change",
@@ -240,50 +269,50 @@ with tab2:
     with col_l:
         st.subheader("⚠️ Most At-Risk Occupations")
         at_risk = (filtered[filtered["emp_change_pct"].notna()]
-                   .sort_values(["automation_prob", "emp_change_pct"])
+                   .sort_values([risk_col, "emp_change_pct"])
                    .head(15))
         fig = px.bar(at_risk, x="emp_change_pct", y="occupation",
-                     orientation="h", color="automation_prob",
+                     orientation="h", color=risk_col,
                      color_continuous_scale="Reds",
                      hover_data={"median_wage_2024": ":$,.0f"},
                      labels={"emp_change_pct": "Projected Change (%)",
                              "occupation": "",
-                             "automation_prob": "Automation Prob"},
+                             risk_col: risk_short},
                      template="plotly_white")
         fig.update_layout(yaxis={"categoryorder": "total ascending"}, height=440,
-                          coloraxis_colorbar_title="Automation<br>Prob")
+                          coloraxis_colorbar_title=risk_short)
         fig.add_vline(x=0, line_dash="dash", line_color="black", line_width=0.8)
         st.plotly_chart(fig, use_container_width=True)
 
     with col_r:
         st.subheader("✅ Safest Growing Occupations")
         safe = (filtered[filtered["emp_change_pct"].notna() &
-                         (filtered["automation_prob"] < 0.3)]
+                         (filtered[risk_col] < 0.3)]
                 .sort_values("emp_change_pct", ascending=False)
                 .head(15))
         fig = px.bar(safe, x="emp_change_pct", y="occupation",
-                     orientation="h", color="automation_prob",
+                     orientation="h", color=risk_col,
                      color_continuous_scale="Greens_r",
                      hover_data={"median_wage_2024": ":$,.0f"},
                      labels={"emp_change_pct": "Projected Change (%)",
                              "occupation": "",
-                             "automation_prob": "Automation Prob"},
+                             risk_col: risk_short},
                      template="plotly_white")
         fig.update_layout(yaxis={"categoryorder": "total ascending"}, height=440,
-                          coloraxis_colorbar_title="Automation<br>Prob")
+                          coloraxis_colorbar_title=risk_short)
         st.plotly_chart(fig, use_container_width=True)
 
     st.subheader("Full Data Table")
-    display_cols = ["occupation", "occupation_group", "risk_tier",
-                    "automation_prob", "emp_change_pct",
+    display_cols = ["occupation", "occupation_group", "_risk_tier",
+                    risk_col, "emp_change_pct",
                     "median_wage_2024", "education_required", "vulnerable"]
     st.dataframe(
-        filtered[display_cols].sort_values("automation_prob", ascending=False)
+        filtered[display_cols].sort_values(risk_col, ascending=False)
         .rename(columns={
             "occupation":        "Occupation",
             "occupation_group":  "Group",
-            "risk_tier":         "Risk Tier",
-            "automation_prob":   "Automation Prob",
+            "_risk_tier":        "Risk Tier",
+            risk_col:            risk_short,
             "emp_change_pct":    "Projected Change %",
             "median_wage_2024":  "Median Wage $",
             "education_required":"Education Required",
@@ -297,24 +326,24 @@ with tab2:
 # TAB 3 — BY SECTOR
 # ────────────────────────────────────────────────────────────────────────────
 with tab3:
-    st.subheader("Average Automation Risk by Occupation Group")
+    st.subheader(f"Average {risk_short} by Occupation Group")
 
     grp_stats = (filtered.groupby("occupation_group")
-                 .agg(avg_automation=("automation_prob", "mean"),
+                 .agg(avg_risk=(risk_col, "mean"),
                       avg_wage=("median_wage_2024", "median"),
                       avg_growth=("emp_change_pct", "mean"),
                       count=("occupation", "count"))
                  .reset_index()
-                 .sort_values("avg_automation", ascending=False))
+                 .sort_values("avg_risk", ascending=False))
 
-    fig = px.bar(grp_stats, x="avg_automation", y="occupation_group",
+    fig = px.bar(grp_stats, x="avg_risk", y="occupation_group",
                  orientation="h",
-                 color="avg_automation",
+                 color="avg_risk",
                  color_continuous_scale=["#2ecc71", "#f39c12", "#e74c3c"],
                  hover_data={"avg_wage": ":$,.0f",
                              "avg_growth": ":.1f",
                              "count": True},
-                 labels={"avg_automation":    "Avg Automation Probability",
+                 labels={"avg_risk":          f"Avg {risk_short}",
                          "occupation_group":  "",
                          "avg_wage":          "Median Wage",
                          "avg_growth":        "Avg Growth %",
@@ -329,15 +358,15 @@ with tab3:
     st.subheader("Sector Summary Table")
     grp_stats_display = grp_stats.rename(columns={
         "occupation_group": "Group",
-        "avg_automation":   "Avg Automation",
+        "avg_risk":         f"Avg {risk_short}",
         "avg_wage":         "Median Wage ($)",
         "avg_growth":       "Avg Growth %",
         "count":            "# Occupations",
     }).style.format({
-        "Avg Automation": "{:.0%}",
+        f"Avg {risk_short}": "{:.0%}",
         "Median Wage ($)": "${:,.0f}",
         "Avg Growth %": "{:.1f}%",
-    }).background_gradient(subset=["Avg Automation"], cmap="RdYlGn_r")
+    }).background_gradient(subset=[f"Avg {risk_short}"], cmap="RdYlGn_r")
     st.dataframe(grp_stats_display, use_container_width=True)
 
 # ────────────────────────────────────────────────────────────────────────────
@@ -347,6 +376,15 @@ with tab4:
     st.subheader("K-Means Cluster Analysis")
     st.caption("4 clusters fitted on automation probability, adaptive capacity, wage, and education. "
                "Visualized using PCA (2 components). Sidebar filters do NOT apply here.")
+
+    if use_genai:
+        st.info(
+            "ℹ️ Clusters are pre-computed from **Frey & Osborne (2013) traditional automation data**. "
+            "Switching to GenAI view does not re-cluster occupations — the cluster assignments remain "
+            "the same. The scatter below is colored by cluster as usual; use the **Then vs. Now** tab "
+            "to explore the GenAI risk shift at the occupation level.",
+            icon="ℹ️",
+        )
 
     cl_data = clustered.dropna(subset=["cluster_label", "pca_1", "pca_2"])
 
@@ -451,14 +489,14 @@ as it displaces specific tasks. The aggregate numbers look fine. But averages hi
 the distribution.
 """)
 
-    # Scatter with trend
+    # Scatter with trend — always uses traditional automation for the paradox narrative
     fig = px.scatter(
-        filtered.dropna(subset=["emp_change_pct"]),
+        df.dropna(subset=["emp_change_pct"]),
         x="automation_prob", y="emp_change_pct",
         trendline="ols",
         color="risk_tier", color_discrete_map=PALETTE,
         hover_name="occupation",
-        labels={"automation_prob": "Automation Probability",
+        labels={"automation_prob": "Automation Probability (Frey & Osborne 2013)",
                 "emp_change_pct": "Projected Employment Change (%)",
                 "risk_tier": "Risk Tier"},
         template="plotly_white", height=420, opacity=0.45,
@@ -556,7 +594,7 @@ with tab6:
     st.divider()
 
     # Working dataset — drop the 6 unmatched occupations
-    thenow = filtered.dropna(subset=["genai_exposure_2025"]).copy()
+    thenow = df[df["occupation_group"].isin(grp_filter)].dropna(subset=["genai_exposure_2025"]).copy()
     thenow["risk_delta"] = thenow["genai_exposure_2025"] - thenow["automation_prob"]
 
     # ── KPI strip ─────────────────────────────────────────────────────────────
