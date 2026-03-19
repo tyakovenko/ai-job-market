@@ -6,6 +6,8 @@
 
 ## 1. All Steps and Outcomes
 
+> **Note on dataset selection:** A synthetic Kaggle dataset (*AI Impact on Job Market, 2024–2030*) was considered but set aside before wrangling began. Preliminary inspection showed near-zero cross-variable correlations (r ≈ 0.001–0.012), indicating that all numeric fields — automation risk, salary, employment change — were generated independently with no relationship to each other. A dataset with no internal signal cannot produce meaningful findings. The pipeline below uses three real-world, institutionally sourced datasets instead.
+
 ### Step 1 — Load Raw Data
 
 Four raw files are loaded:

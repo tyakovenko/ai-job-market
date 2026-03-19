@@ -48,7 +48,7 @@ Figures 1–11 cover the core Automation Paradox analysis. Figures 12–14 are t
 
 **Why this chart type:** A ranked bar chart is ideal for showing a clear "top/bottom" list. Horizontal orientation accommodates long occupation names without truncation.
 
-**What it reveals:** The most at-risk occupations are concentrated in clerical, administrative, and production roles: data entry keyers, word processors, insurance underwriters, and watch repairers — all with automation probabilities exceeding 95% and declining employment projections. These are exactly the roles where automation is not merely theoretical but already underway.
+**What it reveals:** The chart surfaces the occupations that combine the highest automation probability with the worst employment outlook — including recreational therapists, emergency management directors, and supervisors of mechanics and repairers. Notably, several healthcare-adjacent occupations appear in the list: their automation risk scores are elevated in the Frey & Osborne model despite the sector's general resilience, reflecting the model's 2013 vintage and its different task classification logic from the ILO 2025 approach. The color gradient (darker = higher automation probability) shows these are not uniformly at the top of the automation scale — the chart prioritizes the combined worst-case (high automation *and* low growth), not the single highest-automation occupations alone.
 
 ---
 
@@ -101,7 +101,7 @@ Figures 1–11 cover the core Automation Paradox analysis. Figures 12–14 are t
 
 **Why this chart type:** A bubble chart encodes four variables simultaneously. The bubble size adds volume information (how many jobs are opening each year), making it possible to identify not just risky jobs but risky jobs *at scale* — the ones that matter most for the overall workforce.
 
-**What it reveals:** Large red bubbles in the lower-left corner represent the highest-risk, lowest-wage, highest-volume occupations — the jobs displacing the most people. Large green bubbles in the upper area represent the safe, high-wage occupations generating new openings. The chart visually summarizes the inequality divide that AI is amplifying.
+**What it reveals:** Large red bubbles in the lower-right corner represent the highest-risk, lowest-wage, highest-volume occupations — the jobs displacing the most people. Large green bubbles in the upper-left area represent the safe, high-wage occupations generating new openings. The chart visually summarizes the inequality divide that AI is amplifying.
 
 ---
 
@@ -129,9 +129,11 @@ Figures 1–11 cover the core Automation Paradox analysis. Figures 12–14 are t
 
 **What it reveals:**
 - `automation_prob` has a moderate negative correlation with `emp_change_pct` (−0.41) — confirming H1
+- `automation_prob` also shows strong negative correlations with `median_wage_2024` (−0.53) and `education_level` (−0.68), reinforcing that high-risk jobs cluster at the low-wage, low-education end
 - `education_level` and `median_wage_2024` are positively correlated with `emp_change_pct` (+0.32, +0.28) — confirming H3
-- `adaptive_capacity_score` correlates strongly with `median_wage_2024` (+0.74) by construction (wage is a component)
-- No single variable dominates — this multicollinearity explains the moderate R² in the regression
+- `adaptive_capacity_score` correlates strongly with both `education_level` (+0.96) and `median_wage_2024` (+0.85) by construction, since wage and education are its components
+- `annual_openings` is effectively uncorrelated with everything else (max r = 0.07) — volume of openings is independent of risk level
+- No single variable dominates employment change — multicollinearity between wage, education, and adaptive capacity explains the moderate R² in the regression
 
 ---
 
@@ -157,7 +159,7 @@ Figures 1–11 cover the core Automation Paradox analysis. Figures 12–14 are t
 
 **Why this chart type:** Adding a trend line to a scatter plot makes the direction and approximate magnitude of the relationship visible at a glance without requiring the reader to interpret regression coefficients. Per-tier trend lines reveal whether the automation-growth relationship differs across risk levels.
 
-**What it reveals:** The downward slope of the overall trend line confirms the negative relationship between automation risk and employment change. High-risk occupations have a steeper negative slope than low-risk ones. Notably, the confidence interval widens in the high-risk zone — some high-automation occupations are still growing, which is the core empirical evidence for the Automation Paradox.
+**What it reveals:** The downward slope of each tier's trend line confirms the negative relationship between automation risk and employment change. The three per-tier OLS lines are broadly parallel with mild negative slopes — the gradient is consistent across risk levels rather than dramatically steeper in the high-risk tier. The most telling feature is the *vertical spread* within each tier: even within the High tier, projected employment change ranges from −36% to +15%, which is the core empirical evidence for the Automation Paradox. High automation risk does not determine employment fate — it merely tilts the distribution downward.
 
 ---
 

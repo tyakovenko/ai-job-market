@@ -3,7 +3,7 @@
 
 > **Extraction methodology (per NotebookLM):** Figures were located by systematically scanning each source document for numerical digits, percentage symbols, and text-based quantitative markers (e.g., "quarter," "doubled," "fourfold"). For each number found, the surrounding sentence and paragraph were read to verify exactly what the metric measures, what time period it covers, and which organization produced it. Figures are quoted directly from source text — not paraphrased — to prevent hallucination or misattribution. Confidence level: **high** for all figures below.
 >
-> **Reliability note:** The Kaggle dataset is **synthetic**, generated to reflect patterns from BLS, OECD, McKinsey, and WEF public reports (2024–2030 period). It does not constitute original empirical data. All real-world statistics below come from primary institutional sources. These figures will be used as **benchmark comparators** during data mining — i.e., we test whether our synthetic dataset's patterns align with what real-world research shows.
+> **Dataset note:** A synthetic Kaggle dataset (*AI Impact on Job Market, 2024–2030*) was evaluated and rejected at project inception. Preliminary analysis found near-zero correlations between all numeric variables (r ≈ 0.001–0.012), indicating random generation with no internal signal. All figures below come from primary institutional sources and serve as **external validation benchmarks** for the real-world pipeline (Frey & Osborne × BLS × ILO).
 
 ---
 
@@ -245,8 +245,8 @@
 
 ---
 
-## Source 7: Kaggle Dataset (Synthetic)
-**Primary dataset — AI Impact on Job Market, 2024–2030**
+## Source 7: Kaggle Dataset (Synthetic) — Evaluated and Rejected
+**AI Impact on Job Market, 2024–2030**
 *Generated to reflect OECD, McKinsey, and WEF labor market patterns*
 
 | Feature | Value/Distribution |
@@ -265,23 +265,23 @@
 | Requiring Master's Degree | 20% |
 | Other education levels | 59% (17,757 jobs) |
 
-> **Important:** The 50/50 split between increasing/decreasing jobs and the even distribution across AI impact levels suggest the dataset was constructed to be balanced for analytical purposes. This is atypical of real labor markets (BLS shows mostly growth). Flag this in the Dataset Description report — it is a **synthetic artifact**, not an empirical finding.
+> **Why rejected:** The 50/50 split between increasing/decreasing jobs and the even distribution across all AI impact levels reveal that this dataset was constructed to be analytically balanced rather than empirically representative. Real labor markets are not that symmetrical — BLS shows that the vast majority of occupations project positive growth, and automation risk is distributed unevenly by sector. Near-zero cross-variable correlations (r ≈ 0.001–0.012) confirmed the absence of any real labor market signal. The project uses Frey & Osborne × BLS × ILO real-world data instead.
 
 ---
 
 ## How These Figures Feed into the Project
 
-### Stage 3 (Data Wrangling) — Benchmark Validation
-After cleaning the Kaggle dataset, compare its distributions against real-world benchmarks:
-- Does the dataset's automation risk distribution align with Anthropic's 33% observed coverage for Computer & Math?
-- Does gender diversity in high-risk roles reflect Brookings' 86% female finding?
-- Flag and document any divergences as synthetic artifacts
+### Data Wrangling — Benchmark Validation
+After cleaning and merging the real-world datasets, these figures serve as external sanity checks:
+- Does the pipeline's automation risk distribution align with Anthropic's 33% observed AI coverage for Computer & Math?
+- Does the gender concentration in vulnerable occupations reflect Brookings' 86% female finding in high-exposure/low-adaptive roles?
+- Do sector-level risk rankings match the academic consensus (Office & Admin, Production as highest-risk; Healthcare, Computer & Math as lowest)?
 
-### Stage 4 (Data Mining) — Hypothesis Testing Against Benchmarks
+### Data Mining — Hypothesis Testing Against Benchmarks
 Use these figures as **expected values** when interpreting cluster outputs and regression results:
 - Clusters should produce a "vulnerable" segment resembling the Brookings 6.1M profile (high exposure, ~85% female, low salary)
-- Regression of automation risk → job openings should produce a negative coefficient consistent with Anthropic's −0.6 pp per 10 pp finding
-- If the Kaggle data tells a different story, explain why (synthetic construction vs. real market dynamics)
+- Regression of automation risk → employment change should produce a negative coefficient consistent with Anthropic's −0.6 pp per 10 pp finding
+- Divergences from these benchmarks should be explained by sample composition (606 matched occupations vs. full workforce) rather than data error
 
 ---
 

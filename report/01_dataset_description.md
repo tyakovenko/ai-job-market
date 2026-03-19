@@ -55,8 +55,6 @@ This project uses two peer-reviewed and government-published datasets rather tha
 
 ---
 
----
-
 ### Dataset 3: ILO Generative AI Occupational Exposure Index (2025)
 
 **Source:** Gmyrek, P., Berg, J., & Bescond, D. (2025). *Generative AI and Jobs: A Refined Global Index of Occupational Exposure.* ILO Working Paper 140. International Labour Organization & NASK (Poland's National Research Institute).
@@ -136,4 +134,4 @@ Expected patterns:
 
 **Determinism risk:** Presenting automation probability scores as fixed destinies overstates the certainty of the findings. Technology adoption depends on cost, regulation, labor market conditions, and social acceptance — none of which are captured in the data.
 
-**No demographic data:** Unlike the synthetic Kaggle dataset, neither real dataset includes gender or race. The analysis cannot directly test demographic disparities in automation exposure, though this is acknowledged as an important gap.
+**No demographic data:** Neither dataset includes gender or race at the occupation level. The analysis cannot directly test demographic disparities in automation exposure — an important limitation given that Brookings and Anthropic research both show meaningful gender and racial concentration in high-exposure roles.

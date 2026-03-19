@@ -1,6 +1,6 @@
 # Stage 4: Data Mining
 **MIS502 Final Project — AI's Impact on the Job Market**
-**Points: 25 | Status: Complete**
+**Points: 25 | Status: Complete — ILO 2025 GenAI columns present in dataset but excluded from models (see overview note)**
 
 ---
 
