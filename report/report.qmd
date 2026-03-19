@@ -101,6 +101,13 @@ the data says about where the US labor market is heading through 2034.
 
 ## 2. Data Sources
 
+**A note on the original dataset:** This project was initially scoped around the
+*AI Impact on Job Market* dataset on Kaggle. Preliminary analysis showed near-zero
+correlations between all variables (r ≈ 0.001–0.012 across every pair), which is a
+hallmark of randomly generated synthetic data — there is no real signal to analyze.
+That dataset was set aside in favor of the three authoritative real-world sources
+described below.
+
 Three datasets are combined for this analysis:
 
 | Dataset | Source | Coverage | Role |
@@ -114,9 +121,6 @@ Frey & Osborne and BLS are joined on SOC codes (86% match rate). The ILO dataset
 ISCO-08 codes and is bridged via the BLS official ISCO-08 × SOC crosswalk, covering
 600 of 606 occupations.
 
-*Note: A synthetic Kaggle dataset was evaluated and rejected. Preliminary analysis
-showed near-zero correlations between all numeric variables (r ≈ 0.001–0.012) — a
-hallmark of random generation with no internal signal. Real data produces real findings.*
 
 ---
 
@@ -496,7 +500,7 @@ absorbing the displacement costs with no safety net.
 of automation risk — which is why this report includes the ILO 2025 comparison in Section 9.
 Even so, the ILO scores are global (ISCO-08) and were validated using Polish worker surveys;
 US-specific GenAI adoption rates may differ. BLS projections are point estimates with
-unquantified uncertainty. The merged dataset covers 606 of the ~900 US occupations; 6
+unquantified uncertainty. The merged dataset covers 606 of 832 BLS-tracked occupations; 6
 occupations have no ISCO-08 equivalent and are excluded from the then/now analysis only.
 
 ---
@@ -512,5 +516,5 @@ occupations have no ISCO-08 equivalent and are excluded from the then/now analys
   Organization. https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure
 - Acemoglu, D. & Restrepo, P. (2018). Artificial Intelligence, Automation, and Work.
   *NBER Working Paper 24196.*
-- Brookings Institution. *Automation and Artificial Intelligence: How Machines Are
-  Affecting People and Places.*
+- Broady, K., McGrew, C., & Ouyang, A. (2024). *Measuring US Workers' Capacity to
+  Adapt to AI-Driven Job Displacement.* The Brookings Institution.
