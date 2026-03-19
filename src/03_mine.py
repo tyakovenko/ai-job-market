@@ -159,6 +159,75 @@ out = df.merge(
 out.to_csv("data/processed/clustered.csv", index=False)
 print("Saved clustered.csv")
 
+# ── GenAI CLUSTERS ────────────────────────────────────────────────────────────
+print("\n" + "=" * 60)
+print("GENAI CLUSTERS (ILO 2025 exposure as risk dimension)")
+print("=" * 60)
+
+# Use genai_exposure_2025 in place of automation_prob
+genai_features = ["genai_exposure_2025", "adaptive_capacity_score",
+                  "wage_norm", "edu_norm"]
+genai_df = df[genai_features + ["occupation", "emp_change_pct",
+                                 "occupation_group", "education_required",
+                                 "median_wage_2024", "soc_code"]].dropna()
+
+Xg = genai_df[genai_features].values
+scaler_g = StandardScaler()
+Xg_scaled = scaler_g.fit_transform(Xg)
+
+# Elbow check
+inertias_g = []
+for k in K_range:
+    km_g = KMeans(n_clusters=k, random_state=42, n_init=10)
+    km_g.fit(Xg_scaled)
+    inertias_g.append(km_g.inertia_)
+
+# Fit k=4 for comparability with traditional clusters
+km_g = KMeans(n_clusters=4, random_state=42, n_init=10)
+genai_df = genai_df.copy()
+genai_df["cluster"] = km_g.fit_predict(Xg_scaled)
+
+genai_profiles = genai_df.groupby("cluster")[
+    ["genai_exposure_2025", "adaptive_capacity_score", "emp_change_pct"]
+].mean().round(3)
+print("\nGenAI cluster profiles (means):")
+print(genai_profiles)
+
+# GenAI exposure threshold: 67th percentile of the distribution
+genai_p67 = df["genai_exposure_2025"].quantile(0.67)
+
+genai_names = {}
+for c, row in genai_profiles.iterrows():
+    high_exposure  = row["genai_exposure_2025"] > genai_p67
+    high_resilience = row["adaptive_capacity_score"] >= 0.4
+    if high_exposure and not high_resilience:
+        genai_names[c] = "High Exposure / Low Resilience"
+    elif high_exposure and high_resilience:
+        genai_names[c] = "High Exposure / Adaptable"
+    elif not high_exposure and high_resilience:
+        genai_names[c] = "Low Exposure / High Skill"
+    else:
+        genai_names[c] = "Low Exposure / Stable"
+
+genai_df["cluster_label"] = genai_df["cluster"].map(genai_names)
+print("\nGenAI cluster labels assigned:")
+print(genai_df["cluster_label"].value_counts())
+
+# PCA for 2D visualization
+pca_g = PCA(n_components=2, random_state=42)
+coords_g = pca_g.fit_transform(Xg_scaled)
+genai_df["pca_1"] = coords_g[:, 0]
+genai_df["pca_2"] = coords_g[:, 1]
+
+# Save
+out_g = df.merge(
+    genai_df[["occupation", "cluster", "cluster_label", "pca_1", "pca_2"]],
+    on="occupation", how="left",
+    suffixes=("", "_genai"),
+)
+out_g.to_csv("data/processed/clustered_genai.csv", index=False)
+print("Saved clustered_genai.csv")
+
 # ── TECHNIQUE B: Linear Regression ───────────────────────────────────────────
 print("\n" + "=" * 60)
 print("TECHNIQUE B: LINEAR REGRESSION")

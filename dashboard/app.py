@@ -42,11 +42,12 @@ st.markdown("""
 # ── Load data ─────────────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df  = pd.read_csv("data/processed/cleaned_main.csv")
-    cl  = pd.read_csv("data/processed/clustered.csv")
-    return df, cl
+    df         = pd.read_csv("data/processed/cleaned_main.csv")
+    cl         = pd.read_csv("data/processed/clustered.csv")
+    cl_genai   = pd.read_csv("data/processed/clustered_genai.csv")
+    return df, cl, cl_genai
 
-df, clustered = load_data()
+df, clustered, clustered_genai = load_data()
 
 PALETTE = {"Low": "#2ecc71", "Medium": "#f39c12", "High": "#e74c3c"}
 CLUSTER_COLORS = {
@@ -54,6 +55,12 @@ CLUSTER_COLORS = {
     "High Risk / High Resilience": "#e67e22",
     "Low Risk / High Skill":       "#2ecc71",
     "Low Risk / Stable":           "#3498db",
+}
+GENAI_CLUSTER_COLORS = {
+    "High Exposure / Low Resilience": "#e74c3c",
+    "High Exposure / Adaptable":      "#e67e22",
+    "Low Exposure / High Skill":      "#2ecc71",
+    "Low Exposure / Stable":          "#3498db",
 }
 
 # ── Header ────────────────────────────────────────────────────────────────────
@@ -381,20 +388,31 @@ with tab3:
 # TAB 4 — CLUSTERS
 # ────────────────────────────────────────────────────────────────────────────
 with tab4:
-    st.subheader("K-Means Cluster Analysis")
-    st.caption("4 clusters fitted on automation probability, adaptive capacity, wage, and education. "
-               "Visualized using PCA (2 components). Sidebar filters do NOT apply here.")
-
     if use_genai:
-        st.info(
-            "ℹ️ Clusters are pre-computed from **Frey & Osborne (2013) traditional automation data**. "
-            "Switching to GenAI view does not re-cluster occupations — the cluster assignments remain "
-            "the same. The scatter below is colored by cluster as usual; use the **Then vs. Now** tab "
-            "to explore the GenAI risk shift at the occupation level.",
-            icon="ℹ️",
+        st.subheader("K-Means Cluster Analysis — GenAI Era (ILO 2025)")
+        st.caption(
+            "Clusters re-fitted using GenAI exposure (ILO 2025) as the risk dimension, "
+            "combined with adaptive capacity, wage, and education. "
+            "Sidebar filters do NOT apply here."
         )
 
-    cl_data = clustered.dropna(subset=["cluster_label", "pca_1", "pca_2"])
+        cl_data  = clustered_genai.dropna(subset=["cluster_label", "pca_1", "pca_2"])
+        col_map  = GENAI_CLUSTER_COLORS
+        risk_hover_col   = "genai_exposure_2025"
+        risk_hover_label = "GenAI Exposure"
+
+    else:
+        st.subheader("K-Means Cluster Analysis — Traditional Automation (F&O 2013)")
+        st.caption(
+            "Clusters fitted on Frey & Osborne (2013) automation probability, "
+            "adaptive capacity, wage, and education. "
+            "Visualized using PCA (2 components). Sidebar filters do NOT apply here."
+        )
+
+        cl_data  = clustered.dropna(subset=["cluster_label", "pca_1", "pca_2"])
+        col_map  = CLUSTER_COLORS
+        risk_hover_col   = "automation_prob"
+        risk_hover_label = "Automation Prob"
 
     col_scatter, col_profile = st.columns([3, 2])
 
@@ -403,10 +421,10 @@ with tab4:
             cl_data,
             x="pca_1", y="pca_2",
             color="cluster_label",
-            color_discrete_map=CLUSTER_COLORS,
+            color_discrete_map=col_map,
             hover_name="occupation",
             hover_data={
-                "automation_prob":        ":.0%",
+                risk_hover_col:          ":.0%",
                 "adaptive_capacity_score":":.3f",
                 "emp_change_pct":         ":.1f",
                 "median_wage_2024":       ":$,.0f",
@@ -427,22 +445,22 @@ with tab4:
         st.markdown("#### Cluster Profiles")
         profile = (cl_data.groupby("cluster_label")
                    .agg(count=("occupation", "count"),
-                        automation=("automation_prob", "mean"),
+                        risk=(risk_hover_col, "mean"),
                         capacity=("adaptive_capacity_score", "mean"),
                         growth=("emp_change_pct", "mean"),
                         wage=("median_wage_2024", "median"))
                    .reset_index()
-                   .sort_values("automation", ascending=False))
+                   .sort_values("risk", ascending=False))
 
         for _, row in profile.iterrows():
-            color = CLUSTER_COLORS.get(row["cluster_label"], "#888")
+            color = col_map.get(row["cluster_label"], "#888")
             st.markdown(f"""
 <div style="border-left:4px solid {color}; padding:10px 14px;
             margin-bottom:10px; background:#1a1a2e; border-radius:0 8px 8px 0;">
 <b style="color:{color}">{row['cluster_label']}</b><br>
 <small>
 {int(row['count'])} occupations &nbsp;|&nbsp;
-Automation: {row['automation']:.0%} &nbsp;|&nbsp;
+{risk_hover_label}: {row['risk']:.0%} &nbsp;|&nbsp;
 Adaptive Capacity: {row['capacity']:.3f}<br>
 Median Wage: ${row['wage']:,.0f} &nbsp;|&nbsp;
 Avg Growth: {row['growth']:+.1f}%
@@ -454,15 +472,15 @@ Avg Growth: {row['growth']:+.1f}%
     chosen = st.selectbox("Select a cluster to explore:",
                           options=sorted(cl_data["cluster_label"].dropna().unique()))
     sub = cl_data[cl_data["cluster_label"] == chosen][
-        ["occupation", "occupation_group", "automation_prob",
+        ["occupation", "occupation_group", risk_hover_col,
          "adaptive_capacity_score", "emp_change_pct", "median_wage_2024",
          "education_required"]
-    ].sort_values("automation_prob", ascending=False)
+    ].sort_values(risk_hover_col, ascending=False)
     st.dataframe(
         sub.rename(columns={
             "occupation":             "Occupation",
             "occupation_group":       "Group",
-            "automation_prob":        "Automation Prob",
+            risk_hover_col:           risk_hover_label,
             "adaptive_capacity_score":"Adaptive Capacity",
             "emp_change_pct":         "Growth %",
             "median_wage_2024":       "Median Wage $",
@@ -789,6 +807,82 @@ with tab6:
         )
         fig_lose.add_vline(x=0, line_color="black", line_width=0.8)
         st.plotly_chart(fig_lose, use_container_width=True)
+
+    # ── Cluster comparison ─────────────────────────────────────────────────────
+    st.subheader("The Vulnerable Class Has Shifted")
+    st.markdown(
+        "The K-Means clusters tell the clearest version of the Then vs. Now story. "
+        "In 2013, the vulnerable group was easy to spot: high automation risk, low wages, "
+        "low education — factory workers and clerks. In 2025, a new vulnerable class emerges "
+        "from *within* the knowledge workforce: high GenAI exposure, but not enough wage or "
+        "education buffer to adapt."
+    )
+
+    col_then, col_now = st.columns(2)
+
+    trad_profiles = (
+        clustered.dropna(subset=["cluster_label"])
+        .groupby("cluster_label")
+        .agg(count=("occupation", "count"),
+             risk=("automation_prob", "mean"),
+             capacity=("adaptive_capacity_score", "mean"),
+             wage=("median_wage_2024", "median"),
+             growth=("emp_change_pct", "mean"))
+        .reset_index()
+        .sort_values("risk", ascending=False)
+    )
+    genai_profiles = (
+        clustered_genai.dropna(subset=["cluster_label"])
+        .groupby("cluster_label")
+        .agg(count=("occupation", "count"),
+             risk=("genai_exposure_2025", "mean"),
+             capacity=("adaptive_capacity_score", "mean"),
+             wage=("median_wage_2024", "median"),
+             growth=("emp_change_pct", "mean"))
+        .reset_index()
+        .sort_values("risk", ascending=False)
+    )
+
+    with col_then:
+        st.markdown("#### 🕰️ Then: Traditional Automation (2013)")
+        for _, row in trad_profiles.iterrows():
+            color = CLUSTER_COLORS.get(row["cluster_label"], "#888")
+            st.markdown(f"""
+<div style="border-left:4px solid {color}; padding:10px 14px;
+            margin-bottom:10px; background:#1a1a2e; border-radius:0 8px 8px 0;">
+<b style="color:{color}">{row['cluster_label']}</b><br>
+<small>
+{int(row['count'])} occupations &nbsp;|&nbsp;
+Automation: {row['risk']:.0%}<br>
+Median Wage: ${row['wage']:,.0f} &nbsp;|&nbsp;
+Adaptive Capacity: {row['capacity']:.3f}
+</small>
+</div>
+""", unsafe_allow_html=True)
+
+    with col_now:
+        st.markdown("#### ⚡ Now: GenAI Exposure (2025)")
+        for _, row in genai_profiles.iterrows():
+            color = GENAI_CLUSTER_COLORS.get(row["cluster_label"], "#888")
+            st.markdown(f"""
+<div style="border-left:4px solid {color}; padding:10px 14px;
+            margin-bottom:10px; background:#1a1a2e; border-radius:0 8px 8px 0;">
+<b style="color:{color}">{row['cluster_label']}</b><br>
+<small>
+{int(row['count'])} occupations &nbsp;|&nbsp;
+GenAI Exposure: {row['risk']:.0%}<br>
+Median Wage: ${row['wage']:,.0f} &nbsp;|&nbsp;
+Adaptive Capacity: {row['capacity']:.3f}
+</small>
+</div>
+""", unsafe_allow_html=True)
+
+    st.caption(
+        "Traditional clusters: automation_prob + adaptive capacity + wage + education (k=4). "
+        "GenAI clusters: genai_exposure_2025 + same features (k=4). "
+        "Switch to the **Clusters** tab and toggle the risk view to explore either set interactively."
+    )
+    st.divider()
 
     # ── Raw comparison table ───────────────────────────────────────────────────
     st.subheader("Full Then vs. Now Table")
