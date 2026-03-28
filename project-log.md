@@ -1,6 +1,6 @@
 # Project Log — AI Impact on Job Market
 **Course:** MIS502 — Data Management for Business
-**Last updated:** 2026-03-17 (Session 2 — complete)
+**Last updated:** 2026-03-19 (Session 3 — complete)
 
 ---
 
@@ -163,6 +163,48 @@ These 6 occupations have no ISCO-08 equivalent in the BLS crosswalk (residual "a
 
 ---
 
+## Session 3 — 2026-03-19
+
+### Summary
+Bug fixes and feature additions to the Streamlit dashboard, new GenAI clustering pipeline, cluster comparison added to the Then vs. Now tab, and a Quarto report update explaining the Kaggle dataset rejection.
+
+### What Was Completed
+
+#### Bug Fix — Streamlit Dashboard Tabs 2–6 Broken on Cloud
+- Root cause: `background_gradient` in pandas Styler requires matplotlib, which had been commented out of `requirements.txt`
+- Fix: added `matplotlib>=3.9.1` back to dashboard requirements
+- All six tabs now render correctly on Streamlit Community Cloud
+
+#### Feature — Traditional / GenAI Risk Score Toggle
+- Added sidebar radio button: "Risk Score: Traditional (2013) | GenAI (2025)"
+- Switching the toggle updates Overview, Job Explorer, By Sector, and Clusters tabs to use either Frey & Osborne automation probabilities or ILO 2025 GenAI exposure scores
+- Risk tiers for GenAI use percentile-based cutoffs (33rd/67th percentile) because ILO scores top out at 0.70 — fixed a bug where the "High" tier returned 0 occupations when using fixed absolute cutoffs
+
+#### Feature — GenAI K-Means Clustering
+- Extended `src/03_mine.py` to recompute K-means clusters using GenAI exposure features
+- Output: `data/processed/clustered_genai.csv`
+- Three effective GenAI clusters:
+
+| Cluster | Occupations | Avg GenAI Score | Median Wage | Profile |
+|---|---|---|---|---|
+| High Exposure / Low Resilience | 86 | 0.47 | $47K | Newly vulnerable class |
+| High Exposure / Adaptable | 202 | 0.37 | $81K | Knowledge workers with adaptability |
+| Low Exposure / Stable | 306 | 0.18 | $48K | Manual/trade occupations largely unaffected |
+
+- Clusters tab now shows the correct cluster set based on the active risk view toggle
+
+#### Feature — Cluster Comparison in Then vs. Now Tab
+- Added "The Vulnerable Class Has Shifted" section to the Then vs. Now tab
+- Shows traditional vs. GenAI cluster profiles side by side
+- Positioned before the full data table at the bottom of the tab
+
+#### Quarto Report Update
+- Added explanatory paragraph at the top of Section 2 (Data Sources)
+- Explains why the Kaggle synthetic dataset was rejected: correlations r ≈ 0.001–0.012 across all variable pairs, consistent with randomly generated data with no real-world signal
+- Re-rendered report with `--no-freeze` and pushed to GitHub Pages
+
+---
+
 ## Open Tasks
 
 - [x] **[COMPLETE]** Integrate ILO 2025 GenAI exposure dataset (then vs. now extension)
@@ -171,12 +213,13 @@ These 6 occupations have no ISCO-08 equivalent in the BLS crosswalk (residual "a
   - [x] Update `src/02_analyze.py` — fig12, fig13, fig14 added (scatter, dumbbell, movers)
   - [x] Update `dashboard/app.py` — "⏳ Then vs. Now" tab added (tab 6)
 - [x] Update all documentation (README, milestone reports, project log, lessons-learned)
-- [ ] Fix Streamlit dashboard design and graphics (layout, styling, chart polish for Then vs. Now tab)
+- [x] Fix Streamlit dashboard design and graphics — tabs 2–6 restored (matplotlib dependency fix); Traditional/GenAI risk toggle added
 - [ ] Fill in written narrative sections of `report/report.qmd` (currently scaffolded with data)
 - [ ] Verify Streamlit Cloud and GitHub Pages URLs are live
 - [ ] Complete Stage 9: peer review comments on classmates' projects (3 pts)
 - [ ] Create presentation in NotebookLM using milestone reports as source documents
 - [ ] Final submission
+- [x] **[COMPLETE]** Promote "Then vs. Now" to Tab 2 "⚡ Synthesis" — always visible, independent of risk toggle, positioned as the project's key finding. Removed duplicate static table from The Paradox tab. Renamed all tab variables to descriptive names.
 
 ---
 
