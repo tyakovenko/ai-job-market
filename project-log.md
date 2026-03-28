@@ -163,6 +163,31 @@ These 6 occupations have no ISCO-08 equivalent in the BLS crosswalk (residual "a
 
 ---
 
+## Session 4 — 2026-03-28
+
+### Summary
+Technical debt audit, dashboard bug fixes, and two new feature branches.
+
+### Bug Fixes (all in `dashboard/app.py`, committed to `feature/synthesis-tab`)
+- **Tab 2 "Safest Growing" threshold** — was hardcoded `< 0.3` in GenAI mode; now uses `_genai_p33` (33rd percentile cutoff), consistent with how GenAI tiers are defined
+- **Tab 6 caption** — removed false claim that wage/auto filters apply to Then vs. Now table (only sector filter applies)
+- **Dead `GENAI_CLUSTER_COLORS` key** — removed `"Low Exposure / High Skill"` which never appears in the current cluster data
+- **Diagonal line in Then vs. Now scatter** — was hardcoded to `y1=1`; now clips to `_genai_max` (data-derived), annotation repositioned proportionally
+
+### Feature: Synthesis Tab (`feature/synthesis-tab` branch)
+- Promoted "Then vs. Now" to Tab 2 "⚡ Synthesis" — always visible, independent of Traditional/GenAI toggle
+- Removed duplicate static "A New Wrinkle" table from The Paradox tab
+- Renamed all tab variables to descriptive names (`tab_overview`, `tab_synthesis`, etc.)
+- Branch is on GitHub; PR open for review before merging
+
+### Feature: Landing Page (`feature/landing-page` branch)
+- Splash screen on first load using `st.session_state` — renders before any data is loaded
+- Static hero content: title, narrative, 2013 vs 2025 category comparison, CTA button
+- `load_data()` moved after `st.stop()` — zero I/O on landing page, data only loads on click-through
+- Branch is on GitHub; PR open for review before merging
+
+---
+
 ## Open Tasks
 
 - [x] **[COMPLETE]** Integrate ILO 2025 GenAI exposure dataset (then vs. now extension)
@@ -171,7 +196,9 @@ These 6 occupations have no ISCO-08 equivalent in the BLS crosswalk (residual "a
   - [x] Update `src/02_analyze.py` — fig12, fig13, fig14 added (scatter, dumbbell, movers)
   - [x] Update `dashboard/app.py` — "⏳ Then vs. Now" tab added (tab 6)
 - [x] Update all documentation (README, milestone reports, project log, lessons-learned)
-- [ ] Fix Streamlit dashboard design and graphics (layout, styling, chart polish for Then vs. Now tab)
+- [x] Fix Streamlit dashboard design and graphics — bugs fixed; Synthesis tab and landing page on feature branches
+- [ ] **Review and merge `feature/synthesis-tab`** — Synthesis as Tab 2, tab variable rename, duplicate content removed
+- [ ] **Review and merge `feature/landing-page`** — static splash screen, deferred data load
 - [ ] Fill in written narrative sections of `report/report.qmd` (currently scaffolded with data)
 - [ ] Verify Streamlit Cloud and GitHub Pages URLs are live
 - [ ] Complete Stage 9: peer review comments on classmates' projects (3 pts)
