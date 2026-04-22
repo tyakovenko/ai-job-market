@@ -192,11 +192,13 @@ at_risk = (df[(df["emp_change_pct"].notna()) & (df["automation_prob"] >= 0.7)]
            .head(15))
 fig, ax = plt.subplots(figsize=(9, 5))
 colors_r = [PALETTE["High"]] * len(at_risk)
-ax.barh(at_risk["occupation"], at_risk["emp_change_pct"], color=colors_r, alpha=0.8)
+labels = [s if len(s) <= 36 else s[:35] + "…" for s in at_risk["occupation"]]
+ax.barh(labels, at_risk["emp_change_pct"], color=colors_r, alpha=0.8)
 ax.axvline(0, color="black", linewidth=0.8, linestyle="--")
 ax.set_title("Top 15 Most At-Risk Occupations\n(Automation ≥70%, worst employment outlook)",
              fontweight="bold")
 ax.set_xlabel("Projected Employment Change (%)"); ax.set_ylabel("")
+ax.tick_params(axis="y", labelsize=9)
 ax.invert_yaxis()
 plt.tight_layout()
 plt.show()
@@ -215,9 +217,11 @@ hypothetical future risks — BLS projects active job losses in all of them thro
 safe = (df[df["emp_change_pct"].notna() & (df["automation_prob"] < 0.3)]
         .sort_values("emp_change_pct", ascending=False).head(15))
 fig, ax = plt.subplots(figsize=(9, 5))
-ax.barh(safe["occupation"], safe["emp_change_pct"], color=PALETTE["Low"], alpha=0.8)
+labels_s = [s if len(s) <= 36 else s[:35] + "…" for s in safe["occupation"]]
+ax.barh(labels_s, safe["emp_change_pct"], color=PALETTE["Low"], alpha=0.8)
 ax.set_title("Top 15 Safest Growing Occupations (Automation Risk < 30%)", fontweight="bold")
 ax.set_xlabel("Projected Employment Change (%)"); ax.set_ylabel("")
+ax.tick_params(axis="y", labelsize=9)
 ax.invert_yaxis()
 plt.tight_layout()
 plt.show()
@@ -368,6 +372,7 @@ ax.set_xlabel("Average Risk / Exposure Score")
 ax.set_title("Sector Risk Shift: Traditional Automation (2013) → GenAI Exposure (2025)",
              fontweight="bold")
 ax.set_xlim(-0.02, 1.02)
+ax.tick_params(axis="y", labelsize=8.5)
 sns.despine(ax=ax)
 plt.tight_layout()
 plt.show()
