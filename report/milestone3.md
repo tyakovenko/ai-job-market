@@ -50,3 +50,7 @@ The largest single predictor in the model was the Computer & Math sector dummy (
 - **Wage gap (fig5, fig10)** — $30,650 gap between high and low risk tiers; vulnerable workers have almost no high-earners in their cohort
 - **Dumbbell chart (fig13)** — sector-level risk shift from 2013 to 2025: physical sectors de-risked, knowledge sectors newly exposed; Computer & Math reversed by +43 percentage points
 - **Scatter (fig12) and diverging bar (fig14)** — occupation-level flip: writers, analysts, mathematicians are newly exposed; brickmasons, cement masons, landscapers are de-risked
+
+---
+
+*This document was drafted with the assistance of Claude (Anthropic) as a writing and analysis tool. All data, findings, code, and analytical decisions are the author's own.*
