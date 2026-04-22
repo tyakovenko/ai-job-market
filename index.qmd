@@ -3,17 +3,27 @@ title: "The Automation Paradox"
 subtitle: "Who Really Gets Hurt When AI Takes Over?"
 ---
 
-This site presents the findings of the MIS502 Final Project analyzing AI's impact
-on the US job market using real-world data from Frey & Osborne (2013) and the
-Bureau of Labor Statistics (2024–2034).
+Most coverage of AI and jobs focuses on which occupations are at risk. This project asks
+a harder question: which workers are actually unable to adapt when displacement happens?
+
+Using automation probability scores (Frey & Osborne, 2013), BLS employment projections
+through 2034, and the ILO's 2025 GenAI Exposure Index, the analysis finds that 144
+occupations — nearly 24% of the matched dataset — combine high automation exposure with
+wages and education too low to support any transition. Automation risk and job loss are
+correlated (r = −0.41) but not the same thing. The gap between them is adaptive capacity,
+and it maps almost perfectly onto existing economic inequality.
+
+A second finding complicates the picture further: the risk map has shifted. Sectors that
+2013 models flagged as near-certain automation targets score among the lowest on GenAI
+exposure today. Knowledge work — writers, analysts, mathematicians — is newly in the
+crosshairs.
 
 → [Read the Full Report](report/report.qmd)
 
-**Datasets used:**
+![Sector risk shift: traditional automation (2013) vs. GenAI exposure (2025) by occupation group.](assets/fig13_sector_risk_shift.png)
 
-- [Frey & Osborne Automation Probability Scores](https://www.oxfordmartin.ox.ac.uk/downloads/academic/The_Future_of_Employment.pdf) — 702 US occupations
-- [BLS Occupational Employment Projections 2024–2034](https://www.bls.gov/emp/) — US Department of Labor
+**Data sources:**
 
-**Key finding:** Automation risk and job loss are related but not the same thing.
-The workers who face the biggest risk are the ones least equipped to adapt — and
-that gap is widening.
+- [Frey & Osborne (2013)](https://www.oxfordmartin.ox.ac.uk/downloads/academic/The_Future_of_Employment.pdf) — automation probability scores, 702 US occupations
+- [BLS Employment Projections 2024–2034](https://www.bls.gov/emp/) — US Department of Labor
+- [ILO GenAI Exposure Index](https://www.ilo.org/publications/generative-ai-and-jobs-refined-global-index-occupational-exposure) — Gmyrek et al. (2025), ILO Working Paper 140

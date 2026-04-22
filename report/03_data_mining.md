@@ -41,26 +41,21 @@ All features were standardized (mean=0, std=1) before clustering to prevent high
 
 ### Choosing k — The Elbow Method
 
-The elbow method runs K-Means for k = 2 through 9 and plots inertia (within-cluster sum of squares). The "elbow" — where adding more clusters produces diminishing improvement — occurs at k=4. However, only 3 meaningfully distinct clusters emerged (the 4th cluster was absorbed by others), so the model effectively yielded 3 interpretable segments.
+The elbow method runs K-Means for k = 2 through 9 and plots inertia (within-cluster sum of squares). The "elbow" — where adding more clusters produces diminishing improvement — occurs at k=4. After comparing interpretability across k=3 and k=4, k=3 was chosen for the final model: the additional cluster at k=4 did not represent a meaningfully distinct occupational profile. All three final clusters are fully separable and substantively interpretable.
 
 *See `figures/fig_elbow.png`*
 
 ### Results
 
+*Note: Clustering ran on 600 occupations (6 excluded due to missing `median_wage_2024`, which is required for `adaptive_capacity_score`). Percentages are of the 600 clustered occupations.*
+
 | Cluster | Size | Avg Automation Prob | Avg Adaptive Capacity | Avg Employment Change % | Avg Median Wage |
 |---|---|---|---|---|---|
-| **High Risk / Low Resilience** | 305 (50.3%) | 0.851 | 0.113 | −1.75% | $49,287 |
-| **Low Risk / Stable** | 225 (37.1%) | 0.271 | 0.155 | +2.58% | $66,965 |
-| **Low Risk / High Skill** | 70 (11.5%) | 0.090 | 0.625 | +5.51% | $126,322 |
+| **High Risk / Low Resilience** | 305 (50.8%) | 0.851 | 0.113 | −1.75% | $49,287 |
+| **Low Risk / Stable** | 225 (37.5%) | 0.271 | 0.155 | +2.58% | $66,965 |
+| **Low Risk / High Skill** | 70 (11.7%) | 0.090 | 0.625 | +5.51% | $126,322 |
 
-**Cluster 1 — High Risk / Low Resilience (50.3% of occupations)**
-The largest and most concerning cluster. These are occupations with automation probability averaging 85%, adaptive capacity of only 0.113/1.0, and projected employment *declining* at −1.75% on average. Median wage is $49,287. Representative occupations: data entry clerks, cashiers, telemarketers, assembly workers, office clerks. These workers face high displacement risk with limited resources to retrain or transition.
-
-**Cluster 2 — Low Risk / Stable (37.1% of occupations)**
-Mid-wage occupations with moderate automation risk (27%) and stable but not exceptional employment growth (+2.58%). Adaptive capacity is low-to-moderate. Representative occupations: social workers, electricians, firefighters, physical therapists. These roles resist automation due to physical dexterity, social intelligence, or unpredictable environments.
-
-**Cluster 3 — Low Risk / High Skill (11.6% of occupations)**
-The "safe harbor" cluster. Very low automation risk (9%), high adaptive capacity (0.625), strong projected growth (+5.51%), and median wages of $126,322. Representative occupations: software developers, physicians, nurse practitioners, financial managers, management analysts. These workers are not only safe from automation — they are the primary beneficiaries.
+Representative occupations by cluster: **High Risk / Low Resilience** — data entry clerks, cashiers, telemarketers, assembly workers, office clerks. **Low Risk / Stable** — social workers, electricians, firefighters, physical therapists. **Low Risk / High Skill** — software developers, physicians, nurse practitioners, financial managers. The wage gap between the bottom and top clusters is 2.6×: $49,287 vs. $126,322.
 
 ### Benchmark Comparison
 
@@ -100,7 +95,10 @@ Regression directly tests H1 and H2: Is automation risk negatively associated wi
 | Metric | Value |
 |---|---|
 | R² (test set) | 0.175 |
+| R² (train set) | 0.400 |
 | Mean Absolute Error | 4.32 percentage points |
+
+> **Note on the train/test gap:** The 0.225-point gap between train R² (0.40) and test R² (0.175) indicates that the 21 occupation-group dummies are overfitting on the training set (~480 rows). The dummies provide structural signal — Computer & Math occupations show +12.4pp growth independent of other features, while Office & Admin Support shows −7.8pp — but they absorb variance that doesn't generalize perfectly. The test R² (0.175) is the appropriate figure for reporting predictive accuracy.
 
 **Coefficient table (key features):**
 
@@ -110,6 +108,19 @@ Regression directly tests H1 and H2: Is automation risk negatively associated wi
 | `adaptive_capacity_score` | **+1.04** | Higher adaptive capacity associated with stronger job growth |
 | `wage_norm` | **+1.36** | Higher wages independently associated with employment growth |
 | `edu_norm` | **+0.72** | Higher education requirements associated with stronger growth |
+
+**Largest occupation-group dummy coefficients** (relative to Architecture & Engineering baseline):
+
+| Occupation Group | Dummy Coefficient | Direction |
+|---|---|---|
+| Computer & Math | +12.4 | Strongest positive effect — high structural growth independent of other features |
+| Healthcare Support | +5.8 | |
+| Healthcare Practitioners | +2.6 | |
+| Office & Admin Support | −7.8 | Strongest negative effect — structural decline beyond automation risk alone |
+| Production | −6.9 | |
+| Education & Library | −5.5 | |
+
+The occupation-group dummies confirm that sector membership carries structural information beyond what automation risk and wages capture. Computer & Math's +12.4 coefficient means these occupations are projected to grow ~12 percentage points faster than the baseline even holding automation risk, wages, and education equal — reflecting AI-driven demand for tech roles.
 
 ### Interpretation
 
@@ -129,6 +140,6 @@ Regression directly tests H1 and H2: Is automation risk negatively associated wi
 |---|---|
 | H1: Automation risk negatively correlates with job growth | ✅ Confirmed (r = −0.414, coefficient = −4.15) |
 | H2: Automation risk alone is a weak predictor | ✅ Confirmed (R² = 0.175) |
-| H3: Adaptive capacity separates vulnerable from resilient | ✅ Confirmed (wage gap: $41,503 vs. $72,293; cluster separation) |
+| H3: Adaptive capacity separates vulnerable from resilient | ✅ Confirmed (mean wage: $41,503 vs. $72,293; cluster separation) |
 
 The data mining stage establishes that automation risk *matters* but is far from deterministic. Where workers land in the labor market depends heavily on whether they have the education and wages to adapt — a finding with direct policy implications.
