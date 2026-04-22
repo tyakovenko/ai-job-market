@@ -154,7 +154,6 @@ CLUSTER_COLORS = {
 GENAI_CLUSTER_COLORS = {
     "High Exposure / Low Resilience": "#e74c3c",
     "High Exposure / Adaptable":      "#e67e22",
-    "Low Exposure / High Skill":      "#2ecc71",
     "Low Exposure / Stable":          "#3498db",
 }
 
@@ -219,6 +218,7 @@ auto_filter = st.sidebar.slider(
 # 33rd/67th percentile of the GenAI distribution as tier cutpoints.
 _genai_p33 = df["genai_exposure_2025"].quantile(0.33)
 _genai_p67 = df["genai_exposure_2025"].quantile(0.67)
+_genai_max = df["genai_exposure_2025"].max()
 
 df_view = df.copy()
 if use_genai:
@@ -253,19 +253,19 @@ c5.metric("Avg Projected Growth", f"{filtered['emp_change_pct'].mean():.1f}%")
 st.divider()
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+tab_overview, tab_synthesis, tab_explorer, tab_sector, tab_clusters, tab_paradox = st.tabs([
     "📊 Overview",
+    "⚡ Synthesis",
     "🔎 Job Explorer",
     "🏭 By Sector",
     "🧩 Clusters",
     "📖 The Paradox",
-    "⏳ Then vs. Now",
 ])
 
 # ────────────────────────────────────────────────────────────────────────────
 # TAB 1 — OVERVIEW
 # ────────────────────────────────────────────────────────────────────────────
-with tab1:
+with tab_overview:
     col_a, col_b = st.columns(2)
 
     with col_a:
@@ -337,7 +337,7 @@ with tab1:
 # ────────────────────────────────────────────────────────────────────────────
 # TAB 2 — JOB EXPLORER
 # ────────────────────────────────────────────────────────────────────────────
-with tab2:
+with tab_explorer:
     st.subheader(f"{risk_label} vs. Projected Employment Change")
     st.caption("Each dot is one occupation. Hover for details. Use sidebar filters to focus.")
 
@@ -396,8 +396,9 @@ with tab2:
 
     with col_r:
         st.subheader("✅ Safest Growing Occupations")
+        _safe_threshold = _genai_p33 if use_genai else 0.3
         safe = (filtered[filtered["emp_change_pct"].notna() &
-                         (filtered[risk_col] < 0.3)]
+                         (filtered[risk_col] < _safe_threshold)]
                 .sort_values("emp_change_pct", ascending=False)
                 .head(15))
         fig = px.bar(safe, x="emp_change_pct", y="occupation",
@@ -435,7 +436,7 @@ with tab2:
 # ────────────────────────────────────────────────────────────────────────────
 # TAB 3 — BY SECTOR
 # ────────────────────────────────────────────────────────────────────────────
-with tab3:
+with tab_sector:
     st.subheader(f"Average {risk_short} by Occupation Group")
 
     grp_stats = (filtered.groupby("occupation_group")
@@ -482,7 +483,7 @@ with tab3:
 # ────────────────────────────────────────────────────────────────────────────
 # TAB 4 — CLUSTERS
 # ────────────────────────────────────────────────────────────────────────────
-with tab4:
+with tab_clusters:
     if use_genai:
         st.subheader("K-Means Cluster Analysis — GenAI Era (ILO 2025)")
         st.caption(
@@ -587,7 +588,7 @@ Avg Growth: {row['growth']:+.1f}%
 # ────────────────────────────────────────────────────────────────────────────
 # TAB 5 — THE PARADOX (narrative)
 # ────────────────────────────────────────────────────────────────────────────
-with tab5:
+with tab_paradox:
     st.subheader("📖 The Automation Paradox: A Data-Driven Story")
 
     st.markdown("""
@@ -664,42 +665,16 @@ group.
    concentrated in healthcare. Removing barriers to these careers is labor policy.
 """)
 
-    st.markdown("""
-### A New Wrinkle: The GenAI Shift
-
-The analysis above is grounded in Frey & Osborne's 2013 automation scores — which predicted
-physical, routine, and clerical jobs were most at risk. A decade later, the ILO's 2025 GenAI
-Exposure Index tells a different story.
-
-**The risk map has flipped.**
-
-| Sector | Traditional Automation Risk (2013) | GenAI Exposure (2025) | Shift |
-|---|---|---|---|
-| Computer & Math | 13% | 56% | **+43 pp** — newly exposed |
-| Management | 14% | 37% | **+22 pp** — newly exposed |
-| Arts & Media | 21% | 37% | **+16 pp** — newly exposed |
-| Production | 82% | 20% | **−62 pp** — de-risked |
-| Building & Grounds | 78% | 15% | **−62 pp** — de-risked |
-| Construction | 74% | 13% | **−61 pp** — de-risked |
-
-Writers, analysts, counselors, and mathematicians — who barely registered on the 2013 risk map —
-are now among the most GenAI-exposed occupations. Sewers, brickmasons, and groundskeepers — who
-Frey & Osborne flagged as near-certain automation targets — are effectively safe from GenAI.
-
-The Automation Paradox has a sequel: **the workers we thought were safe may not be, and the
-workers we feared for may be safer than expected.** Explore this fully in the **Then vs. Now** tab.
-""")
-
     st.info("💡 **For the interactive version:** Use the Job Explorer tab to hover "
             "over any occupation and see its full profile. Use the Clusters tab to "
-            "explore which occupations fall into each group. Use **Then vs. Now** to "
-            "see the 2013 → 2025 risk shift in detail.", icon="💡")
+            "explore which occupations fall into each group. See the **⚡ Synthesis** tab "
+            "for the full 2013 → 2025 risk shift comparison.", icon="💡")
 
 # ────────────────────────────────────────────────────────────────────────────
-# TAB 6 — THEN VS. NOW (ILO 2025 GenAI Exposure)
+# TAB 2 — SYNTHESIS (always visible, independent of risk toggle)
 # ────────────────────────────────────────────────────────────────────────────
-with tab6:
-    st.subheader("⏳ Then vs. Now: How AI Risk Has Shifted (2013 → 2025)")
+with tab_synthesis:
+    st.subheader("⚡ Synthesis: How AI Risk Has Shifted (2013 → 2025)")
     st.markdown(
         "Traditional automation models (Frey & Osborne, 2013) predicted that **physical "
         "and routine manual jobs** were most at risk. A decade later, the ILO's 2025 "
@@ -768,13 +743,15 @@ with tab6:
         height=520,
         opacity=0.65,
     )
-    # Diagonal: x = y means risk unchanged between 2013 and 2025
+    # Diagonal: x = y means risk unchanged between 2013 and 2025.
+    # Clip to the GenAI y-axis ceiling so the line stays within the chart.
     fig_scatter.add_shape(
-        type="line", x0=0, y0=0, x1=1, y1=1,
+        type="line", x0=0, y0=0, x1=_genai_max, y1=_genai_max,
         line=dict(color="gray", dash="dash", width=1),
     )
+    # Position annotation ~85% along the diagonal so it sits on the line
     fig_scatter.add_annotation(
-        x=0.82, y=0.93, text="Same risk then & now",
+        x=_genai_max * 0.83, y=_genai_max * 0.91, text="Same risk then & now",
         showarrow=False, font=dict(color="gray", size=11), textangle=-38,
     )
     fig_scatter.update_layout(legend_title="Sector")
@@ -981,7 +958,7 @@ Adaptive Capacity: {row['capacity']:.3f}
 
     # ── Raw comparison table ───────────────────────────────────────────────────
     st.subheader("Full Then vs. Now Table")
-    st.caption("Sortable. Use sidebar filters to narrow by sector or wage range.")
+    st.caption("Sortable. Use the Occupation Group sidebar filter to narrow by sector.")
     display = (
         thenow[["occupation", "occupation_group", "automation_prob",
                 "genai_exposure_2025", "risk_delta"]]
