@@ -48,10 +48,26 @@ data/raw/
 *.zip
 *.gz
 
-# Quarto internals (freeze cache is committed, these are not)
+# Quarto build artifacts
 /.quarto/
+_freeze/
+report/report_files/
 
-# Claude global config — never commit
-~/.claude/
+# Detailed stage docs — final report is report.qmd / milestone3.md
+report/00_reference_data.md
+report/01_dataset_description.md
+report/02_data_wrangling.md
+report/03_data_mining.md
+report/04_data_visualization.md
+docs/report/00_reference_data.html
+docs/report/01_dataset_description.html
+docs/report/02_data_wrangling.html
+docs/report/03_data_mining.html
+docs/report/04_data_visualization.html
+
+# Claude session files — never commit
+CLAUDE.md
+project-log.md
+project-plan.md
 
 **/*.quarto_ipynb
