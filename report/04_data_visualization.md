@@ -44,11 +44,11 @@ Figures 1–11 cover the core Automation Paradox analysis. Figures 12–14 are t
 **Chart type:** Ranked horizontal bar chart
 
 **Variables:** `occupation` (y-axis), `emp_change_pct` (x-axis)
-**Selection:** Sorted by automation probability ascending, then by emp_change_pct ascending — the most automated jobs with the worst growth prospects.
+**Selection:** Filtered to occupations with automation probability ≥70%, then sorted by `emp_change_pct` ascending — the highest-risk jobs with the worst projected employment growth.
 
 **Why this chart type:** A ranked bar chart is ideal for showing a clear "top/bottom" list. Horizontal orientation accommodates long occupation names without truncation.
 
-**What it reveals:** The chart surfaces the occupations that combine the highest automation probability with the worst employment outlook — including recreational therapists, emergency management directors, and supervisors of mechanics and repairers. Notably, several healthcare-adjacent occupations appear in the list: their automation risk scores are elevated in the Frey & Osborne model despite the sector's general resilience, reflecting the model's 2013 vintage and its different task classification logic from the ILO 2025 approach. The color gradient (darker = higher automation probability) shows these are not uniformly at the top of the automation scale — the chart prioritizes the combined worst-case (high automation *and* low growth), not the single highest-automation occupations alone.
+**What it reveals:** The chart surfaces occupations that combine high automation probability with active projected decline: word processors and typists (−36%), telephone operators (−28%), data entry keyers (−26%), telemarketers (−22%), and payroll and timekeeping clerks (−17%). These are concentrated in Office & Administrative Support and Production. The declines are not marginal — several exceed 20%, meaning the industry is projected to lose roughly one-in-four jobs over the decade. These occupations represent the clearest evidence that automation risk translates into measurable employment displacement.
 
 ---
 
@@ -146,7 +146,7 @@ Figures 1–11 cover the core Automation Paradox analysis. Figures 12–14 are t
 
 **Why this chart type:** Box plots show the full distribution (median, IQR, whiskers, outliers) rather than just a mean. This is important for wage data, which is right-skewed. Comparing two distributions side-by-side makes the disparity immediately visible.
 
-**What it reveals:** Vulnerable occupations (high automation risk + low adaptive capacity) have a tightly clustered wage distribution centered at $41,503 with very little spread ($36,010–$55,000 IQR). Non-vulnerable occupations span a much wider range, with a median of $63,280 and a long right tail reaching $226,600. The gap is not just in averages — vulnerable workers have almost no high-earners in their cohort.
+**What it reveals:** Vulnerable occupations (high automation risk + low adaptive capacity) have a tightly clustered wage distribution with a median near $41,503 (which also closely matches the group mean) and very little spread ($36,010–$55,000 IQR). Non-vulnerable occupations span a much wider range, with a median of $63,280 (mean: $72,293) and a long right tail reaching $226,600. The gap is not just in averages — vulnerable workers have almost no high-earners in their cohort.
 
 ---
 

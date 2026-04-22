@@ -39,8 +39,8 @@ bls = bls[bls["occ_type"] == "Line item"].copy()
 | Column | Missing Count | Strategy |
 |---|---|---|
 | `median_wage_2024` | 6 | Retained in dataset; excluded from wage-specific analysis |
-| `education_required` | 38 | Retained; excluded from education-specific analysis |
-| `emp_change_pct` | 6 | Retained; excluded from projection analysis |
+| `education_level` | 38 | Retained; excluded from education-specific analysis (encoding maps NaN from `education_required` to missing) |
+| `emp_change_pct` | 0 | No missing values in merged dataset |
 | All Frey & Osborne columns | 0 | No action needed |
 
 No rows were dropped outright — missing values are handled contextually at analysis time.
@@ -167,8 +167,8 @@ Distribution: bimodal — large cluster of very high-risk jobs (0.85–0.99) and
 | Metric | Value |
 |---|---|
 | Type | float64 |
-| Count | 600 (6 missing) |
-| Missing | 6 (1%) |
+| Count | 606 |
+| Missing | 0 |
 | Min | −36.1% |
 | Max | +23.2% |
 | Mean | +0.92% |

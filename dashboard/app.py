@@ -18,7 +18,102 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ── Custom CSS ─────────────────────────────────────────────────────────────────
+# ── Landing page ──────────────────────────────────────────────────────────────
+# Session state gate: show static splash on first load, no data loaded yet.
+# Data is only loaded after the user clicks through (see load_data below).
+if "show_dashboard" not in st.session_state:
+    st.session_state.show_dashboard = False
+
+if not st.session_state.show_dashboard:
+    # Hide sidebar and center content on the landing page
+    st.markdown("""
+<style>
+    [data-testid="stSidebar"] { display: none; }
+    .block-container { padding-top: 3rem; max-width: 860px; margin: auto; }
+</style>
+""", unsafe_allow_html=True)
+
+    # ── Hero ──────────────────────────────────────────────────────────────────
+    st.markdown("""
+<div style="text-align:center; padding: 2rem 0 1rem 0;">
+    <div style="font-size:3.6rem; font-weight:800; letter-spacing:-1px; line-height:1.1;">
+        🤖 The Automation Paradox
+    </div>
+    <div style="font-size:1.2rem; color:#a0aec0; margin-top:0.8rem;">
+        Who does AI really threaten — and how has the answer changed?
+    </div>
+    <div style="font-size:0.85rem; color:#718096; margin-top:0.4rem;">
+        MIS502 Final Project &nbsp;·&nbsp;
+        BLS 2024–2034 × Frey &amp; Osborne (2013) × ILO GenAI Index (2025)
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+    st.divider()
+
+    # ── Core narrative ─────────────────────────────────────────────────────────
+    st.markdown("""
+### The risk map has flipped.
+
+In **2013**, Frey & Osborne predicted that **factory workers, clerks, and manual laborers**
+were most at risk from automation — and the data backed them up.
+
+By **2025**, the ILO's GenAI Exposure Index tells a different story. **Knowledge workers,
+analysts, writers, and tech roles** now face the highest AI exposure. The occupations once
+considered safe are now on the front line.
+""")
+
+    col_then, col_now = st.columns(2)
+    with col_then:
+        st.markdown("""
+<div style="background:#1a1a2e; border-left:4px solid #3498db;
+            border-radius:0 8px 8px 0; padding:14px 18px;">
+<b style="color:#3498db">🕰️ 2013 — Most at Risk</b><br><br>
+<small>
+Physical &amp; manual labor<br>
+Routine office &amp; clerical work<br>
+Food preparation &amp; service<br>
+Production &amp; manufacturing<br>
+Transportation &amp; logistics
+</small>
+</div>
+""", unsafe_allow_html=True)
+
+    with col_now:
+        st.markdown("""
+<div style="background:#1a1a2e; border-left:4px solid #e74c3c;
+            border-radius:0 8px 8px 0; padding:14px 18px;">
+<b style="color:#e74c3c">⚡ 2025 — Most at Risk</b><br><br>
+<small>
+Software &amp; data roles<br>
+Business &amp; financial analysis<br>
+Legal &amp; compliance work<br>
+Management &amp; strategy<br>
+Writing, media &amp; creative work
+</small>
+</div>
+""", unsafe_allow_html=True)
+
+    st.markdown("")  # spacer
+
+    st.markdown("""
+> **The workers we thought were safe may not be. The workers we feared for may be
+> safer than expected.** Explore the full analysis — with data for 606 occupations
+> across 22 sectors — below.
+""")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ── CTA ───────────────────────────────────────────────────────────────────
+    col_btn = st.columns([1, 2, 1])[1]   # center the button
+    with col_btn:
+        if st.button("Explore the Dashboard →", type="primary", use_container_width=True):
+            st.session_state.show_dashboard = True
+            st.rerun()
+
+    st.stop()   # nothing below renders until the button is clicked
+
+# ── Custom CSS (dashboard only) ────────────────────────────────────────────────
 st.markdown("""
 <style>
     .metric-card {
@@ -39,7 +134,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ── Load data ─────────────────────────────────────────────────────────────────
+# ── Load data (only reached after click-through) ───────────────────────────────
 @st.cache_data
 def load_data():
     df         = pd.read_csv("data/processed/cleaned_main.csv")

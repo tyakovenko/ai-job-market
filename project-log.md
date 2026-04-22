@@ -102,7 +102,7 @@ Resumed after a crash. Existing pipeline confirmed running. Planning extension t
 - Confirmed all existing pipeline scripts and Streamlit dashboard are running
 - Researched and located the ILO 2025 dataset: *"Generative AI and Jobs: A Refined Global Index of Occupational Exposure"* (Gmyrek et al., ILO Working Paper 140, May 2025)
 - Located downloadable Excel file: `Final_Scores_ISCO08_Gmyrek_et_al_2025.xlsx` on GitHub (pgmyrek/2025_GenAI_scores_ISCO08)
-- Confirmed data structure: 423 ISCO-08 4-digit occupations, GenAI exposure score 0–1, 4 gradient tiers
+- Confirmed data structure: 427 ISCO-08 4-digit occupations, GenAI exposure score 0–1, 4 gradient tiers
 - Identified integration challenge: ILO uses ISCO-08 codes; pipeline uses US SOC codes — requires BLS SOC↔ISCO-08 crosswalk
 - Defined and fully implemented the then/now extension
 - Integrated ILO 2025 GenAI exposure data into all pipeline stages
@@ -163,6 +163,32 @@ These 6 occupations have no ISCO-08 equivalent in the BLS crosswalk (residual "a
 
 ---
 
+## Session 4 — 2026-03-28
+
+### Summary
+Technical debt audit, dashboard bug fixes, and two new feature branches.
+
+### Bug Fixes (all in `dashboard/app.py`, committed to `feature/synthesis-tab`)
+- **Tab 2 "Safest Growing" threshold** — was hardcoded `< 0.3` in GenAI mode; now uses `_genai_p33` (33rd percentile cutoff), consistent with how GenAI tiers are defined
+- **Tab 6 caption** — removed false claim that wage/auto filters apply to Then vs. Now table (only sector filter applies)
+- **Dead `GENAI_CLUSTER_COLORS` key** — removed `"Low Exposure / High Skill"` which never appears in the current cluster data
+- **Diagonal line in Then vs. Now scatter** — was hardcoded to `y1=1`; now clips to `_genai_max` (data-derived), annotation repositioned proportionally
+
+### Feature: Synthesis Tab (`feature/synthesis-tab` branch)
+- Promoted "Then vs. Now" to Tab 2 "⚡ Synthesis" — always visible, independent of Traditional/GenAI toggle
+- Removed duplicate static "A New Wrinkle" table from The Paradox tab
+- Renamed all tab variables to descriptive names (`tab_overview`, `tab_synthesis`, etc.)
+- Branch is on GitHub; PR open for review before merging
+
+### Feature: Landing Page (`feature/landing-page` branch)
+- Splash screen on first load using `st.session_state` — renders before any data is loaded
+- Static hero content: title, narrative, 2013 vs 2025 category comparison, CTA button
+- `load_data()` moved after `st.stop()` — zero I/O on landing page, data only loads on click-through
+- Branch is on GitHub; PR open for review before merging
+
+---
+
+<<<<<<< Updated upstream
 ## Session 3 — 2026-03-19
 
 ### Summary
@@ -202,6 +228,87 @@ Bug fixes and feature additions to the Streamlit dashboard, new GenAI clustering
 - Added explanatory paragraph at the top of Section 2 (Data Sources)
 - Explains why the Kaggle synthetic dataset was rejected: correlations r ≈ 0.001–0.012 across all variable pairs, consistent with randomly generated data with no real-world signal
 - Re-rendered report with `--no-freeze` and pushed to GitHub Pages
+=======
+## Session 6 — 2026-04-21
+
+### Summary
+Deep audit session — data/narrative consistency, hardcoded values, regression correctness, and editorial tightening. All critical findings resolved. `toFix.md` created as a full audit record.
+
+### What Was Done
+
+#### Audit
+- Full cross-check of all numbers in `report.qmd`, `03_data_mining.md`, `04_data_visualization.md` against live data
+- Generated `toFix.md` with severity-labeled findings across 6 categories
+
+#### Critical Fixes
+| # | File(s) | Fix |
+|---|---|---|
+| 1 | `src/02_analyze.py`, `report/report.qmd`, `report/04_data_visualization.md` | **fig3 sort was inverted** — ascending on `automation_prob` surfaced lowest-risk jobs. Changed to `automation_prob >= 0.7` filtered, sorted by `emp_change_pct` ascending. Narrative rewritten. fig3 regenerated. |
+| 2 | `report/02_data_wrangling.md` | Missing-values table wrong — `emp_change_pct` had 0 missing (not 6); `education_level` has 38 (not `education_required`). Profiling count corrected. |
+| 3 | `report/03_data_mining.md`, `report/report.qmd` | k=4/"absorbed clusters" framing replaced — K-Means doesn't absorb clusters; rewritten as "elbow suggested k=4, k=3 chosen for interpretability." |
+
+#### Regression / Dummy Variable Audit
+- Verified coefficients (−4.15 etc.) are correct — occupation-group dummies in spec produce these values
+- Found: Train R²=0.40 vs Test R²=0.175 — 0.225 gap from 21 dummies on ~480 training rows. Disclosed in `03_data_mining.md`
+- Found: Computer & Math dummy = +12.4, largest effect in model. Dummy coefficient table added to `03_data_mining.md`
+- Found: "automation alone explains 17.5%" was wrong — R²=0.175 is the full model test R². Fixed in exec summary and §4
+
+#### Hardcoded Tables
+- Cluster table in `report.qmd` replaced with computed Python chunk
+- Sector reversal table replaced with computed Python chunk — **found a bug in the process**: old hardcoded table listed Arts & Media as 4th-biggest gainer; computed version correctly shows Life & Social Science (+21pp)
+
+#### Logic / Wording Fixes
+- "Roughly 144" → "144"
+- ">70%" → "≥70%" (matches `>= 0.7` threshold in code)
+- Section 9 safe harbor claim scoped to "from a GenAI exposure standpoint specifically"
+- Section 10 circular policy point ("wage floors matter as much as education" — enforced by the formula) rewritten
+
+#### Diagram Fixes
+- Cluster chart bars reordered from alphabetical to risk-descending
+- fig13 sort unified to `ascending=False` in both script and report
+- fig12 annotations changed to proportional coordinates
+- Seaborn boxplot deprecation fixed in both script and report
+
+#### Editorial Tightening
+- Section 1 intro compressed from 2 paragraphs to 1
+- Section 9 hardcoded reversal table removed (dumbbell already covers it); dumbbell prose trimmed to 1 sentence
+- `03_data_mining.md` cluster description: 3 paragraphs → 1 compact paragraph (kept representative occupations only)
+
+### Constraints
+- Regression R²=0.175 is the TEST set R². Train R²=0.40. The gap is from 21 occupation-group dummies on ~480 training rows — a known, disclosed limitation, not a model error.
+- fig3 now correctly filters `automation_prob >= 0.7` before sorting. The previous ascending sort was a bug introduced at script creation and persisted through 5 sessions undetected.
+
+### Notion Writes
+- report-reproducibility — created — Hardcoded tables hide bugs and go stale; computed chunks auto-correct and found an incorrect row silently present for 5 sessions.
+- regression-reporting — created — R² attribution, train/test gap from dummies, K-Means k framing, dummy coefficient reporting.
+- visualization-audit — created — Sort direction bug pattern in ranked charts; proportional annotation coordinates; Seaborn boxplot deprecation.
+
+## Project Sync (2026-04-21)
+- Detail page exists (no update): https://www.notion.so/338de01ad2ab81bb8e02ee17686c8039
+- Database: Last worked on → 2026-04-21, Last action updated, Status → Active
+- Status: ✓ Complete
+
+---
+
+## Session 5 — 2026-03-28
+
+### Summary
+Health check, NLM cold memory upload, and data-vs-narrative consistency audit.
+
+### What Was Done
+- Confirmed Docker container (`notebooklm-server`) and MCP server both healthy (`authenticated: true`, 2 active sessions)
+- Uploaded `dashboard-extension-drift v1.0` to NLM cold memory — documents the 4-bug pattern from Session 4 (hardcoded scale assumptions not audited when a new metric is added to a dashboard)
+- Audited all milestone reports and pipeline scripts for data vs. narrative inconsistencies — 5 found and fixed
+
+### Consistency Fixes
+| # | File(s) | Fix |
+|---|---|---|
+| 1 | `src/02_analyze.py` | fig12 diagonal line `y1=1` → `_genai_max_fig12` (data-derived); annotation repositioned proportionally |
+| 2 | `report/03_data_mining.md`, `report/04_data_visualization.md`, `project-log.md` | Non-vulnerable wage labeled as mean ($72,293) vs. median ($63,280) — distinction now explicit in all locations |
+| 3 | `report/03_data_mining.md` | Cluster 3 narrative: 11.6% → 11.7% (consistent with table) |
+| 4 | `report/03_data_mining.md` | Cluster percentages corrected to use 600 (actual clustered rows) as denominator, not 606 |
+| 5 | `project-log.md` | ILO unique occupations: 423 → 427 (matches wrangling report actual output) |
+>>>>>>> Stashed changes
 
 ---
 
@@ -213,7 +320,9 @@ Bug fixes and feature additions to the Streamlit dashboard, new GenAI clustering
   - [x] Update `src/02_analyze.py` — fig12, fig13, fig14 added (scatter, dumbbell, movers)
   - [x] Update `dashboard/app.py` — "⏳ Then vs. Now" tab added (tab 6)
 - [x] Update all documentation (README, milestone reports, project log, lessons-learned)
-- [x] Fix Streamlit dashboard design and graphics — tabs 2–6 restored (matplotlib dependency fix); Traditional/GenAI risk toggle added
+- [x] Fix Streamlit dashboard design and graphics — bugs fixed; Synthesis tab and landing page on feature branches
+- [x] **Review and merge `feature/synthesis-tab`** — Synthesis as Tab 2, tab variable rename, duplicate content removed
+- [x] **Review and merge `feature/landing-page`** — static splash screen, deferred data load
 - [ ] Fill in written narrative sections of `report/report.qmd` (currently scaffolded with data)
 - [ ] Verify Streamlit Cloud and GitHub Pages URLs are live
 - [ ] Complete Stage 9: peer review comments on classmates' projects (3 pts)
@@ -247,7 +356,7 @@ Bug fixes and feature additions to the Streamlit dashboard, new GenAI clustering
 | Vulnerable occupations (high risk + low adaptive capacity) | 144 (23.8%) |
 | Median wage — high risk tier | $48,350 |
 | Median wage — low risk tier | $79,000 |
-| Wage gap (vulnerable vs. not) | $41,503 vs. $72,293 |
+| Mean wage (vulnerable vs. not) | $41,503 vs. $72,293 |
 | Correlation: automation prob vs. emp change | r = −0.414 |
 | Regression R² | 0.175 |
 | Regression coefficient (automation_prob) | −4.15 |

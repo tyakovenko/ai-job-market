@@ -82,8 +82,9 @@ fig2.write_html("figures/fig2_automation_vs_growth.html")
 print("Saved fig2")
 
 # ── Fig 3: Top 15 most at-risk occupations ────────────────────────────────────
-at_risk = (df[df["emp_change_pct"].notna()]
-           .sort_values(["automation_prob", "emp_change_pct"])
+# High automation (≥70%) sorted by worst employment outlook
+at_risk = (df[(df["emp_change_pct"].notna()) & (df["automation_prob"] >= 0.7)]
+           .sort_values("emp_change_pct")
            .head(15))
 fig, ax = plt.subplots(figsize=(9, 5))
 sns.barplot(data=at_risk, x="emp_change_pct", y="occupation",
@@ -206,8 +207,8 @@ print("Saved fig9")
 # ── Fig 10: Box plot — wage distribution by vulnerability flag ────────────────
 df["Vulnerable"] = df["vulnerable"].map({True: "Vulnerable", False: "Not Vulnerable"})
 fig, ax = plt.subplots(figsize=(7, 5))
-sns.boxplot(data=df, x="Vulnerable", y="median_wage_2024",
-            palette={"Vulnerable": "#e74c3c", "Not Vulnerable": "#2ecc71"}, ax=ax)
+sns.boxplot(data=df, x="Vulnerable", y="median_wage_2024", hue="Vulnerable",
+            palette={"Vulnerable": "#e74c3c", "Not Vulnerable": "#2ecc71"}, ax=ax, legend=False)
 ax.set_title("Median Wage Distribution: Vulnerable vs. Not Vulnerable Jobs",
              fontweight="bold")
 ax.set_xlabel(""); ax.set_ylabel("Median Annual Wage ($)")
@@ -270,13 +271,16 @@ fig12 = px.scatter(
     height=580,
     opacity=0.65,
 )
-# Diagonal reference line: x = y (risk unchanged between 2013 and 2025)
+# Diagonal reference line: x = y (risk unchanged between 2013 and 2025).
+# Clip to the GenAI y-axis ceiling so the line stays within the chart.
+_genai_max_fig12 = thenow["genai_exposure_2025"].max()
 fig12.add_shape(
-    type="line", x0=0, y0=0, x1=1, y1=1,
+    type="line", x0=0, y0=0, x1=_genai_max_fig12, y1=_genai_max_fig12,
     line=dict(color="gray", dash="dash", width=1),
 )
+# Position annotation ~83% along the diagonal so it sits on the line (layout constant).
 fig12.add_annotation(
-    x=0.85, y=0.92, text="Same risk then & now",
+    x=_genai_max_fig12 * 0.83, y=_genai_max_fig12 * 0.91, text="Same risk then & now",
     showarrow=False, font=dict(color="gray", size=11), textangle=-38,
 )
 fig12.add_annotation(
@@ -300,7 +304,7 @@ sector = (
     thenow.groupby("occupation_group")[["automation_prob", "genai_exposure_2025"]]
     .mean()
     .reset_index()
-    .sort_values("genai_exposure_2025", ascending=True)  # ascending for horizontal plot
+    .sort_values("genai_exposure_2025", ascending=False)
 )
 
 fig13, ax13 = plt.subplots(figsize=(10, 8))
