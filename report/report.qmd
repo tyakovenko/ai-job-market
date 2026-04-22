@@ -141,7 +141,7 @@ Practitioners (12%), Computer & Math (13%), and Management (14%).
 ```{python}
 grp_risk = df.groupby("occupation_group")["automation_prob"].mean().sort_values(ascending=False)
 colors = ["#e74c3c" if v > 0.5 else "#3498db" for v in grp_risk.values]
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(9, 6))
 grp_risk.plot(kind="barh", ax=ax, color=colors, alpha=0.85)
 ax.axvline(0.5, color="gray", linestyle="--", linewidth=0.9)
 ax.set_title("Average Automation Risk by Occupation Group", fontweight="bold")
@@ -232,7 +232,7 @@ developers, data scientists). These roles require complex human judgment, physic
 ## 7. The Economic Divide
 
 ```{python}
-fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
 wage_df = df.groupby("risk_tier")["median_wage_2024"].median().reindex(["Low", "Medium", "High"])
 wage_df.plot(kind="bar", ax=axes[0],
@@ -347,7 +347,7 @@ sector_long["Era"] = sector_long["Era"].map({
     "genai_exposure_2025": "2025 — GenAI Exposure (ILO)",
 })
 
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(9, 8))
 for _, row in sector.iterrows():
     y = row["occupation_group"]
     ax.plot([row["automation_prob"], row["genai_exposure_2025"]], [y, y],

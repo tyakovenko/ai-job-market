@@ -339,7 +339,7 @@ ax13.set_title(
 ax13.set_xlim(-0.02, 1.02)
 sns.despine(ax=ax13)
 plt.tight_layout()
-fig13.savefig("figures/fig13_sector_risk_shift.png", dpi=150)
+fig13.savefig("figures/fig13_sector_risk_shift.png", dpi=150, bbox_inches="tight")
 plt.close()
 print("Saved fig13")
 
