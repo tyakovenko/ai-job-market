@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Taya Yakovenko">
-<meta name="dcterms.date" content="2026-04-21">
+<meta name="dcterms.date" content="2026-04-25">
 
 <title>The Automation Paradox: Who Really Gets Hurt When AI Takes Over? – The Automation Paradox</title>
 <style>
@@ -132,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#automation-risk-distribution" id="toc-automation-risk-distribution" class="nav-link" data-scroll-target="#automation-risk-distribution">3. Automation Risk Distribution</a></li>
   <li><a href="#the-core-relationship-automation-risk-vs.-job-growth" id="toc-the-core-relationship-automation-risk-vs.-job-growth" class="nav-link" data-scroll-target="#the-core-relationship-automation-risk-vs.-job-growth">4. The Core Relationship: Automation Risk vs.&nbsp;Job Growth</a></li>
   <li><a href="#who-is-most-at-risk" id="toc-who-is-most-at-risk" class="nav-link" data-scroll-target="#who-is-most-at-risk">5. Who Is Most At Risk?</a></li>
-  <li><a href="#who-is-safe" id="toc-who-is-safe" class="nav-link" data-scroll-target="#who-is-safe">6. Who Is Safe?</a></li>
+  <li><a href="#the-other-end-who-is-safe" id="toc-the-other-end-who-is-safe" class="nav-link" data-scroll-target="#the-other-end-who-is-safe">6. The Other End: Who Is Safe?</a></li>
   <li><a href="#the-economic-divide" id="toc-the-economic-divide" class="nav-link" data-scroll-target="#the-economic-divide">7. The Economic Divide</a></li>
   <li><a href="#cluster-analysis-three-paths-forward" id="toc-cluster-analysis-three-paths-forward" class="nav-link" data-scroll-target="#cluster-analysis-three-paths-forward">8. Cluster Analysis: Three Paths Forward</a></li>
   <li><a href="#then-vs.-now-the-genai-risk-shift-2013-2025" id="toc-then-vs.-now-the-genai-risk-shift-2013-2025" class="nav-link" data-scroll-target="#then-vs.-now-the-genai-risk-shift-2013-2025">9. Then vs.&nbsp;Now: The GenAI Risk Shift (2013 → 2025)</a>
@@ -169,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 21, 2026</p>
+      <p class="date">April 25, 2026</p>
     </div>
   </div>
   
@@ -184,13 +184,13 @@ ul.task-list li input[type="checkbox"] {
 <section id="executive-summary" class="level2">
 <h2 class="anchored" data-anchor-id="executive-summary">Executive Summary</h2>
 <p>This report analyzes AI’s effect on the US labor market using three datasets: Frey &amp; Osborne’s automation probability scores (2013), BLS 2024–2034 employment projections, and the ILO’s 2025 Generative AI Occupational Exposure Index.</p>
-<p>The <strong>Automation Paradox</strong>: most workers exposed to AI are currently seeing stable or growing employment. Yet hidden inside that aggregate is a concentrated crisis. <strong>144</strong> occupations (24% of analyzed jobs) combine high automation risk with low wages and low education which leaves workers with no economic safety net. These are the jobs where displacement is not a future concern but a present reality.</p>
+<p>The <strong>Automation Paradox</strong>: most workers exposed to AI are currently seeing stable or growing employment. Yet hidden inside that aggregate is a concentrated crisis. <strong>np.int64(144)</strong> occupations (24% of analyzed jobs) combine high automation risk with low wages and low education which leaves workers with no economic safety net. These are the jobs where displacement is not a future concern but a present reality.</p>
 <p><strong>Key findings:</strong></p>
 <ul>
-<li><strong>283</strong> of 606 matched occupations carry high (≥70%) automation risk — primarily in Office &amp; Admin Support, Production, and Food Preparation</li>
+<li><strong>np.int64(283)</strong> of 606 matched occupations carry high (≥70%) automation risk — primarily in Office &amp; Admin Support, Production, and Food Preparation</li>
 <li>High-risk occupations have a median wage of <strong>$48,350</strong> — compared to <strong>$79,000</strong> for low-risk occupations</li>
-<li>A linear regression confirms automation risk negatively predicts employment growth (coefficient: −4.15), but the full model (automation + wage + education + occupation group) explains only R² = 0.175 of variance on the test set — automation is predictive but not deterministic</li>
-<li>The most important protective factor is <strong>education + wage combined</strong> (adaptive capacity score), not automation risk alone</li>
+<li>A linear regression confirms automation risk negatively predicts employment growth (coefficient: −4.60), but the full model (automation risk + adaptive capacity + occupation group) explains only R² = 0.166 of variance on the test set — automation is predictive but not deterministic</li>
+<li><strong>Adaptive capacity</strong> (wage + education combined) is a significant protective factor: workers with higher adaptive capacity scores see meaningfully better employment outcomes, independent of their automation exposure</li>
 <li>A “Then vs.&nbsp;Now” comparison using the ILO 2025 GenAI Exposure Index reveals the risk map has fundamentally shifted: <strong>Computer &amp; Math</strong> reversed from low traditional risk (13%) to highest GenAI exposure (56%), while <strong>Production and Construction</strong> — flagged as near-certain automation targets in 2013 — score among the lowest on GenAI exposure today.</li>
 </ul>
 <hr>
@@ -246,31 +246,25 @@ ul.task-list li input[type="checkbox"] {
 <td>427 ISCO-08 occupations</td>
 <td>GenAI exposure (“now”)</td>
 </tr>
-<tr class="even">
-<td><strong>Analysis dataset</strong></td>
-<td>Inner join F&amp;O × BLS; left join ILO via crosswalk</td>
-<td></td>
-<td><strong>606 occupations, 99% with GenAI scores</strong></td>
-</tr>
 </tbody>
 </table>
-<p>Frey &amp; Osborne and BLS are joined on SOC codes (86% match rate). The ILO dataset uses ISCO-08 codes and is bridged via the BLS official ISCO-08 × SOC crosswalk, covering 600 of 606 occupations.</p>
+<p>Frey &amp; Osborne and BLS are joined on SOC codes — 86% of F&amp;O’s 702 occupations matched to a BLS entry, producing 606 occupations in the analysis dataset. The ILO dataset uses ISCO-08 codes and is bridged via the BLS official ISCO-08 × SOC crosswalk, covering 600 of the 606 occupations (99% with GenAI scores).</p>
 <hr>
 </section>
 <section id="automation-risk-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="automation-risk-distribution">3. Automation Risk Distribution</h2>
-<div id="3534f037" class="cell" data-execution_count="2">
+<div id="b6f14357" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/cell-3-output-1.png" width="652" height="364" class="figure-img"></p>
+<p><img src="report_files/figure-html/cell-3-output-1.png" width="748" height="364" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The distribution is bimodal: most occupations cluster at the extremes rather than the middle. Work tasks tend to be either primarily routine (highly automatable) or primarily non-routine (resistant to automation), with few genuinely ambiguous cases.</p>
+<p>The distribution is bimodal: occupations pile up at the extremes with relatively few in the middle. This reflects the nature of work itself — tasks tend to be either primarily routine (highly automatable) or primarily non-routine (resistant to automation), with few genuinely ambiguous cases.</p>
 <p><strong>By occupation group</strong>, the highest-risk sectors are Office &amp; Administrative Support (84% average probability), Production (82%), Farming &amp; Fishing (78%), and Building &amp; Grounds (78%). The safest sectors are Community &amp; Social Service (5%), Healthcare Practitioners (12%), Computer &amp; Math (13%), and Management (14%).</p>
-<div id="8b7c9dea" class="cell" data-execution_count="3">
+<div id="60eb6ef7" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -283,7 +277,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="the-core-relationship-automation-risk-vs.-job-growth" class="level2">
 <h2 class="anchored" data-anchor-id="the-core-relationship-automation-risk-vs.-job-growth">4. The Core Relationship: Automation Risk vs.&nbsp;Job Growth</h2>
-<div id="06f1cb88" class="cell" data-execution_count="4">
+<div id="17026154" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -292,13 +286,14 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>The scatter plot reveals the Automation Paradox visually. There is a clear negative trend — occupations with higher automation probability cluster toward the lower portion of the chart. But the relationship is wide and noisy. Many high-automation occupations still show positive projected employment growth. Automation risk is <em>predictive</em> but not <em>deterministic</em>.</p>
-<p><strong>Correlation:</strong> r = −0.414 between <code>automation_prob</code> and <code>emp_change_pct</code>. Moderate negative relationship. <strong>Full model R² = 0.175 (test set)</strong> — even with automation risk, wage, education, and 21 occupation-group controls, the model explains only 17.5% of variance in employment change. This is the core empirical evidence for the Automation Paradox: most of what determines a job’s employment trajectory lies outside AI exposure.</p>
+<p>The scatter confirms the pattern from the executive summary but also shows its limits. The negative trend is real — high-automation occupations cluster toward the bottom — but the cloud is wide. Plenty of red dots sit above the zero line.</p>
+<p><strong>Correlation:</strong> r = −0.414 — moderate, not strong. A linear regression puts a number on it: each 1-point increase in automation probability associates with a <strong>−4.60 percentage point</strong> drop in projected employment growth, holding sector and adaptive capacity constant.</p>
+<p>The harder result is the R². A full model adding adaptive capacity (normalized wage + education combined) and 21 occupation-group dummies explains only <strong>16.6% of variance</strong> on the held-out test set. That leaves 83% of the variation in employment outcomes unexplained by any of these factors. Automation exposure matters — it just doesn’t determine outcomes on its own.</p>
 <hr>
 </section>
 <section id="who-is-most-at-risk" class="level2">
 <h2 class="anchored" data-anchor-id="who-is-most-at-risk">5. Who Is Most At Risk?</h2>
-<div id="98e8762b" class="cell" data-execution_count="5">
+<div id="e097157a" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -310,27 +305,18 @@ ul.task-list li input[type="checkbox"] {
 <p>The most at-risk occupations combine high automation probability (≥70%) with the steepest projected employment declines: word processors and typists (−36%), telephone operators (−28%), data entry keyers (−26%), telemarketers (−22%), and payroll clerks (−17%). These are not hypothetical future risks — BLS projects active job losses in all of them through 2034.</p>
 <hr>
 </section>
-<section id="who-is-safe" class="level2">
-<h2 class="anchored" data-anchor-id="who-is-safe">6. Who Is Safe?</h2>
-<div id="f35e5b45" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="report_files/figure-html/cell-7-output-1.png" width="852" height="460" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The safest and fastest-growing occupations are concentrated in healthcare (nurse practitioners, physician assistants, home health aides) and technology (software developers, data scientists). These roles require complex human judgment, physical dexterity, deep domain expertise, or meaningful human interaction — all barriers to automation.</p>
+<section id="the-other-end-who-is-safe" class="level2">
+<h2 class="anchored" data-anchor-id="the-other-end-who-is-safe">6. The Other End: Who Is Safe?</h2>
+<p>The safest and fastest-growing occupations split into two groups. Healthcare roles (nurse practitioners, physician assistants, home health aides) are protected by physical presence, human judgment, and the regulatory and relational complexity of patient care. Technology roles (software developers, data scientists) require deep domain expertise and abstract reasoning that current automation cannot replicate at scale. Both groups demand credentials and continuous learning — characteristics that raise the barrier to displacement.</p>
 <hr>
 </section>
 <section id="the-economic-divide" class="level2">
 <h2 class="anchored" data-anchor-id="the-economic-divide">7. The Economic Divide</h2>
-<div id="dbcf0a54" class="cell" data-execution_count="7">
+<div id="76e7356d" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/cell-8-output-1.png" width="1013" height="365" class="figure-img"></p>
+<p><img src="report_files/figure-html/cell-7-output-1.png" width="1013" height="365" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -342,17 +328,17 @@ ul.task-list li input[type="checkbox"] {
 <section id="cluster-analysis-three-paths-forward" class="level2">
 <h2 class="anchored" data-anchor-id="cluster-analysis-three-paths-forward">8. Cluster Analysis: Three Paths Forward</h2>
 <p>K-Means clustering reveals three occupational trajectories (elbow analysis suggested k=4, but k=3 produced fully interpretable segments with no loss of structure):</p>
-<div id="cae42b18" class="cell" data-execution_count="8">
+<div id="e803051b" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/cell-9-output-1.png" width="928" height="365" class="figure-img"></p>
+<p><img src="report_files/figure-html/cell-8-output-1.png" width="941" height="391" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="9796184f" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="003e001f" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -378,27 +364,27 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">High Risk / Low Resilience</th>
-<td>305 (50.8%)</td>
-<td>85.0%</td>
-<td>0.11</td>
-<td>-1.75%</td>
-<td>$49,287</td>
+<td>366 (61.0%)</td>
+<td>80.0%</td>
+<td>0.13</td>
+<td>-1.29%</td>
+<td>$51,103</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Low Risk / Stable</th>
-<td>225 (37.5%)</td>
-<td>27.0%</td>
-<td>0.32</td>
-<td>+3.06%</td>
-<td>$66,965</td>
+<td>151 (25.2%)</td>
+<td>16.0%</td>
+<td>0.35</td>
+<td>+3.80%</td>
+<td>$66,986</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Low Risk / High Skill</th>
-<td>70 (11.7%)</td>
-<td>9.0%</td>
-<td>0.62</td>
-<td>+5.51%</td>
-<td>$126,322</td>
+<td>83 (13.8%)</td>
+<td>12.0%</td>
+<td>0.60</td>
+<td>+5.29%</td>
+<td>$121,970</td>
 </tr>
 </tbody>
 </table>
@@ -406,7 +392,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>The “High Risk / Low Resilience” cluster (50% of matched occupations) faces declining employment with virtually no adaptive buffer. The “Low Risk / High Skill” cluster (12% of occupations) has near-zero automation risk, strong job growth, and wages 2.5× higher than the at-risk group.</p>
+<p>The “High Risk / Low Resilience” cluster (61% of matched occupations) faces declining employment with virtually no adaptive buffer. The “Low Risk / High Skill” cluster (14% of occupations) has near-zero automation risk, strong job growth, and wages 2.4× higher than the High Risk / Low Resilience cluster.</p>
 <hr>
 </section>
 <section id="then-vs.-now-the-genai-risk-shift-2013-2025" class="level2">
@@ -415,11 +401,11 @@ ul.task-list li input[type="checkbox"] {
 <p>If the risk landscape has shifted since 2013, policies and career advice built on those assumptions may be protecting the wrong workers.</p>
 <section id="the-sector-level-flip" class="level3">
 <h3 class="anchored" data-anchor-id="the-sector-level-flip">The Sector-Level Flip</h3>
-<div id="d12cfcfe" class="cell" data-execution_count="11">
+<div id="8af213ab" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/cell-12-output-1.png" width="884" height="748" class="figure-img"></p>
+<p><img src="report_files/figure-html/cell-11-output-1.png" width="884" height="748" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -428,19 +414,19 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="the-occupation-level-picture" class="level3">
 <h3 class="anchored" data-anchor-id="the-occupation-level-picture">The Occupation-Level Picture</h3>
-<div id="8cd7c36c" class="cell" data-execution_count="12">
+<div id="b8c44582" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="report_files/figure-html/cell-13-output-1.png" width="844" height="460" class="figure-img"></p>
+<p><img src="report_files/figure-html/cell-12-output-1.png" width="844" height="460" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Points <strong>above</strong> the diagonal face more GenAI exposure than 2013 models predicted. Points <strong>below</strong> had high traditional automation risk that GenAI does not replicate.</p>
 <p><strong>The five most newly exposed occupations</strong> (largest positive delta):</p>
-<div id="38f434c7" class="cell" data-execution_count="13">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="13">
+<div id="ac7c24ab" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="12">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 52%">
@@ -499,8 +485,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p><strong>The five most de-risked occupations</strong> (largest negative delta):</p>
-<div id="73ed2415" class="cell" data-execution_count="14">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="14">
+<div id="b4d7baaf" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="13">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 51%">
@@ -563,16 +549,16 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="what-this-means">What This Means</h3>
 <p>Both eras agree on one point: <strong>Office &amp; Administrative Support is highly exposed</strong> (84% traditional, 52% GenAI). Beyond that, the risk maps diverge.</p>
 <p>GenAI targets <strong>language, reasoning, and information synthesis</strong>, not physical manipulation. Writers, analysts, counselors, and mathematicians appear in the newly-exposed list; brickmasons, sewers, and groundskeepers appear in the de-risked list. The physical dexterity barrier that protected manual workers from robotics also protects them from GenAI.</p>
-<p><strong>Retraining programs built on 2013 risk maps may be pointing workers toward newly-exposed roles.</strong> Healthcare and skilled trades remain lower-risk options from a GenAI standpoint, even as physical automation continues to advance.</p>
+<p><strong>Retraining programs built on 2013 risk maps may be pointing workers toward newly-exposed roles.</strong> A worker retrained from data entry into a general office or analytical role may have moved from one exposed category to another. Healthcare and skilled trades are the lower-risk alternatives from a GenAI standpoint — both require physical presence and human judgment that language models cannot replicate.</p>
 <hr>
 </section>
 </section>
 <section id="conclusions-and-policy-implications" class="level2">
 <h2 class="anchored" data-anchor-id="conclusions-and-policy-implications">10. Conclusions and Policy Implications</h2>
-<p>Automation risk and employment decline are related (r = −0.414) but not synonymous. Many high-automation occupations still show positive growth projections because AI raises productivity and creates new roles even as it displaces specific tasks.</p>
-<p>That aggregate picture obscures a more concentrated problem. <strong>144</strong> occupations (23.8%) combine high automation exposure with wages and education too low to support adaptation. These workers absorb displacement costs with limited ability to transition.</p>
+<p>Automation risk and employment decline are related (r = −0.414) but not synonymous. Many high-automation occupations still show positive growth projections — the relationship is real but explains a fraction of the variance, and sector-level dynamics, demographic demand, and wage floors all shape outcomes independently of AI exposure.</p>
+<p>That aggregate picture obscures a more concentrated problem. <strong>np.int64(144)</strong> occupations (23.8% of analyzed jobs) combine high automation exposure with wages and education too low to support adaptation. These workers absorb displacement costs with limited ability to transition.</p>
 <p><strong>Implications:</strong> 1. <strong>Targeted retraining, not general retraining.</strong> The vulnerable population is identifiable by occupation — Office &amp; Admin Support, Production, Food Preparation. Broadly available training programs miss the specific workers at risk. 2. <strong>Wage floors and education must rise together.</strong> Low-wage workers cannot access training, relocation, or extended job search even with higher education. Neither lever works alone — income support during transition is as necessary as the training itself. 3. <strong>Healthcare investment is a hedge.</strong> The fastest-growing, safest occupations are concentrated in healthcare — a sector driven by demographics, not AI adoption. Policies that reduce barriers to healthcare careers (licensing, cost, geographic access) are simultaneously labor market policies.</p>
-<p><strong>Limitations:</strong> Frey &amp; Osborne’s scores date to 2013 and reflect a pre-GenAI understanding of automation risk — which is why this report includes the ILO 2025 comparison in Section 9. Even so, the ILO scores are global (ISCO-08) and were validated using Polish worker surveys; US-specific GenAI adoption rates may differ. BLS projections are point estimates with unquantified uncertainty. The merged dataset covers 606 of 832 BLS-tracked occupations; 6 occupations have no ISCO-08 equivalent and are excluded from the then/now analysis only.</p>
+<p><strong>Limitations:</strong> Frey &amp; Osborne’s scores date to 2013 and reflect a pre-GenAI understanding of automation risk — which is why this report includes the ILO 2025 comparison in Section 9. Even so, the ILO scores are global (ISCO-08) and were validated using Polish worker surveys; US-specific GenAI adoption rates may differ. BLS projections are point estimates with unquantified uncertainty. The merged dataset covers 606 of 832 BLS-tracked occupations, because the inner join with F&amp;O’s 702-occupation scope excludes BLS entries with no matching SOC code in the F&amp;O data; 6 of the 606 matched occupations have no ISCO-08 equivalent and are excluded from the then/now analysis only.</p>
 <hr>
 </section>
 <section id="references" class="level2">

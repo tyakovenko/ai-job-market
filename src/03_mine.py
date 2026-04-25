@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
 from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_absolute_error
@@ -42,10 +42,12 @@ print("=" * 60)
 print("TECHNIQUE A: K-MEANS CLUSTERING")
 print("=" * 60)
 
-# Features for clustering
-cluster_features = ["automation_prob", "adaptive_capacity_score",
-                    "wage_norm", "edu_norm"]
-cluster_df = df[cluster_features + ["occupation", "risk_tier",
+# Features for clustering.
+# adaptive_capacity_score = (wage_norm + edu_norm) / 2 — including all three
+# would weight wage/education 3× vs automation_prob in distance calculations.
+# Use only the components; adaptive_capacity_score is reported from profiles separately.
+cluster_features = ["automation_prob", "wage_norm", "edu_norm"]
+cluster_df = df[cluster_features + ["occupation", "risk_tier", "adaptive_capacity_score",
                                      "emp_change_pct", "occupation_group",
                                      "education_required", "median_wage_2024"]].dropna()
 
@@ -63,7 +65,8 @@ for k in K_range:
 
 fig, ax = plt.subplots(figsize=(7, 4))
 ax.plot(K_range, inertias, "o-", color="#3498db", linewidth=2, markersize=7)
-ax.axvline(x=4, color="#e74c3c", linestyle="--", label="Chosen k=4")
+ax.axvline(x=4, color="#f39c12", linestyle="--", label="Elbow at k=4")
+ax.axvline(x=3, color="#e74c3c", linestyle="--", label="Chosen k=3")
 ax.set_title("Elbow Method — Optimal Number of Clusters", fontweight="bold")
 ax.set_xlabel("Number of Clusters (k)")
 ax.set_ylabel("Inertia (Within-Cluster Sum of Squares)")
@@ -73,8 +76,8 @@ fig.savefig("figures/fig_elbow.png", dpi=150)
 plt.close()
 print("Saved fig_elbow.png")
 
-# Fit final model with k=4
-k_optimal = 4
+# Fit final model with k=3 — elbow suggested 4 but k=3 gives fully interpretable segments
+k_optimal = 3
 km = KMeans(n_clusters=k_optimal, random_state=42, n_init=10)
 cluster_df = cluster_df.copy()
 cluster_df["cluster"] = km.fit_predict(X_scaled)
@@ -164,10 +167,10 @@ print("\n" + "=" * 60)
 print("GENAI CLUSTERS (ILO 2025 exposure as risk dimension)")
 print("=" * 60)
 
-# Use genai_exposure_2025 in place of automation_prob
-genai_features = ["genai_exposure_2025", "adaptive_capacity_score",
-                  "wage_norm", "edu_norm"]
-genai_df = df[genai_features + ["occupation", "emp_change_pct",
+# Use genai_exposure_2025 in place of automation_prob.
+# Same collinearity rule: drop adaptive_capacity_score, keep components.
+genai_features = ["genai_exposure_2025", "wage_norm", "edu_norm"]
+genai_df = df[genai_features + ["occupation", "emp_change_pct", "adaptive_capacity_score",
                                  "occupation_group", "education_required",
                                  "median_wage_2024", "soc_code"]].dropna()
 
@@ -234,23 +237,39 @@ print("TECHNIQUE B: LINEAR REGRESSION")
 print("=" * 60)
 
 # Target: emp_change_pct
-# Features: automation_prob, adaptive_capacity_score, wage_norm, edu_norm
-# + occupation group dummies
+# Features: automation_prob + adaptive_capacity_score + occupation group dummies.
+# wage_norm and edu_norm are excluded — they're the components of adaptive_capacity_score
+# (which = their average), so including all three creates perfect multicollinearity.
+# adaptive_capacity_score is recomputed here on training rows only to prevent
+# scaling leakage from 01_clean.py's full-dataset MinMaxScaler.
 
-reg_df = df[["emp_change_pct", "automation_prob", "adaptive_capacity_score",
-             "wage_norm", "edu_norm", "occupation_group"]].dropna()
+reg_df = df[["emp_change_pct", "automation_prob", "median_wage_2024",
+             "education_level", "occupation_group"]].dropna().reset_index(drop=True)
 
-# One-hot encode occupation group
-dummies = pd.get_dummies(reg_df["occupation_group"], prefix="grp", drop_first=True)
-X_reg = pd.concat([
-    reg_df[["automation_prob", "adaptive_capacity_score", "wage_norm", "edu_norm"]],
-    dummies
-], axis=1)
 y_reg = reg_df["emp_change_pct"]
+dummies = pd.get_dummies(reg_df["occupation_group"], prefix="grp", drop_first=True)
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X_reg, y_reg, test_size=0.2, random_state=42
+# Split on indices before fitting scaler
+train_idx, test_idx = train_test_split(
+    reg_df.index, test_size=0.2, random_state=42
 )
+
+# Fit MinMaxScaler on training rows only to prevent leakage
+_reg_scaler = MinMaxScaler()
+_wage_edu_cols = ["median_wage_2024", "education_level"]
+_reg_scaler.fit(reg_df.loc[train_idx, _wage_edu_cols])
+
+def _build_X(idx):
+    normed = _reg_scaler.transform(reg_df.loc[idx, _wage_edu_cols])
+    adaptive = normed.mean(axis=1, keepdims=True)
+    auto = reg_df.loc[idx, "automation_prob"].values.reshape(-1, 1)
+    dum = dummies.loc[idx].values
+    return np.hstack([auto, adaptive, dum])
+
+X_train = _build_X(train_idx)
+X_test  = _build_X(test_idx)
+y_train = y_reg.loc[train_idx]
+y_test  = y_reg.loc[test_idx]
 
 model = LinearRegression()
 model.fit(X_train, y_train)
@@ -263,7 +282,7 @@ print(f"\nR²:  {r2:.4f}")
 print(f"MAE: {mae:.4f} percentage points")
 
 # Key coefficients (non-dummy features only)
-key_features = ["automation_prob", "adaptive_capacity_score", "wage_norm", "edu_norm"]
+key_features = ["automation_prob", "adaptive_capacity_score"]
 coef_df = pd.DataFrame({
     "feature": key_features,
     "coefficient": model.coef_[:len(key_features)],

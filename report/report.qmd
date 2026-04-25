@@ -62,11 +62,12 @@ concern but a present reality.
 - High-risk occupations have a median wage of **`{python} f"${wage_high:,.0f}"`** —
   compared to **`{python} f"${wage_low:,.0f}"`** for low-risk occupations
 - A linear regression confirms automation risk negatively predicts employment growth
-  (coefficient: −4.15), but the full model (automation + wage + education + occupation group)
-  explains only R² = 0.175 of variance on the test set — automation is predictive but not
+  (coefficient: −4.60), but the full model (automation risk + adaptive capacity + occupation group)
+  explains only R² = 0.166 of variance on the test set — automation is predictive but not
   deterministic
-- The most important protective factor is **education + wage combined** (adaptive
-  capacity score), not automation risk alone
+- **Adaptive capacity** (wage + education combined) is a significant protective factor:
+  workers with higher adaptive capacity scores see meaningfully better employment outcomes,
+  independent of their automation exposure
 - A "Then vs. Now" comparison using the ILO 2025 GenAI Exposure Index reveals the
   risk map has fundamentally shifted: **Computer & Math** reversed from low traditional
   risk (13%) to highest GenAI exposure (56%), while **Production and Construction** —
@@ -107,11 +108,11 @@ Three datasets are combined for this analysis:
 | Automation Probability Scores | Frey & Osborne (2013), *The Future of Employment* | 702 US occupations | Traditional automation baseline ("then") |
 | Employment Projections 2024–2034 | US Bureau of Labor Statistics | 832 occupations | Employment outlook |
 | GenAI Occupational Exposure Index | Gmyrek et al. (2025), ILO Working Paper 140 | 427 ISCO-08 occupations | GenAI exposure ("now") |
-| **Analysis dataset** | Inner join F&O × BLS; left join ILO via crosswalk | | **`{python} n_total` occupations, 99% with GenAI scores** |
 
-Frey & Osborne and BLS are joined on SOC codes (86% match rate). The ILO dataset uses
+Frey & Osborne and BLS are joined on SOC codes — 86% of F&O's 702 occupations matched
+to a BLS entry, producing `{python} n_total` occupations in the analysis dataset. The ILO dataset uses
 ISCO-08 codes and is bridged via the BLS official ISCO-08 × SOC crosswalk, covering
-600 of 606 occupations.
+600 of the `{python} n_total` occupations (99% with GenAI scores).
 
 
 ---
@@ -119,19 +120,22 @@ ISCO-08 codes and is bridged via the BLS official ISCO-08 × SOC crosswalk, cove
 ## 3. Automation Risk Distribution
 
 ```{python}
-counts = df["risk_tier"].value_counts().reindex(["Low", "Medium", "High"])
-fig, ax = plt.subplots(figsize=(7, 4))
-counts.plot(kind="bar", ax=ax, color=[PALETTE[t] for t in counts.index], edgecolor="white")
-ax.set_title("Occupations by Automation Risk Tier", fontweight="bold")
-ax.set_xlabel("Risk Tier"); ax.set_ylabel("Number of Occupations")
-ax.set_xticklabels(counts.index, rotation=0)
-for i, v in enumerate(counts):
-    ax.text(i, v + 1, str(v), ha="center", fontweight="bold")
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.axvspan(0,    0.3,  alpha=0.08, color="#2ecc71")
+ax.axvspan(0.3,  0.7,  alpha=0.08, color="#f39c12")
+ax.axvspan(0.7,  1.0,  alpha=0.08, color="#e74c3c")
+ax.hist(df["automation_prob"], bins=30, color="#555", edgecolor="white", linewidth=0.4)
+ax.axvline(0.3, color="#2ecc71", linestyle="--", linewidth=1.1, label="Low / Medium boundary (0.30)")
+ax.axvline(0.7, color="#e74c3c", linestyle="--", linewidth=1.1, label="Medium / High boundary (0.70)")
+ax.set_xlabel("Automation Probability")
+ax.set_ylabel("Number of Occupations")
+ax.set_title("Distribution of Automation Risk Across All Occupations", fontweight="bold")
+ax.legend(fontsize=9)
 plt.tight_layout()
 plt.show()
 ```
 
-The distribution is bimodal: most occupations cluster at the extremes rather than the middle. Work tasks tend to be either primarily routine (highly automatable) or primarily non-routine (resistant to automation), with few genuinely ambiguous cases.
+The distribution is bimodal: occupations pile up at the extremes with relatively few in the middle. This reflects the nature of work itself — tasks tend to be either primarily routine (highly automatable) or primarily non-routine (resistant to automation), with few genuinely ambiguous cases.
 
 **By occupation group**, the highest-risk sectors are Office & Administrative Support
 (84% average probability), Production (82%), Farming & Fishing (78%), and Building &
@@ -169,17 +173,11 @@ plt.tight_layout()
 plt.show()
 ```
 
-The scatter plot reveals the Automation Paradox visually. There is a clear negative
-trend — occupations with higher automation probability cluster toward the lower portion
-of the chart. But the relationship is wide and noisy. Many high-automation occupations
-still show positive projected employment growth. Automation risk is *predictive* but
-not *deterministic*.
+The scatter confirms the pattern from the executive summary but also shows its limits. The negative trend is real — high-automation occupations cluster toward the bottom — but the cloud is wide. Plenty of red dots sit above the zero line.
 
-**Correlation:** r = −0.414 between `automation_prob` and `emp_change_pct`. Moderate
-negative relationship. **Full model R² = 0.175 (test set)** — even with automation risk,
-wage, education, and 21 occupation-group controls, the model explains only 17.5% of
-variance in employment change. This is the core empirical evidence for the Automation
-Paradox: most of what determines a job's employment trajectory lies outside AI exposure.
+**Correlation:** r = −0.414 — moderate, not strong. A linear regression puts a number on it: each 1-point increase in automation probability associates with a **−4.60 percentage point** drop in projected employment growth, holding sector and adaptive capacity constant.
+
+The harder result is the R². A full model adding adaptive capacity (normalized wage + education combined) and 21 occupation-group dummies explains only **16.6% of variance** on the held-out test set. That leaves 83% of the variation in employment outcomes unexplained by any of these factors. Automation exposure matters — it just doesn't determine outcomes on its own.
 
 ---
 
@@ -211,25 +209,9 @@ hypothetical future risks — BLS projects active job losses in all of them thro
 
 ---
 
-## 6. Who Is Safe?
+## 6. The Other End: Who Is Safe?
 
-```{python}
-safe = (df[df["emp_change_pct"].notna() & (df["automation_prob"] < 0.3)]
-        .sort_values("emp_change_pct", ascending=False).head(15))
-fig, ax = plt.subplots(figsize=(9, 5))
-labels_s = [s if len(s) <= 36 else s[:35] + "…" for s in safe["occupation"]]
-ax.barh(labels_s, safe["emp_change_pct"], color=PALETTE["Low"], alpha=0.8)
-ax.set_title("Top 15 Safest Growing Occupations (Automation Risk < 30%)", fontweight="bold")
-ax.set_xlabel("Projected Employment Change (%)"); ax.set_ylabel("")
-ax.tick_params(axis="y", labelsize=9)
-ax.invert_yaxis()
-plt.tight_layout()
-plt.show()
-```
-
-The safest and fastest-growing occupations are concentrated in healthcare (nurse
-practitioners, physician assistants, home health aides) and technology (software
-developers, data scientists). These roles require complex human judgment, physical dexterity, deep domain expertise, or meaningful human interaction — all barriers to automation.
+The safest and fastest-growing occupations split into two groups. Healthcare roles (nurse practitioners, physician assistants, home health aides) are protected by physical presence, human judgment, and the regulatory and relational complexity of patient care. Technology roles (software developers, data scientists) require deep domain expertise and abstract reasoning that current automation cannot replicate at scale. Both groups demand credentials and continuous learning — characteristics that raise the barrier to displacement.
 
 ---
 
@@ -280,21 +262,35 @@ cl = clustered.dropna(subset=["cluster_label"])
 profile = cl.groupby("cluster_label")[
     ["automation_prob", "adaptive_capacity_score", "emp_change_pct", "median_wage_2024"]
 ].mean().round(2)
-# Reorder from highest to lowest risk for readability
 profile = profile.reindex(["High Risk / Low Resilience", "Low Risk / Stable", "Low Risk / High Skill"])
 
-fig, ax = plt.subplots(figsize=(10, 4))
-x = range(len(profile))
-width = 0.25
-bars1 = ax.bar([i - width for i in x], profile["automation_prob"],
-               width, label="Automation Prob", color="#e74c3c", alpha=0.8)
-bars2 = ax.bar(x, profile["adaptive_capacity_score"],
-               width, label="Adaptive Capacity", color="#3498db", alpha=0.8)
-ax.set_xticks(x)
-ax.set_xticklabels(profile.index, rotation=10, ha="right")
-ax.set_title("Cluster Profiles: Automation Risk vs. Adaptive Capacity", fontweight="bold")
-ax.set_ylabel("Score (0–1)")
-ax.legend()
+CLUSTER_COLORS = {
+    "High Risk / Low Resilience": "#e74c3c",
+    "Low Risk / Stable":          "#f39c12",
+    "Low Risk / High Skill":      "#2ecc71",
+}
+colors_c = [CLUSTER_COLORS[c] for c in profile.index]
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+# Left: projected employment change by cluster
+axes[0].barh(profile.index, profile["emp_change_pct"], color=colors_c, alpha=0.85)
+axes[0].axvline(0, color="black", linewidth=0.8, linestyle="--")
+axes[0].set_title("Avg Projected Employment Change (%)", fontweight="bold")
+axes[0].set_xlabel("Employment Change 2024–34 (%)")
+axes[0].tick_params(axis="y", labelsize=9)
+for i, v in enumerate(profile["emp_change_pct"]):
+    axes[0].text(v + 0.05, i, f"{v:+.1f}%", va="center", fontsize=9)
+
+# Right: average wage by cluster
+axes[1].barh(profile.index, profile["median_wage_2024"], color=colors_c, alpha=0.85)
+axes[1].set_title("Avg Median Annual Wage ($)", fontweight="bold")
+axes[1].set_xlabel("Median Annual Wage ($)")
+axes[1].xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"${x:,.0f}"))
+axes[1].tick_params(axis="y", labelsize=9)
+axes[1].set_yticklabels([])
+
+plt.suptitle("Cluster Outcomes: Employment Trajectory and Wage", fontweight="bold", y=1.02)
 plt.tight_layout()
 plt.show()
 ```
@@ -314,7 +310,7 @@ _prof_display["Avg Emp Change %"] = _prof_display["Avg Emp Change %"].apply(lamb
 _prof_display
 ```
 
-The "High Risk / Low Resilience" cluster (50% of matched occupations) faces declining employment with virtually no adaptive buffer. The "Low Risk / High Skill" cluster (12% of occupations) has near-zero automation risk, strong job growth, and wages 2.5× higher than the at-risk group.
+The "High Risk / Low Resilience" cluster (61% of matched occupations) faces declining employment with virtually no adaptive buffer. The "Low Risk / High Skill" cluster (14% of occupations) has near-zero automation risk, strong job growth, and wages 2.4× higher than the High Risk / Low Resilience cluster.
 
 ---
 
@@ -438,15 +434,15 @@ Both eras agree on one point: **Office & Administrative Support is highly expose
 
 GenAI targets **language, reasoning, and information synthesis**, not physical manipulation. Writers, analysts, counselors, and mathematicians appear in the newly-exposed list; brickmasons, sewers, and groundskeepers appear in the de-risked list. The physical dexterity barrier that protected manual workers from robotics also protects them from GenAI.
 
-**Retraining programs built on 2013 risk maps may be pointing workers toward newly-exposed roles.** Healthcare and skilled trades remain lower-risk options from a GenAI standpoint, even as physical automation continues to advance.
+**Retraining programs built on 2013 risk maps may be pointing workers toward newly-exposed roles.** A worker retrained from data entry into a general office or analytical role may have moved from one exposed category to another. Healthcare and skilled trades are the lower-risk alternatives from a GenAI standpoint — both require physical presence and human judgment that language models cannot replicate.
 
 ---
 
 ## 10. Conclusions and Policy Implications
 
-Automation risk and employment decline are related (r = −0.414) but not synonymous. Many high-automation occupations still show positive growth projections because AI raises productivity and creates new roles even as it displaces specific tasks.
+Automation risk and employment decline are related (r = −0.414) but not synonymous. Many high-automation occupations still show positive growth projections — the relationship is real but explains a fraction of the variance, and sector-level dynamics, demographic demand, and wage floors all shape outcomes independently of AI exposure.
 
-That aggregate picture obscures a more concentrated problem. **`{python} n_vulnerable`** occupations (23.8%) combine high automation exposure with wages and education too low to support adaptation. These workers absorb displacement costs with limited ability to transition.
+That aggregate picture obscures a more concentrated problem. **`{python} n_vulnerable`** occupations (`{python} f"{pct_vuln:.1%}"` of analyzed jobs) combine high automation exposure with wages and education too low to support adaptation. These workers absorb displacement costs with limited ability to transition.
 
 **Implications:**
 1. **Targeted retraining, not general retraining.** The vulnerable population is
@@ -465,8 +461,10 @@ That aggregate picture obscures a more concentrated problem. **`{python} n_vulne
 of automation risk — which is why this report includes the ILO 2025 comparison in Section 9.
 Even so, the ILO scores are global (ISCO-08) and were validated using Polish worker surveys;
 US-specific GenAI adoption rates may differ. BLS projections are point estimates with
-unquantified uncertainty. The merged dataset covers 606 of 832 BLS-tracked occupations; 6
-occupations have no ISCO-08 equivalent and are excluded from the then/now analysis only.
+unquantified uncertainty. The merged dataset covers 606 of 832 BLS-tracked occupations, because
+the inner join with F&O's 702-occupation scope excludes BLS entries with no matching SOC code
+in the F&O data; 6 of the 606 matched occupations have no ISCO-08 equivalent and are excluded
+from the then/now analysis only.
 
 ---
 
