@@ -50,7 +50,7 @@ This report analyzes AI's effect on the US labor market using three datasets: Fr
 
 The **Automation Paradox**: most workers exposed to AI are currently seeing stable or
 growing employment. Yet hidden inside that aggregate is a concentrated crisis.
-**`{python} n_vulnerable`** occupations (`{python} f"{pct_vuln:.0%}"` of analyzed jobs)
+**`{python} n_vulnerable`** occupations (`{python} f"{pct_vuln:.1%}"` of analyzed jobs)
 combine high automation risk with low wages and low education which leaves workers
 with no economic safety net. These are the jobs where displacement is not a future
 concern but a present reality.
@@ -297,17 +297,19 @@ plt.show()
 
 ```{python}
 import pandas as pd
+from IPython.display import Markdown
 
 _sizes = cl.groupby("cluster_label").size().rename("Size")
 _pcts  = (cl.groupby("cluster_label").size() / len(cl) * 100).round(1).rename("Pct")
-_prof_display = profile.copy()
+_prof_display = profile[["automation_prob", "emp_change_pct", "median_wage_2024"]].copy()
 _prof_display.insert(0, "Size", _sizes.astype(str) + " (" + _pcts.astype(str) + "%)")
-_prof_display.columns = ["Size", "Avg Automation Prob", "Avg Adaptive Capacity",
-                         "Avg Emp Change %", "Avg Wage"]
-_prof_display["Avg Automation Prob"] = (_prof_display["Avg Automation Prob"] * 100).round(1).astype(str) + "%"
-_prof_display["Avg Wage"] = _prof_display["Avg Wage"].apply(lambda x: f"${x:,.0f}")
-_prof_display["Avg Emp Change %"] = _prof_display["Avg Emp Change %"].apply(lambda x: f"{x:+.2f}%")
-_prof_display
+_prof_display.index = ["High Risk / Low Resilience", "Low Risk / Stable", "Low Risk / High Skill"]
+_prof_display.columns = ["Size", "Auto Risk", "Emp Δ %", "Med Wage"]
+_prof_display["Auto Risk"] = (_prof_display["Auto Risk"] * 100).round(1).astype(str) + "%"
+_prof_display["Med Wage"] = _prof_display["Med Wage"].apply(lambda x: f"${x:,.0f}")
+_prof_display["Emp Δ %"] = _prof_display["Emp Δ %"].apply(lambda x: f"{x:+.2f}%")
+_prof_display.index.name = "Cluster"
+Markdown(_prof_display.reset_index().to_markdown(index=False))
 ```
 
 The "High Risk / Low Resilience" cluster (61% of matched occupations) faces declining employment with virtually no adaptive buffer. The "Low Risk / High Skill" cluster (14% of occupations) has near-zero automation risk, strong job growth, and wages 2.4× higher than the High Risk / Low Resilience cluster.
@@ -406,9 +408,10 @@ Points **above** the diagonal face more GenAI exposure than 2013 models predicte
 from IPython.display import Markdown
 
 top5 = thenow.nlargest(5, "risk_delta")[
-    ["occupation", "occupation_group", "automation_prob", "genai_exposure_2025", "risk_delta"]
+    ["occupation", "automation_prob", "genai_exposure_2025", "risk_delta"]
 ].reset_index(drop=True)
-top5.columns = ["Occupation", "Sector", "2013 Risk", "GenAI 2025", "Δ"]
+top5.columns = ["Occupation", "2013 Risk", "GenAI 2025", "Δ"]
+top5["Occupation"] = top5["Occupation"].str[:38]
 top5["2013 Risk"] = top5["2013 Risk"].map("{:.0%}".format)
 top5["GenAI 2025"] = top5["GenAI 2025"].map("{:.0%}".format)
 top5["Δ"] = top5["Δ"].map("{:+.2f}".format)
@@ -419,9 +422,10 @@ Markdown(top5.to_markdown(index=False))
 
 ```{python}
 bot5 = thenow.nsmallest(5, "risk_delta")[
-    ["occupation", "occupation_group", "automation_prob", "genai_exposure_2025", "risk_delta"]
+    ["occupation", "automation_prob", "genai_exposure_2025", "risk_delta"]
 ].reset_index(drop=True)
-bot5.columns = ["Occupation", "Sector", "2013 Risk", "GenAI 2025", "Δ"]
+bot5.columns = ["Occupation", "2013 Risk", "GenAI 2025", "Δ"]
+bot5["Occupation"] = bot5["Occupation"].str[:38]
 bot5["2013 Risk"] = bot5["2013 Risk"].map("{:.0%}".format)
 bot5["GenAI 2025"] = bot5["GenAI 2025"].map("{:.0%}".format)
 bot5["Δ"] = bot5["Δ"].map("{:+.2f}".format)
@@ -465,6 +469,16 @@ unquantified uncertainty. The merged dataset covers 606 of 832 BLS-tracked occup
 the inner join with F&O's 702-occupation scope excludes BLS entries with no matching SOC code
 in the F&O data; 6 of the 606 matched occupations have no ISCO-08 equivalent and are excluded
 from the then/now analysis only.
+
+---
+
+## Project Links
+
+| Resource | URL |
+|---|---|
+| Source code | [github.com/tyakovenko/ai-job-market](https://github.com/tyakovenko/ai-job-market) |
+| Interactive dashboard | [ai-job-market-f9xiuyueob2e2waniawvbd.streamlit.app](https://ai-job-market-f9xiuyueob2e2waniawvbd.streamlit.app/) |
+| HTML report | [tyakovenko.github.io/ai-job-market](https://tyakovenko.github.io/ai-job-market) |
 
 ---
 

@@ -38,13 +38,12 @@ st.markdown("""
 
 @st.cache_data
 def load_data():
-    df       = pd.read_csv("data/processed/cleaned_main.csv")
-    cl       = pd.read_csv("data/processed/clustered.csv")
-    cl_genai = pd.read_csv("data/processed/clustered_genai.csv")
-    return df, cl, cl_genai
+    df = pd.read_csv("data/processed/cleaned_main.csv")
+    cl = pd.read_csv("data/processed/clustered.csv")
+    return df, cl
 
 
-df, clustered, clustered_genai = load_data()
+df, clustered = load_data()
 
 # ── Derived stats — computed once, never hardcoded ─────────────────────────────
 _n_total   = len(df)
@@ -254,7 +253,7 @@ with tab_story:
     st.info(
         "See the **⚡ Then vs. Now** tab for the full sector-by-sector comparison "
         "and individual occupation breakdowns.",
-        icon="→",
+        icon="💡",
     )
 
 
